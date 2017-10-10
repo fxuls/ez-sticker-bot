@@ -21,7 +21,7 @@ def main():
     # register start command handler
     start_handler = CommandHandler('start', start)
     dispatcher.add_handler(start_handler)
-    dispatcher.add_handler(MessageHandler(Filters.photo, image_received))
+    dispatcher.add_handler(MessageHandler((Filters.photo | Filters.sticker), image_sticker_received))
 
     # register error handler
     dispatcher.add_error_handler(error)
@@ -31,11 +31,16 @@ def main():
     updater.idle()
 
 
-def image_received(bot, update):
+def image_sticker_received(bot, update):
     # feedback to show bot is processing
     time.sleep(.5)
     bot.send_chat_action(chat_id=update.message.chat_id, action='upload_photo')
-    photo_id = update.message.photo[-1].file_id
+
+    # get file id
+    if update.message.photo:
+        photo_id = update.message.photo[-1].file_id
+    else:
+        photo_id = update.message.sticker.file_id
 
     # download file
     file = bot.get_file(file_id=photo_id)
