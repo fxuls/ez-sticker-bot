@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import time
@@ -15,7 +16,8 @@ def start(bot, update):
 
 
 def main():
-    updater = Updater("350549033:AAFNmoBp1F95NIrFc5ISo5nT_vSGmjJdj4A")
+    token = get_token()
+    updater = Updater(token)
     dispatcher = updater.dispatcher
 
     # register start command handler
@@ -67,6 +69,12 @@ def image_sticker_received(bot, update):
     # delete local files
     os.remove(download_path)
     os.remove(formatted_path)
+
+
+def get_token():
+    with open('token.json') as data_file:
+        data = json.load(data_file)
+    return data['token']
 
 
 # logs bot errors thrown
