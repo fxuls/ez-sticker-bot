@@ -10,20 +10,33 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters)
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+config = None
 
 def start(bot, update):
     pass
 
 
+def send_uses_count(bot, update):
+    bot.send_message(chat_id=update.message.chat_id,
+                     text="I've created *%d* stickers for people so far!" % config['uses'], parse_mode='Markdown')
+
+
 def main():
-    token = get_token()
-    updater = Updater(token)
+    get_config()
+    updater = Updater(config['token'])
+    global uses
+    uses = config['uses']
     dispatcher = updater.dispatcher
 
-    # register start command handler
-    start_handler = CommandHandler('start', start)
-    dispatcher.add_handler(start_handler)
+    # register commands
+    dispatcher.add_handler(CommandHandler('start', start))
+    dispatcher.add_handler(CommandHandler('uses', send_uses_count))
+
+    # register media listener
     dispatcher.add_handler(MessageHandler((Filters.photo | Filters.sticker), image_sticker_received))
+
+    # register variable dump loop
+    updater.job_queue.run_repeating(dump_variables, 300, 300)
 
     # register error handler
     dispatcher.add_error_handler(error)
@@ -70,12 +83,26 @@ def image_sticker_received(bot, update):
     os.remove(download_path)
     os.remove(formatted_path)
 
+    # increase total uses count by one
+    global config
+    config['uses'] = config['uses'] + 1
 
-def get_token():
-    with open('token.json') as data_file:
+
+def get_config():
+    dir = os.path.dirname(__file__)
+    path = os.path.join(dir, 'config.json')
+    with open(path) as data_file:
         data = json.load(data_file)
-    return data['token']
+    global config
+    config = data
 
+
+def dump_variables(bot, job):
+    data = json.dumps(config)
+    dir = os.path.dirname(__file__)
+    path = os.path.join(dir, 'config.json')
+    with open(path, "w") as f:
+        f.write(data)
 
 # logs bot errors thrown
 def error(bot, update, error):
