@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import sys
 import time
 
 from PIL import Image
@@ -13,7 +14,17 @@ logger = logging.getLogger(__name__)
 config = None
 
 def start(bot, update):
-    pass
+    start_message = "Hello! I'm EZ Sticker Bot created by @BasedComrade. I can help you make stickers! Type /help to " \
+                    "get started."
+    bot.send_message(chat_id=update.message.chat_id, text=start_message)
+
+
+def help(bot, update):
+    help_message = "To add a sticker to a pack with @Stickers, your file must be saved in png format, have at least " \
+                   "one dimension of 512px, and be less than 350Kb.\n\nYou can send me any photo or sticker, and I " \
+                   "will format it to meet all three requirements and send it back to you as a file ready to be added to your " \
+                   "pack!"
+    bot.send_message(chat_id=update.message.chat_id, text=help_message)
 
 
 def send_uses_count(bot, update):
@@ -30,13 +41,15 @@ def main():
 
     # register commands
     dispatcher.add_handler(CommandHandler('start', start))
+    dispatcher.add_handler(CommandHandler('help', help))
     dispatcher.add_handler(CommandHandler('uses', send_uses_count))
+    dispatcher.add_handler(CommandHandler('restart', restart_bot))
 
     # register media listener
     dispatcher.add_handler(MessageHandler((Filters.photo | Filters.sticker), image_sticker_received))
 
     # register variable dump loop
-    updater.job_queue.run_repeating(dump_variables, 300, 300)
+    updater.job_queue.run_repeating(dump_variables_loop, 300, 300)
 
     # register error handler
     dispatcher.add_error_handler(error)
@@ -59,7 +72,11 @@ def image_sticker_received(bot, update):
 
     # download file
     file = bot.get_file(file_id=photo_id)
-    ext = '.' + file.file_path.split('/')[-1].split('.')[1]
+    temp = file.file_path.split('/')[-1].split('.')
+    if len(temp) > 1:
+        ext = '.' + file.file_path.split('/')[-1].split('.')[1]
+    else:
+        ext = '.webp'
     download_path = photo_id + ext
     file.download(custom_path=download_path)
 
@@ -88,6 +105,13 @@ def image_sticker_received(bot, update):
     config['uses'] = config['uses'] + 1
 
 
+def restart_bot(bot, update):
+    if update.message.from_user.id in config['admins']:
+        bot.send_message(chat_id=update.message.chat_id, text="Restarting bot...")
+        time.sleep(0.2)
+        os.execl(sys.executable, sys.executable, *sys.argv)
+
+
 def get_config():
     dir = os.path.dirname(__file__)
     path = os.path.join(dir, 'config.json')
@@ -97,7 +121,11 @@ def get_config():
     config = data
 
 
-def dump_variables(bot, job):
+def dump_variables_loop(bot, job):
+    dump_variables()
+
+
+def dump_variables():
     data = json.dumps(config)
     dir = os.path.dirname(__file__)
     path = os.path.join(dir, 'config.json')
