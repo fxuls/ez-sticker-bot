@@ -19,7 +19,7 @@ def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=start_message)
 
 
-def help(bot, update):
+def help_command(bot, update):
     help_message = "To add a sticker to a pack with @Stickers, your file must be saved in png format, have at least " \
                    "one dimension of 512px, and be less than 350Kb.\n\nYou can send me any photo or sticker, and I " \
                    "will format it to meet all three requirements and send it back to you as a file ready to be added to your " \
@@ -41,12 +41,14 @@ def main():
 
     # register commands
     dispatcher.add_handler(CommandHandler('start', start))
-    dispatcher.add_handler(CommandHandler('help', help))
+    dispatcher.add_handler(CommandHandler('help', help_command))
     dispatcher.add_handler(CommandHandler('uses', send_uses_count))
     dispatcher.add_handler(CommandHandler('restart', restart_bot))
+    dispatcher.add_handler(CommandHandler('info', bot_info))
 
     # register media listener
     dispatcher.add_handler(MessageHandler((Filters.photo | Filters.sticker), image_sticker_received))
+    dispatcher.add_handler(MessageHandler(Filters.all, invalid_content))
 
     # register variable dump loop
     updater.job_queue.run_repeating(dump_variables_loop, 300, 300)
@@ -104,6 +106,25 @@ def image_sticker_received(bot, update):
     global config
     config['uses'] = config['uses'] + 1
 
+
+def invalid_content(bot, update):
+    # feedback to show bot is processing
+    time.sleep(.1)
+    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
+    time.sleep(.2)
+    bot.send_message(chat_id=update.message.chat_id,
+                     text="I can't process that content.\nSend me a *photo* or *sticker*.", parse_mode='Markdown')
+
+
+def bot_info(bot, update):
+    text = "*EZ Sticker Bot* is a bot that I develop and host with no expectation of ever gaining anything from it " \
+           "other than the satisfaction of helping fellow Telegram users.\n\nIf this bot has been useful to you please " \
+           "consider [rating it five stars](https://telegram.me/storebot?start=ezstickerbot). You can do it in 15 seconds without " \
+           "leaving Telegram. This would really help other Telegram users find this bot and start making great sticker " \
+           "packs.\n\nTelling people in your channels/groups about *EZ Sticker Bot* would also help a ton.\n\nYou can " \
+           "contact me [here](https://t.me/BasedComrade).\n\nYou can find the source code for this bot [here](" \
+           "https://github.com/BasedComrade/ez-sticker-bot). "
+    bot.send_message(chat_id=update.message.chat_id, text=text, parse_mode='Markdown', disable_web_page_preview=True)
 
 def restart_bot(bot, update):
     if update.message.from_user.id in config['admins']:
