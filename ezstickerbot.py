@@ -14,9 +14,9 @@ logger = logging.getLogger(__name__)
 config = None
 
 def start(bot, update):
-    start_message = "Hello! I'm EZ Sticker Bot created by @BasedComrade. I can help you make stickers! Type /help to " \
-                    "get started."
-    bot.send_message(chat_id=update.message.chat_id, text=start_message)
+    start_message = "Hello! I'm *EZ Sticker Bot*. I can help you make stickers! Type /help to " \
+                    "get started or /info to get information about me."
+    bot.send_message(chat_id=update.message.chat_id, text=start_message, parse_mode='Markdown')
 
 
 def help_command(bot, update):
@@ -121,7 +121,7 @@ def bot_info(bot, update):
            "other than the satisfaction of helping fellow Telegram users.\n\nIf this bot has been useful to you please " \
            "consider [rating it five stars](https://telegram.me/storebot?start=ezstickerbot). You can do it in 15 seconds without " \
            "leaving Telegram. This would really help other Telegram users find this bot and start making great sticker " \
-           "packs.\n\nTelling people in your channels/groups about *EZ Sticker Bot* would also help a ton.\n\nYou can " \
+           "packs of their own.\n\nTelling people in your channels/groups about *EZ Sticker Bot* would also help a ton.\n\nYou can " \
            "contact me [here](https://t.me/BasedComrade).\n\nYou can find the source code for this bot [here](" \
            "https://github.com/BasedComrade/ez-sticker-bot). "
     bot.send_message(chat_id=update.message.chat_id, text=text, parse_mode='Markdown', disable_web_page_preview=True)
