@@ -2,10 +2,10 @@ import json
 import logging
 import os
 import sys
-import time
 
 from PIL import Image
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters)
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 # setup logger
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -14,12 +14,16 @@ logger = logging.getLogger(__name__)
 config = None
 
 def start(bot, update):
+    # feedback to show bot is processing
+    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
     start_message = "Hello! I'm *EZ Sticker Bot*. I can help you make stickers! Type /help to " \
                     "get started or /info to get information about me."
     bot.send_message(chat_id=update.message.chat_id, text=start_message, parse_mode='Markdown')
 
 
 def help_command(bot, update):
+    # feedback to show bot is processing
+    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
     help_message = "To add a sticker to a pack with @Stickers, your file must be saved in png format, have at least " \
                    "one dimension of 512px, and be less than 350Kb.\n\nYou can send me any photo or sticker, and I " \
                    "will format it to meet all three requirements and send it back to you as a file ready to be added to your " \
@@ -28,6 +32,8 @@ def help_command(bot, update):
 
 
 def send_uses_count(bot, update):
+    # feedback to show bot is processing
+    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
     bot.send_message(chat_id=update.message.chat_id,
                      text="I've created *%d* stickers for people so far!" % config['uses'], parse_mode='Markdown')
 
@@ -51,7 +57,7 @@ def main():
     dispatcher.add_handler(MessageHandler(Filters.all, invalid_content))
 
     # register variable dump loop
-    updater.job_queue.run_repeating(dump_variables_loop, 300, 300)
+    updater.job_queue.run_repeating(dump_variables, 300, 300)
 
     # register error handler
     dispatcher.add_error_handler(error)
@@ -63,7 +69,6 @@ def main():
 
 def image_sticker_received(bot, update):
     # feedback to show bot is processing
-    time.sleep(.5)
     bot.send_chat_action(chat_id=update.message.chat_id, action='upload_photo')
 
     # get file id
@@ -91,45 +96,47 @@ def image_sticker_received(bot, update):
     new_height = int(height * ratio)
     image = image.resize((new_width, new_height), Image.ANTIALIAS)
     formatted_path = photo_id + '_formatted.png'
-    image.save(formatted_path)
+    image.save(formatted_path, optimize=True)
 
-    # send formated image as a document
+    # send formatted image as a document
     document = open(formatted_path, 'rb')
     bot.send_document(chat_id=update.message.chat_id, document=document, filename='sticker.png',
                       caption='Forward this to @Stickers')
 
-    # delete local files
+    # delete local files and close image object
+    image.close()
     os.remove(download_path)
     os.remove(formatted_path)
 
     # increase total uses count by one
     global config
-    config['uses'] = config['uses'] + 1
+    config['uses'] += 1
 
 
 def invalid_content(bot, update):
     # feedback to show bot is processing
-    time.sleep(.1)
     bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    time.sleep(.2)
-    bot.send_message(chat_id=update.message.chat_id,
-                     text="I can't process that content.\nSend me a *photo* or *sticker*.", parse_mode='Markdown')
+    bot.send_message(chat_id=update.message.chat_id, text="I can't process that content.")
+    bot.send_message(chat_id=update.message.chat_id, text="Send me a *photo* or *sticker*.", parse_mode='Markdown')
 
 
 def bot_info(bot, update):
+    # feedback to show bot is processing
+    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
     text = "*EZ Sticker Bot* is a bot that I develop and host with no expectation of ever gaining anything from it " \
-           "other than the satisfaction of helping fellow Telegram users.\n\nIf this bot has been useful to you please " \
-           "consider [rating it five stars](https://telegram.me/storebot?start=ezstickerbot). You can do it in 15 seconds without " \
-           "leaving Telegram. This would really help other Telegram users find this bot and start making great sticker " \
-           "packs of their own.\n\nTelling people in your channels/groups about *EZ Sticker Bot* would also help a ton.\n\nYou can " \
-           "contact me [here](https://t.me/BasedComrade).\n\nYou can find the source code for this bot [here](" \
-           "https://github.com/BasedComrade/ez-sticker-bot). "
-    bot.send_message(chat_id=update.message.chat_id, text=text, parse_mode='Markdown', disable_web_page_preview=True)
+           "other than the satisfaction of helping fellow Telegram users.\n\nSharing this bot in your groups/channels " \
+           "would help people make their own great sticker packs for us all to use!\n\nI've created *%d* stickers for people so far!" % \
+           config['uses']
+    keyboard = [[InlineKeyboardButton("Contact dev", url="https://t.me/BasedComrade"),
+                 InlineKeyboardButton("Source", url="https://github.com/BasedComrade/ez-sticker-bot")],
+                [InlineKeyboardButton("Rate ⭐⭐⭐⭐⭐", url="https://telegram.me/storebot?start=ezstickerbot")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    bot.send_message(chat_id=update.message.chat_id, text=text, parse_mode='Markdown', reply_markup=reply_markup)
 
 def restart_bot(bot, update):
     if update.message.from_user.id in config['admins']:
         bot.send_message(chat_id=update.message.chat_id, text="Restarting bot...")
-        time.sleep(0.2)
+        dump_variables()
         os.execl(sys.executable, sys.executable, *sys.argv)
 
 
@@ -142,16 +149,13 @@ def get_config():
     config = data
 
 
-def dump_variables_loop(bot, job):
-    dump_variables()
-
-
-def dump_variables():
+def dump_variables(bot=None, job=None):
     data = json.dumps(config)
     dir = os.path.dirname(__file__)
     path = os.path.join(dir, 'config.json')
     with open(path, "w") as f:
         f.write(data)
+
 
 # logs bot errors thrown
 def error(bot, update, error):
