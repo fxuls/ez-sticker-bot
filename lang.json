@@ -1,0 +1,32 @@
+{
+  "en": {
+    "start": "Hello! I'm *EZ Sticker Bot*. I can help you make stickers! Type /help to get started or /info to get information about me.\n\nЧтобы переключить язык, используй /lang.",
+    "help": "To add a sticker to a pack with @Stickers, your file must be saved in png format, have at least one dimension of 512px, and be less than 350Kb.\n\nYou can send me any photo or sticker, and I will format it to meet all three requirements and send it back to you as a file ready to be added to your pack!",
+    "uses": "I've created *%d* stickers for people so far!",
+    "forward": "Forward this to @Stickers",
+    "cant_process": "I can't process that content.",
+    "send_sticker_photo": "Send me a *photo* or *sticker*.",
+    "info": "*EZ Sticker Bot* is a bot that I develop and host with no expectation of ever gaining anything from it other than the satisfaction of helping fellow Telegram users.\n\nSharing this bot in your groups/channels would help people make their own great sticker packs for us all to use!\n\nI've created *%d* stickers for people so far!",
+    "contact_dev": "Contact dev",
+    "source": "Source",
+    "rate": "Rate ⭐⭐⭐⭐⭐",
+    "restarting": "Restarting bot...",
+    "select_lang": "Select language.",
+    "lang_set": "Language set to English."
+  },
+  "ru": {
+    "start": "Привет! Я EZ Sticker Bot. Я помогу помочь тебе с созданием стикеров! Напиши /help для того, чтобы начать или /info, чтобы получить больше информации обо мне.\n\nFor english use /lang.",
+    "help": "Чтобы добавить стикер в пак с помощью @Stickers, ваш файл должен быть сохранен в формате .png, иметь одну из сторон минимум 512px и весить меньше 350Кб.\n\nТы можешь отправить мне любое фото или стикер и я его переведу в нужный формат, а затем отправлю его тебе файлом.",
+    "uses": "Я уже помог *%d* людям!",
+    "forward": "Перешлите это в @Stickers",
+    "cant_process": "Я не умею обрабатывать данный тип контента",
+    "send_sticker_photo": "Отправь мне фото или стикер",
+    "info": "EZ Sticker Bot это мой личный проект, который я содержу и разрабатываю. Я не ожидаю никакой прибыли от него, но хочу видеть восторг в пользователях моего бота и Telegram.\n\nЕсли вы поделитесь этим ботом с друзьями, вы поможете другим делать свои замечательные стикерпаки для нас всех!\n\nЯ уже помог *%d* людям!",
+    "contact_dev": "Связаться с разработчиком",
+    "source": "Исходный код",
+    "rate": "Оценить ⭐⭐⭐⭐⭐",
+    "restarting": "Перезагрузка бота...",
+    "select_lang": "Выбрать язык",
+    "lang_set": "Язык изменён на русский.\n\nСпасибо @avrdude с переводом этого бота на русский язык!"
+  }
+}

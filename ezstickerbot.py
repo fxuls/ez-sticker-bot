@@ -5,41 +5,38 @@ import sys
 
 from PIL import Image
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 
 # setup logger
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 config = None
+lang = None
 
 def start(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    start_message = "Hello! I'm *EZ Sticker Bot*. I can help you make stickers! Type /help to " \
-                    "get started or /info to get information about me."
-    bot.send_message(chat_id=update.message.chat_id, text=start_message, parse_mode='Markdown')
+    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "start"),
+                     parse_mode='Markdown')
 
 
 def help_command(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    help_message = "To add a sticker to a pack with @Stickers, your file must be saved in png format, have at least " \
-                   "one dimension of 512px, and be less than 350Kb.\n\nYou can send me any photo or sticker, and I " \
-                   "will format it to meet all three requirements and send it back to you as a file ready to be added to your " \
-                   "pack!"
-    bot.send_message(chat_id=update.message.chat_id, text=help_message)
+    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "help"))
 
 
 def send_uses_count(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
     bot.send_message(chat_id=update.message.chat_id,
-                     text="I've created *%d* stickers for people so far!" % config['uses'], parse_mode='Markdown')
+                     text=get_message(update.message.chat_id, "uses") % config['uses'], parse_mode='Markdown')
 
 
 def main():
     get_config()
+    get_lang()
     updater = Updater(config['token'])
     global uses
     uses = config['uses']
@@ -51,10 +48,14 @@ def main():
     dispatcher.add_handler(CommandHandler('uses', send_uses_count))
     dispatcher.add_handler(CommandHandler('restart', restart_bot))
     dispatcher.add_handler(CommandHandler('info', bot_info))
+    dispatcher.add_handler(CommandHandler('lang', change_lang_command))
 
     # register media listener
     dispatcher.add_handler(MessageHandler((Filters.photo | Filters.sticker), image_sticker_received))
     dispatcher.add_handler(MessageHandler(Filters.all, invalid_content))
+
+    # register change language button handler
+    dispatcher.add_handler(CallbackQueryHandler(change_lang, pattern="lang"))
 
     # register variable dump loop
     updater.job_queue.run_repeating(dump_variables, 300, 300)
@@ -101,7 +102,7 @@ def image_sticker_received(bot, update):
     # send formatted image as a document
     document = open(formatted_path, 'rb')
     bot.send_document(chat_id=update.message.chat_id, document=document, filename='sticker.png',
-                      caption='Forward this to @Stickers')
+                      caption=get_message(update.message.chat_id, "forward"))
 
     # delete local files and close image object
     image.close()
@@ -116,29 +117,68 @@ def image_sticker_received(bot, update):
 def invalid_content(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    bot.send_message(chat_id=update.message.chat_id, text="I can't process that content.")
-    bot.send_message(chat_id=update.message.chat_id, text="Send me a *photo* or *sticker*.", parse_mode='Markdown')
+    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "cant_process"))
+    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "send_sticker_photo"),
+                     parse_mode='Markdown')
 
 
 def bot_info(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    text = "*EZ Sticker Bot* is a bot that I develop and host with no expectation of ever gaining anything from it " \
-           "other than the satisfaction of helping fellow Telegram users.\n\nSharing this bot in your groups/channels " \
-           "would help people make their own great sticker packs for us all to use!\n\nI've created *%d* stickers for people so far!" % \
-           config['uses']
-    keyboard = [[InlineKeyboardButton("Contact dev", url="https://t.me/BasedComrade"),
-                 InlineKeyboardButton("Source", url="https://github.com/BasedComrade/ez-sticker-bot")],
-                [InlineKeyboardButton("Rate ⭐⭐⭐⭐⭐", url="https://telegram.me/storebot?start=ezstickerbot")]]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    bot.send_message(chat_id=update.message.chat_id, text=text, parse_mode='Markdown', reply_markup=reply_markup)
+    keyboard = [
+        [InlineKeyboardButton(get_message(update.message.chat_id, "contact_dev"), url="https://t.me/BasedComrade"),
+         InlineKeyboardButton(get_message(update.message.chat_id, "source"),
+                              url="https://github.com/BasedComrade/ez-sticker-bot")],
+        [InlineKeyboardButton(get_message(update.message.chat_id, "rate"),
+                              url="https://telegram.me/storebot?start=ezstickerbot")]]
+    markup = InlineKeyboardMarkup(keyboard)
+    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "info") % config['uses'],
+                     parse_mode='Markdown', reply_markup=markup)
+
 
 def restart_bot(bot, update):
     if update.message.from_user.id in config['admins']:
-        bot.send_message(chat_id=update.message.chat_id, text="Restarting bot...")
+        bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "restarting"))
         dump_variables()
         os.execl(sys.executable, sys.executable, *sys.argv)
 
+
+def change_lang_command(bot, update):
+    keyboard = [[InlineKeyboardButton("English", callback_data="lang:en"),
+                 InlineKeyboardButton("Русский", callback_data="lang:ru")]]
+    markup = InlineKeyboardMarkup(keyboard)
+    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "select_lang"),
+                     reply_markup=markup)
+
+
+def change_lang(bot, update):
+    query = update.callback_query
+    lang_code = query.data.split(':')[-1]
+    user_id = query.from_user.id
+    global config
+    config['lang_prefs'][str(user_id)] = lang_code
+    query.edit_message_text(text=get_message(user_id, "lang_set"), reply_markup=None)
+    query.answer()
+
+
+def get_message(user_id, message):
+    global config
+    user_id = str(user_id)
+    if user_id not in config['lang_prefs']:
+        config['lang_prefs'][user_id] = 'en'
+        lang_pref = 'en'
+    else:
+        lang_pref = config['lang_prefs'][user_id]
+    return lang[lang_pref][message]
+
+
+def get_lang():
+    dir = os.path.dirname(__file__)
+    path = os.path.join(dir, 'lang.json')
+    with open(path) as data_file:
+        data = json.load(data_file)
+    global lang
+    lang = data
 
 def get_config():
     dir = os.path.dirname(__file__)
