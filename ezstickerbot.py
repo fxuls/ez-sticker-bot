@@ -1,3 +1,4 @@
+import codecs
 import json
 import logging
 import os
@@ -175,8 +176,10 @@ def get_message(user_id, message):
 def get_lang():
     dir = os.path.dirname(__file__)
     path = os.path.join(dir, 'lang.json')
-    with open(path) as data_file:
-        data = json.load(data_file)
+    data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
+    for lang_code in data:
+        for message in data[lang_code]:
+            data[lang_code][message] = data[lang_code][message].replace('\\n', '\n')
     global lang
     lang = data
 
