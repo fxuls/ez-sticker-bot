@@ -12,8 +12,8 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-config = None
-lang = None
+config = {}
+lang = {}
 
 def start(bot, update):
     # feedback to show bot is processing
@@ -145,9 +145,14 @@ def restart_bot(bot, update):
 
 
 def change_lang_command(bot, update):
-    keyboard = [[InlineKeyboardButton("English", callback_data="lang:en"),
-                 InlineKeyboardButton("Русский", callback_data="lang:ru")]]
-    markup = InlineKeyboardMarkup(keyboard)
+    keyboard = [[]]
+    row = 0
+    for lang_code in lang:
+        if len(keyboard[row]) == 2:
+            row += 1
+            keyboard.append([])
+        keyboard[row].append(InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:%s" % lang_code))
+    markup = InlineKeyboardMarkup(keyboard, )
     bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "select_lang"),
                      reply_markup=markup)
 
