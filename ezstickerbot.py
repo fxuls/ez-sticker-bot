@@ -167,9 +167,6 @@ def image_sticker_received(bot, update):
         bot.send_message(chat_id=update.message.chat_id,
                          text=get_message(user_id=update.message.from_user.id, message="send_timeout"))
 
-    # log created photo to channel
-    bot.send_photo(chat_id='@EzStickerLog', photo=open(formatted_path, 'rb'))
-
     # delete local files and close image object
     image.close()
     time.sleep(0.20)
