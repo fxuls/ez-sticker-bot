@@ -7,9 +7,9 @@ import time
 from collections import Counter
 
 from PIL import Image
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
 from telegram.error import TelegramError
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler
 
 # setup logger
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -53,15 +53,20 @@ def send_lang_stats(bot, update):
     # count lang usage
     lang_usage = dict(Counter(config['lang_prefs'].values()))
 
+    print(lang_usage)
+
+    sorted_usage = [(code, lang_usage[code]) for code in sorted(lang_usage, key=lang_usage.get, reverse=True)]
+    print(sorted_usage)
+
     # create stats message entries
     message_lines = {}
-    for code, count in lang_usage.items():
-        message_lines[str(lang[code]['order'])] = "\n%s: %d" % (lang[code]['lang_name'], count)
+    for code, count in sorted_usage:
+        lang_stats_message += "\n" + u"\u200E" + "%s: %d" % (lang[code]['lang_name'], count)
 
     # compile stats message in order
     for index in range(0, len(lang)):
         try:
-            lang_stats_message += u"\u200E" + message_lines[str(index)]
+            lang_stats_message += message_lines[str(index)]
         # Skip langs with 0 users
         except KeyError:
             continue
@@ -101,6 +106,9 @@ def main():
 
     # register button handlers
     dispatcher.add_handler(CallbackQueryHandler(change_lang, pattern="lang"))
+
+    # register inline share handler
+    dispatcher.add_handler(InlineQueryHandler(share_query_received))
 
     # register variable dump loop
     updater.job_queue.run_repeating(dump_variables, 300, 300)
@@ -167,9 +175,6 @@ def image_sticker_received(bot, update):
         bot.send_message(chat_id=update.message.chat_id,
                          text=get_message(user_id=update.message.from_user.id, message="send_timeout"))
 
-    # log created photo to channel
-    bot.send_photo(chat_id='@EzStickerLog', photo=open(formatted_path, 'rb'))
-
     # delete local files and close image object
     image.close()
     time.sleep(0.20)
@@ -179,6 +184,28 @@ def image_sticker_received(bot, update):
     # increase total uses count by one
     global config
     config['uses'] += 1
+
+
+def share_query_received(bot, update):
+    # get query
+    query = update.inline_query
+    user_id = query.from_user.id
+
+    # build InlineQueryResultArticle arguments individually
+    title = get_message(user_id, "share")
+    description = get_message(user_id, "share_desc")
+    thumb_url = "https://i.imgur.com/wKPBstd.jpg"
+    markup = InlineKeyboardMarkup(
+        [[InlineKeyboardButton(text=get_message(user_id, "make_sticker_button"), url="https://t.me/EzStickerBot")]])
+    input_message_content = InputTextMessageContent(get_message(user_id, "share_text"), parse_mode='Markdown')
+
+    # set id to preferred langs order
+    id = int(get_message(user_id, "order"))
+
+    results = [
+        InlineQueryResultArticle(id=id, title=title, description=description, thumb_url=thumb_url, reply_markup=markup,
+                                 input_message_content=input_message_content)]
+    query.answer(results=results, cache_time=60, is_personal=True)
 
 
 def invalid_command(bot, update):
@@ -204,7 +231,8 @@ def bot_info(bot, update):
          InlineKeyboardButton(get_message(update.message.chat_id, "source"),
                               url="https://github.com/BasedComrade/ez-sticker-bot")],
         [InlineKeyboardButton(get_message(update.message.chat_id, "rate"),
-                              url="https://telegram.me/storebot?start=ezstickerbot")]]
+                              url="https://telegram.me/storebot?start=ezstickerbot"),
+         InlineKeyboardButton(get_message(update.message.chat_id, "share"), switch_inline_query="")]]
     markup = InlineKeyboardMarkup(keyboard)
     bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "info") % config['uses'],
                      parse_mode='Markdown', reply_markup=markup)
@@ -333,6 +361,9 @@ def dump_variables(bot=None, job=None):
 
 # logs bot errors thrown
 def error(bot, update, error):
+    # prevent spammy errors from logging
+    if error in ("Forbidden: bot was blocked by the user", "Timed out"):
+        return
     logger.warning('Update "%s" caused error "%s"' % (update, error))
 
 
