@@ -53,10 +53,7 @@ def send_lang_stats(bot, update):
     # count lang usage
     lang_usage = dict(Counter(config['lang_prefs'].values()))
 
-    print(lang_usage)
-
     sorted_usage = [(code, lang_usage[code]) for code in sorted(lang_usage, key=lang_usage.get, reverse=True)]
-    print(sorted_usage)
 
     # create stats message entries
     message_lines = {}
@@ -253,6 +250,7 @@ def broadcast_command(bot, update):
     chat_id = update.message.chat_id
     # feedback to show bot is processing
     bot.send_chat_action(chat_id=chat_id, action='typing')
+
     # check for permission
     if update.message.from_user.id not in config['admins']:
         bot.send_message(chat_id=chat_id, text=get_message(chat_id, "no_permission"))
@@ -282,7 +280,8 @@ def broadcast_thread(bot, job):
         return
 
     index = 0
-    for user_id in config['lang_prefs']:
+    user_ids = config['lang_prefs']
+    for user_id in user_ids:
         # catch any errors thrown by users who have stopped bot
         try:
             bot.send_message(chat_id=int(user_id), text=job.context, parse_mode='HTML', disable_web_page_preview=True)
