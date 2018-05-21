@@ -280,8 +280,7 @@ def broadcast_thread(bot, job):
         return
 
     index = 0
-    user_ids = config['lang_prefs']
-    for user_id in user_ids:
+    for user_id in list(config['lang_prefs']):
         # catch any errors thrown by users who have stopped bot
         try:
             bot.send_message(chat_id=int(user_id), text=job.context, parse_mode='HTML', disable_web_page_preview=True)
