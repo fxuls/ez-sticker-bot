@@ -39,7 +39,7 @@ def help_command(bot, update):
 def send_stats(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    stats_message = get_message(update.message.chat_id, "stats") % (config['uses'], len(config['lang_prefs']))
+    stats_message = get_message(update.message.chat_id, "stats").format(config['uses'], len(config['lang_prefs']))
     bot.send_message(chat_id=update.message.chat_id, text=stats_message, parse_mode='Markdown')
 
 
@@ -58,7 +58,7 @@ def send_lang_stats(bot, update):
     # create stats message entries
     message_lines = {}
     for code, count in sorted_usage:
-        lang_stats_message += "\n" + u"\u200E" + "%s: %d" % (lang[code]['lang_name'], count)
+        lang_stats_message += "\n" + u"\u200E" + "{}: {:,}".format(lang[code]['lang_name'], count)
 
     # compile stats message in order
     for index in range(0, len(lang)):
@@ -105,7 +105,7 @@ def main():
     dispatcher.add_handler(CallbackQueryHandler(change_lang, pattern="lang"))
 
     # register inline share handler
-    dispatcher.add_handler(InlineQueryHandler(share_query_received))
+    dispatcher.add_handler(InlineQueryHandler(inline_query_received))
 
     # register variable dump loop
     updater.job_queue.run_repeating(dump_variables, 300, 300)
@@ -163,6 +163,8 @@ def image_sticker_received(bot, update):
     formatted_path = os.path.join(dir, (photo_id + '_formatted.png'))
     image.save(formatted_path, optimize=True)
 
+    # create forward button 
+
     # send formatted image as a document
     document = open(formatted_path, 'rb')
     try:
@@ -183,10 +185,15 @@ def image_sticker_received(bot, update):
     config['uses'] += 1
 
 
-def share_query_received(bot, update):
+def inline_query_received(bot, update):
     # get query
     query = update.inline_query
     user_id = query.from_user.id
+
+    print(query.query)
+
+    # test if query is for file id
+
 
     # build InlineQueryResultArticle arguments individually
     title = get_message(user_id, "share")
@@ -231,7 +238,8 @@ def bot_info(bot, update):
                               url="https://telegram.me/storebot?start=ezstickerbot"),
          InlineKeyboardButton(get_message(update.message.chat_id, "share"), switch_inline_query="")]]
     markup = InlineKeyboardMarkup(keyboard)
-    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "info") % config['uses'],
+    bot.send_message(chat_id=update.message.chat_id,
+                     text=get_message(update.message.chat_id, "info").format(config['uses']),
                      parse_mode='Markdown', reply_markup=markup)
 
 
@@ -303,7 +311,8 @@ def change_lang_command(bot, update):
         if len(keyboard[row]) == 2:
             row += 1
             keyboard.append([])
-        keyboard[row].append(InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:%s" % lang_code))
+        keyboard[row].append(
+            InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
     markup = InlineKeyboardMarkup(keyboard, )
     bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "select_lang"),
                      reply_markup=markup)
@@ -362,7 +371,7 @@ def error(bot, update, error):
     # prevent spammy errors from logging
     if error in ("Forbidden: bot was blocked by the user", "Timed out"):
         return
-    logger.warning('Update "%s" caused error "%s"' % (update, error))
+    logger.warning('Update "{}" caused error "{}"'.format(update, error))
 
 
 def do_fucking_nothing(bot, update):
