@@ -190,11 +190,6 @@ def inline_query_received(bot, update):
     query = update.inline_query
     user_id = query.from_user.id
 
-    print(query.query)
-
-    # test if query is for file id
-
-
     # build InlineQueryResultArticle arguments individually
     title = get_message(user_id, "share")
     description = get_message(user_id, "share_desc")
@@ -231,9 +226,9 @@ def bot_info(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
     keyboard = [
-        [InlineKeyboardButton(get_message(update.message.chat_id, "contact_dev"), url="https://t.me/BasedComrade"),
+        [InlineKeyboardButton(get_message(update.message.chat_id, "contact_dev"), url="https://t.me/fxuls"),
          InlineKeyboardButton(get_message(update.message.chat_id, "source"),
-                              url="https://github.com/BasedComrade/ez-sticker-bot")],
+                              url="https://github.com/fxuls/ez-sticker-bot")],
         [InlineKeyboardButton(get_message(update.message.chat_id, "rate"),
                               url="https://telegram.me/storebot?start=ezstickerbot"),
          InlineKeyboardButton(get_message(update.message.chat_id, "share"), switch_inline_query="")]]
