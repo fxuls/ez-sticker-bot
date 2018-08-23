@@ -350,6 +350,7 @@ def get_config():
     path = os.path.join(dir, 'config.json')
     with open(path) as data_file:
         data = json.load(data_file)
+        data_file.close()
     global config
     config = data
 
@@ -359,6 +360,7 @@ def dump_variables(bot=None, job=None):
     path = os.path.join(dir, 'config.json')
     with open(path, "w") as f:
         f.write(data)
+        f.close()
 
 
 # logs bot errors thrown
