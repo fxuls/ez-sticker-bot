@@ -309,7 +309,7 @@ def change_lang_command(bot, update):
             keyboard.append([])
         keyboard[row].append(
             InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
-    markup = InlineKeyboardMarkup(keyboard, )
+    markup = InlineKeyboardMarkup(keyboard)
     bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "select_lang"),
                      reply_markup=markup)
 
