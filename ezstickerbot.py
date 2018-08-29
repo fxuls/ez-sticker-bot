@@ -336,7 +336,7 @@ def change_lang(bot, update):
             except ValueError:
                 message[i] = 'UNKNOWN\_USER\_ID'
                 continue
-            except TelegramError as e:
+            except TelegramError:
                 message[i] = 'INVALID\_USER\_ID'
                 continue
     message = ' '.join(message)
