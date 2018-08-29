@@ -334,10 +334,10 @@ def change_lang(bot, update):
                 else:
                     message[i] = '*{}{}*'.format(user.first_name, (' ' + user.last_name) if user.last_name else '')
             except ValueError:
-                message[i] = 'UNKNOWN_USER_ID'
+                message[i] = 'UNKNOWN\_USER\_ID'
                 continue
             except TelegramError as e:
-                message[i] = 'INVALID_USER_ID'
+                message[i] = 'INVALID\_USER\_ID'
                 continue
     message = ' '.join(message)
 
