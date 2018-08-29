@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 * * *
 
+## [v1.3](https://github.com/fxuls/ez-sticker-bot/releases/tag/v1.3) [2018-8-29]
+
+**Added:**
+- Add userid tokens in translation credit messages
+- Add README.md, LICENSE.md, and CHANGELOG.md
+
+**Changed:**
+- Make translator credit messages always have current username or name if no username
+- Close config file immediately after working with it to prevent file from being wiped if server restarts or bot is stopped
+
+**Fixed:**
+- Many spelling/formatting mistakes in lang file (ie. grammar, extra spaces, random punctuation)
+
+
 ## [v1.2.1](https://github.com/fxuls/ez-sticker-bot/commit/f36d10cceb8e54287da7b247db24997ac2249543) [2018-8-8]
 
 **Changed:**
