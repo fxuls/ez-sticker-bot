@@ -6,6 +6,7 @@ import sys
 import time
 from collections import Counter
 
+import simplejson
 from PIL import Image
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
 from telegram.error import TelegramError
@@ -359,7 +360,7 @@ def dump_variables(bot=None, job=None):
     data = json.dumps(config)
     path = os.path.join(dir, 'config.json')
     with open(path, "w") as f:
-        f.write(data)
+        f.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
         f.close()
 
 
