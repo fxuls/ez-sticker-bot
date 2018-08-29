@@ -332,16 +332,16 @@ def change_lang(bot, update):
                 if user.username is not None:
                     message[i] = '@{}'.format(user.username)
                 else:
-                    message[i] = '*{}{}*'.format(user.first_name, (' ' + user.last_name) if user.last_name else '')
+                    message[i] = '<b>{}{}</b>'.format(user.first_name, (' ' + user.last_name) if user.last_name else '')
             except ValueError:
-                message[i] = 'UNKNOWN\_USER\_ID'
+                message[i] = 'UNKNOWN_USER_ID'
                 continue
             except TelegramError:
-                message[i] = 'INVALID\_USER\_ID'
+                message[i] = 'INVALID_USER_ID'
                 continue
     message = ' '.join(message)
 
-    query.edit_message_text(text=message, reply_markup=None, parse_mode='Markdown')
+    query.edit_message_text(text=message, reply_markup=None, parse_mode='HTML')
     query.answer()
 
 
