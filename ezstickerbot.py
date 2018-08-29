@@ -320,7 +320,28 @@ def change_lang(bot, update):
     user_id = query.from_user.id
     global config
     config['lang_prefs'][str(user_id)] = lang_code
-    query.edit_message_text(text=get_message(user_id, "lang_set"), reply_markup=None)
+
+    # replace instances of $userid with username or name if no username
+    message = get_message(user_id, "lang_set").split(' ')
+    for i in range(len(message)):
+        word = message[i]
+        if word[0] == '$':
+            try:
+                id = int(''.join(c for c in word if c.isdigit()))
+                user = bot.get_chat(id)
+                if user.username is not None:
+                    message[i] = '@{}'.format(user.username)
+                else:
+                    message[i] = '*{}{}*'.format(user.first_name, (' ' + user.last_name) if user.last_name else '')
+            except ValueError:
+                message[i] = 'UNKNOWN_USER_ID'
+                continue
+            except TelegramError as e:
+                message[i] = 'INVALID_USER_ID'
+                continue
+    message = ' '.join(message)
+
+    query.edit_message_text(text=message, reply_markup=None, parse_mode='Markdown')
     query.answer()
 
 
