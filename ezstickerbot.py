@@ -158,13 +158,20 @@ def image_sticker_received(bot, update):
     width, height = image.size
     reference_length = max(width, height)
     ratio = 512 / reference_length
-    new_width = int(width * ratio)
-    new_height = int(height * ratio)
+    new_width = width * ratio
+    new_height = height * ratio
+    # round up if new dimension has .999 or more
+    if new_width % 1 >= .999:
+        new_width = int(round(new_width))
+    else:
+        new_width = int(new_width)
+    if new_height % 1 >= .999:
+        new_height = int(round(new_height))
+    else:
+        new_height = int(new_height)
     image = image.resize((new_width, new_height), Image.ANTIALIAS)
     formatted_path = os.path.join(dir, (photo_id + '_formatted.png'))
     image.save(formatted_path, optimize=True)
-
-    # create forward button 
 
     # send formatted image as a document
     document = open(formatted_path, 'rb')
