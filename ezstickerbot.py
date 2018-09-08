@@ -109,7 +109,7 @@ def main():
     dispatcher.add_handler(InlineQueryHandler(inline_query_received))
 
     # register variable dump loop
-    updater.job_queue.run_repeating(dump_variables, 300, 300)
+    updater.job_queue.run_repeating(save_config, 300, 300)
 
     # register error handler
     dispatcher.add_error_handler(error)
@@ -251,7 +251,7 @@ def restart_bot(bot, update):
     bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
     if update.message.from_user.id in config['admins']:
         bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "restarting"))
-        dump_variables()
+        save_config()
         os.execl(sys.executable, sys.executable, *sys.argv)
     else:
         bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "no_permission"))
@@ -377,19 +377,19 @@ def get_lang():
 
 def get_config():
     path = os.path.join(dir, 'config.json')
-    with open(path) as data_file:
-        data = json.load(data_file)
-        data_file.close()
+    with open(path) as config_file:
+        data = json.load(config_file)
+        config_file.close()
     global config
     config = data
 
 
-def dump_variables(bot=None, job=None):
+def save_config(bot=None, job=None):
     data = json.dumps(config)
     path = os.path.join(dir, 'config.json')
-    with open(path, "w") as f:
-        f.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
-        f.close()
+    with open(path, "w") as config_file:
+        config_file.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
+        config_file.close()
 
 
 # logs bot errors thrown
