@@ -378,10 +378,9 @@ def get_lang():
 def get_config():
     path = os.path.join(dir, 'config.json')
     with open(path) as config_file:
-        data = json.load(config_file)
+        global config
+        config = json.load(config_file)
         config_file.close()
-    global config
-    config = data
 
 
 def save_config(bot=None, job=None):
