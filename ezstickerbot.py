@@ -399,9 +399,5 @@ def error(bot, update, error):
     logger.warning('Update "{}" caused error "{}"'.format(update, error))
 
 
-def do_fucking_nothing(bot, update):
-    pass
-
-
 if __name__ == '__main__':
     main()
