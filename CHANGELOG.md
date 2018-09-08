@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 
 * * *
 
+## [v1.3.1](https://github.com/fxuls/ez-sticker-bot/releases/tag/v1.3.1) [2018-9-7]
+
+**Changed:**
+- Rename dump_variables() to save_config() because there are no other data files besides config.json
+- Rename some variables in load_config() and save_config() to make more sense with what they're used for
+
+**Fixed:**
+- Fix a bug that caused the converted file to sometimes have a side length of 511 instead of 512 due to a floating point rounding error
+
+**Removed:**
+- Remove the do_fucking_nothing() function which was only there for testing purposes and should have never made it to release
+- Remove an unnecessary variable in load_config()
+
+
 ## [v1.3](https://github.com/fxuls/ez-sticker-bot/releases/tag/v1.3) [2018-8-29]
 
 **Added:**
