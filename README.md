@@ -12,7 +12,7 @@ EzStickerBot will also format stickers sent to it so it can be used to get stick
 ## Credits
 Thanks to all the following people for their translations:
 - Russian [![https://t.me/avrdude](https://img.shields.io/badge/Telegram-avrdude-blue.svg)](https://t.me/avrdude)
-- Spanish [![https://t.me/mangothemarblefox](https://img.shields.io/badge/Telegram-mangothemarblefox-blue.svg)](https://t.me/mangothemarblefox)[![https://t.me/Vibe707](https://img.shields.io/badge/Telegram-Vibe707-blue.svg)](https://t.me/Vibe707)
+- Spanish [![https://t.me/Vibe707](https://img.shields.io/badge/Telegram-Vibe707-blue.svg)](https://t.me/Vibe707)
 - German [![https://t.me/JosXa](https://img.shields.io/badge/Telegram-JosXa-blue.svg)](https://t.me/JosXa)
 - Italian [![https://t.me/metonofri](https://img.shields.io/badge/Telegram-metonofri-blue.svg)](https://t.me/metonofri)
 - Slovenian [![https://t.me/VulpixBropix](https://img.shields.io/badge/Telegram-VulpixBropix-blue.svg)](https://t.me/VulpixBropix)
