@@ -336,10 +336,8 @@ def change_lang(bot, update):
             try:
                 id = int(''.join(c for c in word if c.isdigit()))
                 user = bot.get_chat(id)
-                if user.username is not None:
-                    message[i] = '@{}'.format(user.username)
-                else:
-                    message[i] = '<b>{}{}</b>'.format(user.first_name, (' ' + user.last_name) if user.last_name else '')
+                message[i] = '<a href="tg://user?id={}">{}{}</a>'.format(id, user.first_name,
+                                                                         ' ' + user.last_name if user.last_name else '')
             except ValueError:
                 message[i] = 'UNKNOWN_USER_ID'
                 continue
