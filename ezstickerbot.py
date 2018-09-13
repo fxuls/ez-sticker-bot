@@ -28,7 +28,7 @@ def start(bot, update):
     message = update.message
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    bot.send_chat_action(message.chat_id, 'typing')
     message.reply_text(get_message(message.chat_id, "start"), parse_mode='Markdown')
 
 
@@ -36,7 +36,7 @@ def help_command(bot, update):
     message = update.message
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    bot.send_chat_action(message.chat_id, 'typing')
     message.reply_text(get_message(message.chat_id, "help"))
 
 
@@ -44,7 +44,7 @@ def send_stats(bot, update):
     message = update.message
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    bot.send_chat_action(message.chat_id, 'typing')
     stats_message = get_message(message.chat_id, "stats").format(config['uses'], len(config['lang_prefs']))
     message.reply_text(stats_message, parse_mode='Markdown')
 
@@ -53,7 +53,7 @@ def send_lang_stats(bot, update):
     message = update.message
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    bot.send_chat_action(message.chat_id, 'typing')
 
     # get message header
     lang_stats_message = get_message(message.chat_id, "lang_stats")
@@ -139,7 +139,7 @@ def image_sticker_received(bot, update):
             photo_id = document.file_id
         else:
             # feedback to show bot is processing
-            bot.send_chat_action(chat_id=message.chat_id, action='typing')
+            bot.send_chat_action(message.chat_id, 'typing')
 
             message.reply_text(get_message(message.chat_id, 'doc_not_img'), parse_mode='Markdown')
             return
@@ -149,7 +149,7 @@ def image_sticker_received(bot, update):
         photo_id = message.sticker.file_id
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=message.chat_id, action='upload_photo')
+    bot.send_chat_action(message.chat_id, 'upload_photo')
 
     # download file
     file = bot.get_file(file_id=photo_id)
@@ -194,7 +194,7 @@ def image_sticker_received(bot, update):
         message.reply_document(document=document, filename='sticker.png',
                                caption=get_message(message.chat_id, "forward"), quote=True, timeout=30)
     except TelegramError:
-        message.reply_text(get_message(user_id=message.from_user.id, message="send_timeout"))
+        message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
 
     # delete local files and close image object
     image.close()
@@ -233,25 +233,25 @@ def invalid_command(bot, update):
     message = update.message
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=message.chat_id, action='typing')
-    message.reply_text(get_message(update.message.chat_id, "invalid_command"))
+    bot.send_chat_action(message.chat_id, 'typing')
+    message.reply_text(get_message(message.chat_id, "invalid_command"))
 
 
 def invalid_content(bot, update):
     message = update.message
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    bot.send_chat_action(message.chat_id, 'typing')
 
-    message.reply_text(get_message(update.message.chat_id, "cant_process"))
-    message.reply_text(get_message(update.message.chat_id, "send_sticker_photo"), parse_mode='Markdown')
+    message.reply_text(get_message(message.chat_id, "cant_process"))
+    message.reply_text(get_message(message.chat_id, "send_sticker_photo"), parse_mode='Markdown')
 
 
 def bot_info(bot, update):
     message = update.message
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    bot.send_chat_action(message.chat_id, 'typing')
     keyboard = [
         [InlineKeyboardButton(get_message(message.chat_id, "contact_dev"), url="https://t.me/fxuls"),
          InlineKeyboardButton(get_message(message.chat_id, "source"),
@@ -268,7 +268,7 @@ def restart_bot(bot, update):
     message = update.message
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    bot.send_chat_action(message.chat_id, 'typing')
     if update.message.from_user.id in config['admins']:
         message.reply_text(get_message(update.message.chat_id, "restarting"))
         save_config()
@@ -282,7 +282,7 @@ def broadcast_command(bot, update):
     chat_id = update.message.chat_id
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=chat_id, action='typing')
+    bot.send_chat_action(chat_id, 'typing')
 
     # check for permission
     if chat_id not in config['admins']:
