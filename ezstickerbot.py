@@ -29,7 +29,7 @@ def start(bot, update):
 
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'typing')
-    message.reply_text(get_message(message.chat_id, "start"), parse_mode='Markdown')
+    message.reply_markdown(get_message(message.chat_id, "start"))
 
 
 def help_command(bot, update):
@@ -46,7 +46,7 @@ def send_stats(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'typing')
     stats_message = get_message(message.chat_id, "stats").format(config['uses'], len(config['lang_prefs']))
-    message.reply_text(stats_message, parse_mode='Markdown')
+    message.reply_markdown(stats_message)
 
 
 def send_lang_stats(bot, update):
@@ -77,7 +77,7 @@ def send_lang_stats(bot, update):
             continue
 
     # send message
-    message.reply_text(lang_stats_message, parse_mode='Markdown')
+    message.reply_markdown(lang_stats_message)
 
 
 def main():
@@ -141,7 +141,7 @@ def image_sticker_received(bot, update):
             # feedback to show bot is processing
             bot.send_chat_action(message.chat_id, 'typing')
 
-            message.reply_text(get_message(message.chat_id, 'doc_not_img'), parse_mode='Markdown')
+            message.reply_markdown(get_message(message.chat_id, 'doc_not_img'))
             return
     elif message.photo:
         photo_id = message.photo[-1].file_id
@@ -244,7 +244,7 @@ def invalid_content(bot, update):
     bot.send_chat_action(message.chat_id, 'typing')
 
     message.reply_text(get_message(message.chat_id, "cant_process"))
-    message.reply_text(get_message(message.chat_id, "send_sticker_photo"), parse_mode='Markdown')
+    message.reply_markdown(get_message(message.chat_id, "send_sticker_photo"))
 
 
 def bot_info(bot, update):
@@ -260,8 +260,7 @@ def bot_info(bot, update):
                               url="https://telegram.me/storebot?start=ezstickerbot"),
          InlineKeyboardButton(get_message(message.chat_id, "share"), switch_inline_query="")]]
     markup = InlineKeyboardMarkup(keyboard)
-    message.reply_text(get_message(update.message.chat_id, "info").format(config['uses']), parse_mode='Markdown',
-                       reply_markup=markup)
+    message.reply_markdown(get_message(update.message.chat_id, "info").format(config['uses']), reply_markup=markup)
 
 
 def restart_bot(bot, update):
@@ -293,13 +292,13 @@ def broadcast_command(bot, update):
 
     # check that command was used in reply to a message
     if target_message is None:
-        message.reply_text(get_message(chat_id, "broadcast_in_reply"), parse_mode='Markdown')
+        message.reply_markdown(get_message(chat_id, "broadcast_in_reply"))
         return
 
     broadcast_message = target_message.text_html
     # check that target message is a text message
     if broadcast_message is None:
-        message.reply_text(get_message(chat_id, "broadcast_only_text"), parse_mode='Markdown')
+        message.reply_markdown(get_message(chat_id, "broadcast_only_text"))
         return
 
     message.reply_text(get_message(chat_id, "will_broadcast"))
