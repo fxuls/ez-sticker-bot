@@ -25,31 +25,38 @@ lang = {}
 
 
 def start(bot, update):
+    message = update.message
+
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "start"),
-                     parse_mode='Markdown')
+    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    message.reply_text(get_message(message.chat_id, "start"), parse_mode='Markdown')
 
 
 def help_command(bot, update):
+    message = update.message
+
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "help"))
+    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    message.reply_text(get_message(message.chat_id, "help"))
 
 
 def send_stats(bot, update):
+    message = update.message
+
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    stats_message = get_message(update.message.chat_id, "stats").format(config['uses'], len(config['lang_prefs']))
-    bot.send_message(chat_id=update.message.chat_id, text=stats_message, parse_mode='Markdown')
+    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    stats_message = get_message(message.chat_id, "stats").format(config['uses'], len(config['lang_prefs']))
+    message.reply_text(stats_message, parse_mode='Markdown')
 
 
 def send_lang_stats(bot, update):
+    message = update.message
+
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
+    bot.send_chat_action(chat_id=message.chat_id, action='typing')
 
     # get message header
-    lang_stats_message = get_message(update.message.chat_id, "lang_stats")
+    lang_stats_message = get_message(message.chat_id, "lang_stats")
 
     # count lang usage
     lang_usage = dict(Counter(config['lang_prefs'].values()))
@@ -70,7 +77,7 @@ def send_lang_stats(bot, update):
             continue
 
     # send message
-    bot.send_message(chat_id=update.message.chat_id, text=lang_stats_message, parse_mode='Markdown')
+    message.reply_text(lang_stats_message, parse_mode='Markdown')
 
 
 def main():
@@ -122,26 +129,27 @@ def main():
 
 
 def image_sticker_received(bot, update):
+    message = update.message
+
     # get file id
-    if update.message.document:
+    if message.document:
         # check that document is image
-        document = update.message.document
+        document = message.document
         if document.mime_type.lower() in ('image/png', 'image/jpeg', 'image/webp'):
             photo_id = document.file_id
         else:
             # feedback to show bot is processing
-            bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
+            bot.send_chat_action(chat_id=message.chat_id, action='typing')
 
-            bot.send_message(chat_id=update.message.chat_id,
-                             text=get_message(update.message.from_user.id, 'doc_not_img'), parse_mode='Markdown')
+            message.reply_text(get_message(message.chat_id, 'doc_not_img'), parse_mode='Markdown')
             return
-    elif update.message.photo:
-        photo_id = update.message.photo[-1].file_id
+    elif message.photo:
+        photo_id = message.photo[-1].file_id
     else:
-        photo_id = update.message.sticker.file_id
+        photo_id = message.sticker.file_id
 
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=update.message.chat_id, action='upload_photo')
+    bot.send_chat_action(chat_id=message.chat_id, action='upload_photo')
 
     # download file
     file = bot.get_file(file_id=photo_id)
@@ -174,9 +182,8 @@ def image_sticker_received(bot, update):
     try:
         image.save(formatted_path, optimize=True)
     except OSError:
-        bot.send_message(chat_id=update.message.chat_id, text="Due to a bug in the image processing library this bot "
-                                                              "uses stickers without a transparent background cannot be"
-                                                              " downloaded until the library is updated. Sorry :(")
+        message.reply_text("Due to a bug in the image processing library this bot uses stickers without a transparent "
+                           "background cannot be downloaded until the library is updated. Sorry :(")
         os.remove(download_path)
         os.remove(formatted_path)
         return
@@ -184,11 +191,10 @@ def image_sticker_received(bot, update):
     # send formatted image as a document
     document = open(formatted_path, 'rb')
     try:
-        update.message.reply_document(document=document, filename='sticker.png',
-                                      caption=get_message(update.message.chat_id, "forward"), quote=True, timeout=30)
+        message.reply_document(document=document, filename='sticker.png',
+                               caption=get_message(message.chat_id, "forward"), quote=True, timeout=30)
     except TelegramError:
-        bot.send_message(chat_id=update.message.chat_id,
-                         text=get_message(user_id=update.message.from_user.id, message="send_timeout"))
+        message.reply_text(get_message(user_id=message.from_user.id, message="send_timeout"))
 
     # delete local files and close image object
     image.close()
@@ -224,71 +230,79 @@ def inline_query_received(bot, update):
 
 
 def invalid_command(bot, update):
+    message = update.message
+
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
-    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "invalid_command"))
+    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+    message.reply_text(get_message(update.message.chat_id, "invalid_command"))
 
 
 def invalid_content(bot, update):
-    # feedback to show bot is processing
-    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
+    message = update.message
 
-    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "cant_process"))
-    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "send_sticker_photo"),
-                     parse_mode='Markdown')
+    # feedback to show bot is processing
+    bot.send_chat_action(chat_id=message.chat_id, action='typing')
+
+    message.reply_text(get_message(update.message.chat_id, "cant_process"))
+    message.reply_text(get_message(update.message.chat_id, "send_sticker_photo"), parse_mode='Markdown')
 
 
 def bot_info(bot, update):
+    message = update.message
+
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
+    bot.send_chat_action(chat_id=message.chat_id, action='typing')
     keyboard = [
-        [InlineKeyboardButton(get_message(update.message.chat_id, "contact_dev"), url="https://t.me/fxuls"),
-         InlineKeyboardButton(get_message(update.message.chat_id, "source"),
+        [InlineKeyboardButton(get_message(message.chat_id, "contact_dev"), url="https://t.me/fxuls"),
+         InlineKeyboardButton(get_message(message.chat_id, "source"),
                               url="https://github.com/fxuls/ez-sticker-bot")],
-        [InlineKeyboardButton(get_message(update.message.chat_id, "rate"),
+        [InlineKeyboardButton(get_message(message.chat_id, "rate"),
                               url="https://telegram.me/storebot?start=ezstickerbot"),
-         InlineKeyboardButton(get_message(update.message.chat_id, "share"), switch_inline_query="")]]
+         InlineKeyboardButton(get_message(message.chat_id, "share"), switch_inline_query="")]]
     markup = InlineKeyboardMarkup(keyboard)
-    bot.send_message(chat_id=update.message.chat_id,
-                     text=get_message(update.message.chat_id, "info").format(config['uses']),
-                     parse_mode='Markdown', reply_markup=markup)
+    message.reply_text(get_message(update.message.chat_id, "info").format(config['uses']), parse_mode='Markdown',
+                       reply_markup=markup)
 
 
 def restart_bot(bot, update):
+    message = update.message
+
     # feedback to show bot is processing
-    bot.send_chat_action(chat_id=update.message.chat_id, action='typing')
+    bot.send_chat_action(chat_id=message.chat_id, action='typing')
     if update.message.from_user.id in config['admins']:
-        bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "restarting"))
+        message.reply_text(get_message(update.message.chat_id, "restarting"))
         save_config()
         os.execl(sys.executable, sys.executable, *sys.argv)
     else:
-        bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "no_permission"))
+        message.reply_text(get_message(update.message.chat_id, "no_permission"))
 
 
 def broadcast_command(bot, update):
+    message = update.message
     chat_id = update.message.chat_id
+
     # feedback to show bot is processing
     bot.send_chat_action(chat_id=chat_id, action='typing')
 
     # check for permission
-    if update.message.from_user.id not in config['admins']:
-        bot.send_message(chat_id=chat_id, text=get_message(chat_id, "no_permission"))
+    if chat_id not in config['admins']:
+        message.reply_text(get_message(chat_id, "no_permission"))
         return
 
-    target_message = update.message.reply_to_message
+    target_message = message.reply_to_message
 
     # check that command was used in reply to a message
     if target_message is None:
-        bot.send_message(chat_id=chat_id, text=get_message(chat_id, "broadcast_in_reply"), parse_mode='Markdown')
+        message.reply_text(get_message(chat_id, "broadcast_in_reply"), parse_mode='Markdown')
         return
 
     broadcast_message = target_message.text_html
     # check that target message is a text message
     if broadcast_message is None:
-        bot.send_message(chat_id=chat_id, text=get_message(chat_id, "broadcast_only_text"), parse_mode='Markdown')
+        message.reply_text(get_message(chat_id, "broadcast_only_text"), parse_mode='Markdown')
         return
 
-    bot.send_message(chat_id=chat_id, text=get_message(chat_id, "will_broadcast"))
+    message.reply_text(get_message(chat_id, "will_broadcast"))
     updater.job_queue.run_once(broadcast_thread, 2, context=broadcast_message)
 
 
@@ -322,11 +336,11 @@ def change_lang_command(bot, update):
         if len(keyboard[row]) == 2:
             row += 1
             keyboard.append([])
+        # noinspection PyTypeChecker
         keyboard[row].append(
             InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
     markup = InlineKeyboardMarkup(keyboard)
-    bot.send_message(chat_id=update.message.chat_id, text=get_message(update.message.chat_id, "select_lang"),
-                     reply_markup=markup)
+    update.message.reply_text(get_message(update.message.chat_id, "select_lang"), reply_markup=markup)
 
 
 def change_lang(bot, update):
