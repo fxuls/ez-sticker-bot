@@ -171,7 +171,15 @@ def image_sticker_received(bot, update):
         new_height = int(new_height)
     image = image.resize((new_width, new_height), Image.ANTIALIAS)
     formatted_path = os.path.join(dir, (photo_id + '_formatted.png'))
-    image.save(formatted_path, optimize=True)
+    try:
+        image.save(formatted_path, optimize=True)
+    except OSError:
+        bot.send_message(chat_id=update.message.chat_id, text="Due to a bug in the image processing library this bot "
+                                                              "uses stickers without a transparent background cannot be"
+                                                              " downloaded until the library is updated. Sorry :(")
+        os.remove(download_path)
+        os.remove(formatted_path)
+        return
 
     # send formatted image as a document
     document = open(formatted_path, 'rb')
