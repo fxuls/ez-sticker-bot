@@ -73,7 +73,7 @@
     "rate": "Bewerten ⭐⭐⭐⭐⭐",
     "restarting": "Bot wird neu gestartet...",
     "select_lang": "Sprache wählen.",
-    "lang_set": "Sprache auf Deutsch gestellt.\n\nVielen Dank an $62056065 für die deutsche Übersetzung!",
+    "lang_set": "Sprache auf Deutsch gestellt.\n\nVielen Dank an $62056065 und $183063665 für die deutsche Übersetzung!",
     "invalid_command": "Sorry, ich verstehe dieses Kommando nicht.",
     "no_permission": "Du kannst das im Moment nicht tun.",
     "broadcast_in_reply": "Sende `/broadcast` als Antwort auf die Nachricht, die gesendet werden soll.",
@@ -82,7 +82,11 @@
     "stats": "Ich habe *{:,}* Sticker für *{:,}* Nutzer erstellt seit dem *10.23.2017*",
     "lang_stats": "*Sprachstatistiken:*",
     "send_timeout": "Zeitüberschreitung beim Hochladen des Stickers zu den Telegram Servern. Versuch es in einigen Minuten nochmal.",
-    "doc_not_img": "Das Dokument muss ein Bild sein."
+    "doc_not_img": "Das Dokument muss ein Bild sein.",
+    "share": "Teilen",
+    "share_desc": "Teile Informationen über EzStickerBot mit diesem Chat",
+    "share_text": "Hey, ich benutze *EzStickerBot* um meine eigenen Sticker zu erstellen ohne dafür Telegram verlassen zu müssen. Sende ein Bild oder Sticker und er wird es für dich konvertieren und auf die richtige Größe bringen!",
+    "make_sticker_button": "Probier es aus 👉"
   },
   "it": {
     "order": "3",
