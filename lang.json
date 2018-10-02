@@ -111,7 +111,11 @@
     "stats": "Ho creato *{:,}* sticker per *{:,}* utenti singoli dal *10.23.2017*",
     "lang_stats": "*Language Stats:*",
     "send_timeout": "Connessione scaduta mentre caricavo lo sticker sui server di Telegram. Le prego di aspettare un minuto e riprovare.",
-    "doc_not_img": "Il documento deve essere un'immagine."
+    "doc_not_img": "Il documento deve essere un'immagine.",
+    "share": "Condividi",
+    "share_desc": "Condividi informazioni su EzStickerBot con questa chat",
+    "share_text": "Hey, sto usando *EzStickerBot* per creare i miei sticker personali senza mai lasciare Telegram!\n\nInviagli qualunque foto o sticker e lo convertirà e ridimensionerà per te!",
+    "make_sticker_button": "Dagli un'occhiata 👉"
   },
   "sl": {
     "order": "4",

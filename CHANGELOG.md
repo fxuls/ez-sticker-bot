@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 * * *
 
+## [v1.3.2](https://github.com/fxuls/ez-sticker-bot/releases/tag/v1.3.2) [2018-10-2]
+
+**Added:**
+- Add missing Slovenian, German, and Italian strings
+
+**Changed:**
+- Change bot.send_message to message.reply_text and message.reply_markdown for better readability
+- Change translation credits to use full names as links instead of usernames
+- Change slovenian translation credit string to credit user who translated missing strings
+- Change german translation credit string to credit user who translated missing strings
+
+**Removed:**
+- Remove error handling when converting .webp files that have no transparent background to png. The error that caused this was fixed in the image processing library's quarterly update yesterday
+- Remove unnecessary specification of positional arguments
+- Remove deleted account from spanish translation credit string
+
 ## [v1.3.1](https://github.com/fxuls/ez-sticker-bot/releases/tag/v1.3.1) [2018-9-7]
 
 **Changed:**
