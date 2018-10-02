@@ -179,14 +179,7 @@ def image_sticker_received(bot, update):
         new_height = int(new_height)
     image = image.resize((new_width, new_height), Image.ANTIALIAS)
     formatted_path = os.path.join(dir, (photo_id + '_formatted.png'))
-    try:
-        image.save(formatted_path, optimize=True)
-    except OSError:
-        message.reply_text("Due to a bug in the image processing library this bot uses stickers without a transparent "
-                           "background cannot be downloaded until the library is updated. Sorry :(")
-        os.remove(download_path)
-        os.remove(formatted_path)
-        return
+    image.save(formatted_path, optimize=True)
 
     # send formatted image as a document
     document = open(formatted_path, 'rb')
@@ -198,7 +191,7 @@ def image_sticker_received(bot, update):
 
     # delete local files and close image object
     image.close()
-    time.sleep(0.20)
+    time.sleep(0.2)
     os.remove(download_path)
     os.remove(formatted_path)
 
