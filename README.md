@@ -9,6 +9,12 @@ EzStickerBot formats any image or file with an image extension sent to it to mee
 
 EzStickerBot will also format stickers sent to it so it can be used to get stickers as images to save to your device or to add to one of your packs.
 
+## Dependencies
+The following dependencies are needed to run EzStickerBot:
+- python-telegram-bot
+- Pillow
+- simplejson
+
 ## Credits
 Thanks to all the following people for their translations:
 - Russian [![https://t.me/avrdude](https://img.shields.io/badge/Telegram-avrdude-blue.svg)](https://t.me/avrdude)
