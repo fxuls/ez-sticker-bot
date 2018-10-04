@@ -325,7 +325,7 @@ def change_lang_command(bot, update):
     keyboard = [[]]
     row = 0
     for lang_code in ordered_langs:
-        if len(keyboard[row]) == 2:
+        if len(keyboard[row]) == 3:
             row += 1
             keyboard.append([])
         # noinspection PyTypeChecker
