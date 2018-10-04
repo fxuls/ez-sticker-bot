@@ -117,8 +117,39 @@
     "share_text": "Hey, sto usando *EzStickerBot* per creare i miei sticker personali senza mai lasciare Telegram!\n\nInviagli qualunque foto o sticker e lo convertirà e ridimensionerà per te!",
     "make_sticker_button": "Dagli un'occhiata 👉"
   },
-  "sl": {
+  "pt-BR": {
     "order": "4",
+    "lang_name": "Português Brasileiro",
+    "start": "Olá! Sou *EZ Sticker Bot*. Eu posso lhe ajudar a fazer stickers! Escreva /help para iniciar ou /info para conseguir informações sobre mim.\n\n🌐 Para mudar o idioma do bot use /lang.",
+    "help": "Para adicionar um sticker em um pacote com @Stickers seu arquivo deve ser salvo no formato png, ter pelo menos uma dimensão em 512px e ser menor do que 512Kb.\n\n Você pode me enviar uma foto ou um sticker e eu irei formatar ele para todos os requisitos e lhe enviar de volta um arquivo pronto para ser adicionado no pacote!",
+    "uses": "Eu criei *{:,}* stickers para as pessoas até agora!",
+    "users": "Eu tive *{:,}* usuários diferentes desde 23/10/17!",
+    "forward": "Encaminhe isto para @Stickers\n@EzStickerBot",
+    "cant_process": "Eu não consigo abrir este conteúdo.",
+    "send_sticker_photo": "Me envie uma *foto* ou *sticker*.",
+    "info": "*EZ Sticker Bot* é um bot que eu desenvolvo e hospedo sem nenhuma expectativa de ganhar nada além da satisfação de ajudar meus companheiros do Telegram.\n\nCompartilhar este bot nos seus grupos/canais ajudaria muitas pessoas a criar seus próprios pacotes de stickers para todos nós usarmos!\n\nEu criei *{:,}* stickers para as pessoas até agora!",
+    "contact_dev": "Contatar desenvolvedor",
+    "source": "Código Fonte",
+    "rate": "Avalie ⭐⭐⭐⭐⭐",
+    "restarting": "Reiniciando o bot...",
+    "select_lang": "Selecione um idioma.",
+    "lang_set": "Idioma selecionado como Português Brasileiro.",
+    "invalid_command": "Desculpe, não reconheço este comando.",
+    "no_permission": "Você não tem permissão para fazer isso.",
+    "broadcast_in_reply": "Use `/broadcast` na resposta para a mensagem ser enviada.",
+    "will_broadcast": "Ok, sua mensagem será enviada.",
+    "broadcast_only_text": "Atualmente apenas mensagens de *texto* podem ser transmitidas.",
+    "stats": "Eu criei *{:,}* stickers para *{:,}* usuários diferentes desde *23/10/17*",
+    "lang_stats": "*Estatística das Linguagens:*",
+    "send_timeout": "Tempo esgotado ao tentar fazer upload do sticker formatado aos servidores do Telegram. Por favor, espere um minuto e tente novamente.",
+    "doc_not_img": "O documento deve ser uma imagem.",
+    "share": "Compartilhar",
+    "share_desc": "Compartilhe sobre o EzStickerBot com este chat",
+    "share_text": "Ei, estou usando *EzStickerBot* para fazer meus próprios stickers sem sequer sair do Telegram!\n\nEnvie qualquer foto ou sticker e ele irá converter e redimensionar para você!",
+    "make_sticker_button": "Veja só 👉"
+  },
+  "sl": {
+    "order": "5",
     "lang_name": "Slovenščina",
     "start": "Pozdravljeni! Jaz sem *EZ Sticker Bot*. Lahko vam pomagam narediti nalepke! Vnesite /help, da začnete ali /info, da bi dobili informacijo o meni.\n\n🌐 Če želite spremenit jezik, vnesite /lang.",
     "help": "Če želite dodati nalepko v paket s @Stickers, mora biti vaša datoteka shranjena v formatu png, mora imeti vsaj eno dimenzijo, ki je 512 slikovnih pik in mora biti manjša od 512Kb.\n\nLahko mi pošljete poljubno fotografijo ali nalepko. To nalepko bom formatiral in izpolnil vse zahteve ter jo poslal nazaj v obliki datoteke, ki bo pripravljena za dodajanje v paket!",
@@ -147,7 +178,7 @@
     "make_sticker_button": "Poglej 👉"
   },
   "ru": {
-    "order": "5",
+    "order": "6",
     "lang_name": "Русский",
     "start": "Привет! Я EZ Sticker Bot. Я помогу помочь тебе с созданием стикеров! Напиши /help для того, чтобы начать или /info, чтобы получить больше информации обо мне.\n\n🌐 Чтобы переключить язык, используй /lang.",
     "help": "Чтобы добавить стикер в пак с помощью @Stickers, ваш файл должен быть сохранен в формате .png, иметь одну из сторон минимум 512px и весить меньше 512Кб.\n\nТы можешь отправить мне любое фото или стикер и я его переведу в нужный формат, а затем отправлю его тебе файлом.",
@@ -176,7 +207,7 @@
     "make_sticker_button": "Попробуй здесь 👉"
   },
   "uk": {
-    "order": "6",
+    "order": "7",
     "lang_name": "Українська",
     "start": "Вітаю! Я - *EZ Sticker Bot*. Я можу допомогти вам створити стікери. Введіть /help, щоб розпочати або /info , щоб отримати інформацію про мене.\n\n🌐 Щоб замінити боту мову пишіть /lang.",
     "help": "Щоб додати стікер до паку з @Stickers, ваш файл повинен бути збережений у форматі png, має мати принаймні одне розширення на 512 пікселів і повинен бути менше 512Kb.\n\nВи можете надіслати мені будь-яку фотографію або стікер, і я форматую його, щоб він відповідав усім трьом вимогам і відправлю його вам як файл, готовий до додавання у ваш пак!",
@@ -200,7 +231,7 @@
     "doc_not_img": "Документ повинен бути зображенням."
   },
   "fa": {
-    "order": "7",
+    "order": "8",
     "lang_name": "فارسی",
     "start": "سلام! من *EZ Sticker Bot* هستم. من میتونم کمکت کنم تا استیکر بسازی! برای شروع بزن روی: /help یا برای اطلاعاتی در مورد من /info رو بزن.\n\n🌐 برای تغییر زبان بات بزنین رو /lang.",
     "help": "برای افزودن استیکری به پکت تو @Stickers, فایلت باید پسوند png داشته باشه, حداقل یکی از طول و عرضش 512 پیکسل باشه, و حجمش کمتر از 512 کیلوبایت باشه.\n\nتو میتونی هر عکس یا استیکری رو برا من بفرستی, و من همه ی این کارارو برات انجام میدم و فایل آماده رو میفرستم برات تا به پکت اضافش کنی!",
@@ -229,7 +260,7 @@
     "make_sticker_button": "شروع 👉"
   },
   "zh-HK": {
-    "order": "8",
+    "order": "9",
     "lang_name": "繁體中文",
     "start": "嗨！我係*EZ Sticker Bot*。我可以幫你輕鬆整貼圖！打 /help 開始或者打 /info 睇關於我既資料。\n\n🌐 打 /lang 轉換語言",
     "help": "要加新貼圖到 @Stickers 時，你既檔案必須是png格式及至少一邊係512px，同埋檔案大小要細過512kb。\n\n你可以傳送任何相片或貼圖俾我，我就會製成一個符合所有條件既檔案俾返你，你就可以用佢加落貼圖啦！",
@@ -254,7 +285,7 @@
     "doc_not_img": "我只接受圖片檔。"
   },
   "zh-CN": {
-    "order": "9",
+    "order": "10",
     "lang_name": "简体中文",
     "start": "哈喽！我是*EZ贴图机器人*。我可以帮你自制贴图！输入 /help 开始或 /info 获取关于我的信息。\n\n🌐 输入 /lang 切换语言",
     "help": "要添加贴图到 @Stickers，你的档案必须是png格式，至少有一个维度是512px，文件大小要小于512Kb。\n\n你可以发送任何相片或贴图给我，我会输出符合以上三个条件的档案，你就可以把它添加到你的贴图集！",
