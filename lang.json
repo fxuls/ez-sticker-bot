@@ -117,7 +117,7 @@
     "share_text": "Hey, sto usando *EzStickerBot* per creare i miei sticker personali senza mai lasciare Telegram!\n\nInviagli qualunque foto o sticker e lo convertirà e ridimensionerà per te!",
     "make_sticker_button": "Dagli un'occhiata 👉"
   },
-  "pt-BR": {
+  "pt": {
     "order": "4",
     "lang_name": "Português Brasileiro",
     "start": "Olá! Sou *EZ Sticker Bot*. Eu posso lhe ajudar a fazer stickers! Escreva /help para iniciar ou /info para conseguir informações sobre mim.\n\n🌐 Para mudar o idioma do bot use /lang.",
@@ -133,7 +133,7 @@
     "rate": "Avalie ⭐⭐⭐⭐⭐",
     "restarting": "Reiniciando o bot...",
     "select_lang": "Selecione um idioma.",
-    "lang_set": "Idioma selecionado como Português Brasileiro. Obrigado a $56732328 por tornar este bot disponível em Português Brasileiro!",
+    "lang_set": "Idioma selecionado como Português Brasileiro.\n\nObrigado a $56732328 por tornar este bot disponível em Português Brasileiro!",
     "invalid_command": "Desculpe, não reconheço este comando.",
     "no_permission": "Você não tem permissão para fazer isso.",
     "broadcast_in_reply": "Use `/broadcast` na resposta para a mensagem ser enviada.",
