@@ -119,7 +119,7 @@
   },
   "pt": {
     "order": "4",
-    "lang_name": "Português Brasileiro",
+    "lang_name": "Português",
     "start": "Olá! Sou *EZ Sticker Bot*. Eu posso lhe ajudar a fazer stickers! Escreva /help para iniciar ou /info para conseguir informações sobre mim.\n\n🌐 Para mudar o idioma do bot use /lang.",
     "help": "Para adicionar um sticker em um pacote com @Stickers seu arquivo deve ser salvo no formato png, ter pelo menos uma dimensão em 512px e ser menor do que 512Kb.\n\n Você pode me enviar uma foto ou um sticker e eu irei formatar ele para todos os requisitos e lhe enviar de volta um arquivo pronto para ser adicionado no pacote!",
     "uses": "Eu criei *{:,}* stickers para as pessoas até agora!",
