@@ -392,7 +392,7 @@ def get_config():
     with open(path) as config_file:
         global config
         config = json.load(config_file)
-        config_file.close()
+    config_file.close()
 
 
 def save_config(bot=None, job=None):
@@ -400,7 +400,7 @@ def save_config(bot=None, job=None):
     path = os.path.join(dir, 'config.json')
     with open(path, "w") as config_file:
         config_file.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
-        config_file.close()
+    config_file.close()
 
 
 # logs bot errors thrown
