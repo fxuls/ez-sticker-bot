@@ -368,12 +368,16 @@ def get_message(user_id, message):
     global config
     user_id = str(user_id)
     if user_id not in config['lang_prefs']:
-        config['lang_prefs'][user_id] = 'en'
+        # attempt to automatically set language
+        lang_code = updater.bot.get_chat(user_id).get_member(user_id).user.language_code.lower()
+        if lang_code is not None and lang_code[:2] in lang:
+            config['lang_prefs'][user_id] = lang_code[:2]
+        else:
+            config['lang_prefs'][user_id] = 'en'
+    lang_pref = config['lang_prefs'][user_id]
+    # if message doesn't have translation in user's language default to english
+    if message not in lang[lang_pref]:
         lang_pref = 'en'
-    else:
-        lang_pref = config['lang_prefs'][user_id]
-        if message not in lang[lang_pref]:
-            lang_pref = 'en'
     return lang[lang_pref][message]
 
 
