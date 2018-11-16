@@ -286,7 +286,11 @@
     "stats": "截止*10.23.2017*，我幫*{:,}*位使用者整左*{:,}*個貼圖。",
     "lang_stats": "*語言統計:*",
     "send_timeout": "上載唔到貼圖到Telegram 伺服器。你等陣再試過啦！",
-    "doc_not_img": "我只接受圖片檔。"
+    "doc_not_img": "我只接受圖片檔。",
+    "share": "分享",
+    "share_desc": "與這人/群組介紹EzStickerBot",
+    "share_text": "用*EzStickerBot*來製作貼紙包，我只需使用Telegram，十分方便！\n\n只要傳送圖片或貼紙給它，它就會自動把圖片或貼紙適當地轉換！",
+    "make_sticker_button": "去看看👉"
   },
   "zh-CN": {
     "order": "10",
