@@ -263,7 +263,7 @@
     "share_text": "سلام، من از *EzStickerBot* واسه ساختن استیکرای تلگرام استفاده می کنم!\n\nیه عکس براش بفرست تا برات تبدیل به استیکرش کمه!",
     "make_sticker_button": "شروع 👉"
   },
-  "zh-HK": {
+  "zh": {
     "order": "9",
     "lang_name": "繁體中文 🇨🇳",
     "start": "嗨！我係*EZ Sticker Bot*。我可以幫你輕鬆整貼圖！打 /help 開始或者打 /info 睇關於我既資料。\n\n🌐 打 /lang 轉換語言",
@@ -291,30 +291,5 @@
     "share_desc": "與這人/群組介紹EzStickerBot",
     "share_text": "用*EzStickerBot*來製作貼紙包，我只需使用Telegram，十分方便！\n\n只要傳送圖片或貼紙給它，它就會自動把圖片或貼紙適當地轉換！",
     "make_sticker_button": "去看看👉"
-  },
-  "zh-CN": {
-    "order": "10",
-    "lang_name": "简体中文 🇨🇳",
-    "start": "哈喽！我是*EZ贴图机器人*。我可以帮你自制贴图！输入 /help 开始或 /info 获取关于我的信息。\n\n🌐 输入 /lang 切换语言",
-    "help": "要添加贴图到 @Stickers，你的档案必须是png格式，至少有一个维度是512px，文件大小要小于512Kb。\n\n你可以发送任何相片或贴图给我，我会输出符合以上三个条件的档案，你就可以把它添加到你的贴图集！",
-    "forward": "转发到 @Stickers\n@EzStickerBot",
-    "cant_process": "我无法处理",
-    "send_sticker_photo": "请发送*相片*或*贴图*给我",
-    "info": "*EZ贴图机器人*是我开发的机器人。我希望藉着帮助其他Telegram用户而为我带来满足感，并没有期望从中得到甚麽。\n\n分享这个机器人到你的群组或频道，让其他人也可以製作自己的贴图给大家用！\n\n目前为止，我已创建了*{:,}*张贴图！",
-    "contact_dev": "联系开发者",
-    "source": "源代码",
-    "rate": "评价 ⭐⭐⭐⭐⭐",
-    "restarting": "正在重新启动机器人...",
-    "select_lang": "请选择语言",
-    "lang_set": "语言设置为简体中文。谢谢 $198804461 协助翻译",
-    "invalid_command": "对不起，命令不存在！",
-    "no_permission": "你没有权限！",
-    "broadcast_in_reply": "输入 /broadcast 回复你想发送的讯息。",
-    "will_broadcast": "我将会发送你的讯息。",
-    "broadcast_only_text": "现在只能广播*文字*讯息。",
-    "stats": "截止*10.23.2017*，我替*{:,}*位用户创建了*{:,}*张贴图。",
-    "lang_stats": "*语言统计:*",
-    "send_timeout": "上载贴图到Telegram伺服器时连线逾时。请稍后再试。",
-    "doc_not_img": "文件必须是图片档。"
   }
 }
