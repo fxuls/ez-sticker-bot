@@ -1,6 +1,9 @@
 {
   "uses": 0,
-  "lang_prefs": {},
+  "users": {},
   "admins": [],
-  "token": "TOKEN_FROM_BOTFATHER"
+  "token": "TOKEN_FROM_BOTFATHER",
+  "langs_auto_set": 0,
+  "override_opt_out": false,
+  "send_opt_out_message": true
 }
