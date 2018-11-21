@@ -3,15 +3,15 @@ import json
 import logging
 import os
 import requests
+import simplejson
 import sys
 import time
 import uuid
-from collections import Counter
 
-import simplejson
+from collections import Counter
 from io import BytesIO
-from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from PIL import Image
+from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
 from telegram.error import TelegramError
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler
