@@ -2,17 +2,23 @@ import codecs
 import json
 import logging
 import os
+import requests
 import sys
 import time
+import uuid
 from collections import Counter
 
 import simplejson
+from io import BytesIO
+from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from PIL import Image
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
 from telegram.error import TelegramError
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler
+from urllib.parse import urlparse
 
 # setup logger
+logging.getLogger("urllib3.connection").setLevel(logging.CRITICAL)
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -107,6 +113,7 @@ def main():
 
     # register media listener
     dispatcher.add_handler(MessageHandler((Filters.photo | Filters.sticker | Filters.document), image_sticker_received))
+    dispatcher.add_handler(MessageHandler(Filters.text, url_received))
     dispatcher.add_handler(MessageHandler(Filters.all, invalid_content))
 
     # register button handlers
@@ -161,8 +168,62 @@ def image_sticker_received(bot, update):
     download_path = os.path.join(dir, (photo_id + ext))
     file.download(custom_path=download_path)
 
-    # process image
-    image = Image.open(download_path)
+    # process image and send to user
+    image = format_image(Image.open(download_path))
+    return_image(message, image)
+
+    # delete local file
+    os.remove(download_path)
+
+
+def url_received(bot, update):
+    message = update.message
+    text = message.text.split(' ')
+
+    if len(text) > 1:
+        message.reply_text(get_message(message.chat_id, "too_many_urls"))
+        return
+
+    text = text[0]
+    url = urlparse(text, 'https').geturl()
+
+    # remove extra backslash after https if it exists
+    if url.lower().startswith("https:///"):
+        url = url.replace("https:///", "https://", 1)
+
+    # get request
+    try:
+        request = requests.get(url, timeout=3)
+        request.raise_for_status()
+    except InvalidURL:
+        message.reply_markdown(get_message(message.chat_id, "invalid_url").format(url))
+        return
+    except HTTPError:
+        message.reply_markdown(get_message(message.chat_id, "url_does_not_exist").format(url))
+        return
+    except Timeout or ConnectTimeout:
+        message.reply_markdown(get_message(message.chat_id, "url_timeout").format(url))
+        return
+    except ConnectionError or RequestException:
+        message.reply_markdown(get_message(message.chat_id, "unable_to_connect").format(url))
+        return
+
+    # read image from url
+    try:
+        image = Image.open(BytesIO(request.content))
+    except OSError:
+        message.reply_markdown(get_message(message.chat_id, "url_not_img").format(url))
+        return
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'upload_photo')
+
+    # format image and send it to user
+    image = format_image(image)
+    return_image(message, image)
+
+
+def format_image(image):
     width, height = image.size
     reference_length = max(width, height)
     ratio = 512 / reference_length
@@ -177,12 +238,15 @@ def image_sticker_received(bot, update):
         new_height = int(round(new_height))
     else:
         new_height = int(new_height)
-    image = image.resize((new_width, new_height), Image.ANTIALIAS)
-    formatted_path = os.path.join(dir, (photo_id + '_formatted.png'))
-    image.save(formatted_path, optimize=True)
+    return image.resize((new_width, new_height), Image.ANTIALIAS)
+
+
+def return_image(message, image):
+    temp_path = os.path.join(dir, (uuid.uuid4().hex[:6].upper() + '.png'))
+    image.save(temp_path, optimize=True)
 
     # send formatted image as a document
-    document = open(formatted_path, 'rb')
+    document = open(temp_path, 'rb')
     try:
         message.reply_document(document=document, filename='sticker.png',
                                caption=get_message(message.chat_id, "forward"), quote=True, timeout=30)
@@ -192,8 +256,7 @@ def image_sticker_received(bot, update):
     # delete local files and close image object
     image.close()
     time.sleep(0.2)
-    os.remove(download_path)
-    os.remove(formatted_path)
+    os.remove(temp_path)
 
     # increase total uses count by one
     global config
