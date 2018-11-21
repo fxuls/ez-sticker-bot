@@ -34,7 +34,14 @@
     "url_does_not_exist": "The URL `{}` does not exists.",
     "url_timeout": "Timed out when attempting to connect to `{}`.",
     "unable_to_connect": "Unable to connect to `{}`.",
-    "url_not_img": "`{}` is not a valid image URL."
+    "url_not_img": "`{}` is not a valid image URL.",
+    "opt_out_info": "You can use /optout at any time to stop receiving future announcements like this one.",
+    "opted_out": "You have opted out of receiving global bot announcements.\n\nYou can use /optin at any time to start receiving global messages again.",
+    "opted_in": "You have opted to receive global bot announcements once again.\n\nYou can use /optout at any time to stop receiving global messages again.",
+    "already_opted_out": "You have already opted out of receiving global bot announcements!",
+    "already_opted_in": "You are already opted in and will receive global bot announcements!",
+    "langs_auto_set": "I have detected and automatically set the bot language for *{:,}* non-English speakers.",
+    "opted_count": "Out of *{:,}* users, *{:,}* are opted in to receiving announcements and *{:,}* are opted out."
   },
   "es": {
     "order": "1",
@@ -63,7 +70,13 @@
     "share": "Compartir",
     "share_desc": "Compartir información sobre EzStickerBot en esta sala para charlar",
     "share_text": "¡Hey estoy usando *EzStickerBot* para hacer mis propios stickers sin salir de telegram, pruébalo tú también!\n\n¡Manda cualquier foto o sticker que quieras y el bot lo convertirá¡ y redimensionará¡ por usted!",
-    "make_sticker_button": "Echale un vistazo 👉"
+    "make_sticker_button": "Echale un vistazo 👉",
+    "too_many_urls": "Por favor, envíe sólo una URL a la vez.",
+    "invalid_url": "`{}` no es una URL válida.",
+    "url_does_not_exist": "La URL `{}` no existe.",
+    "url_timeout": "Tiempo límite de espera agotado al intentar conectarse a `{}`.",
+    "unable_to_connect": "No se puede conectar a `{}`.",
+    "url_not_img": "`{}` no es una URL de imagen válida."
   },
   "de": {
     "order": "2",
@@ -92,7 +105,13 @@
     "share": "Teilen",
     "share_desc": "Teile Informationen über EzStickerBot mit diesem Chat",
     "share_text": "Hey, ich benutze *EzStickerBot* um meine eigenen Sticker zu erstellen ohne dafür Telegram verlassen zu müssen. Sende ein Bild oder Sticker und er wird es für dich konvertieren und auf die richtige Größe bringen!",
-    "make_sticker_button": "Probier es aus 👉"
+    "make_sticker_button": "Probier es aus 👉",
+    "too_many_urls": "Bitte schicke nur eine URL zur Zeit.",
+    "invalid_url": "`{}` ist keine gültige URL.",
+    "url_does_not_exist": "Die URL `{}` existiert nicht.",
+    "url_timeout": "Zeitüberschreitung bei dem Versuch sich mit `{}` zu verbinden.",
+    "unable_to_connect": "Verbindung zu `{}` konnte nicht hergestellt werden.",
+    "url_not_img": "`{}` ist keine gültige Bild URL."
   },
   "it": {
     "order": "3",
@@ -121,7 +140,13 @@
     "share": "Condividi",
     "share_desc": "Condividi informazioni su EzStickerBot con questa chat",
     "share_text": "Hey, sto usando *EzStickerBot* per creare i miei sticker personali senza mai lasciare Telegram!\n\nInviagli qualunque foto o sticker e lo convertirà e ridimensionerà per te!",
-    "make_sticker_button": "Dagli un'occhiata 👉"
+    "make_sticker_button": "Dagli un'occhiata 👉",
+    "too_many_urls": "Si prega di inviare solo un URL alla volta.",
+    "invalid_url": "`{}` non è un URL valido.",
+    "url_does_not_exist": "L'URL `{}` non esiste.",
+    "url_timeout": "Connessione persa durante la connessione a `{}`.",
+    "unable_to_connect": "Impossibile connettersi a `{}`.",
+    "url_not_img": "`{}` non è un URL immagine valido."
   },
   "pt": {
     "order": "4",
@@ -210,7 +235,13 @@
     "share": "Поделиться",
     "share_desc": "Поделиться ботом",
     "share_text": "Я использую *EzStickerBot* для создания собственных стикеров не выходя из Телеграма!\n\nОтправь любое фото или стикер и я конвертирую их для тебя!",
-    "make_sticker_button": "Попробуй здесь 👉"
+    "make_sticker_button": "Попробуй здесь 👉",
+    "too_many_urls": "Пожалуйста, отправляйте только по одной ссылке.",
+    "invalid_url": "`{}` недействительна.",
+    "url_does_not_exist": "`{}` не существует.",
+    "url_timeout": "Соединение было сброшено при попытке подключения к `{}`.",
+    "unable_to_connect": "Не удалось подключиться к `{}`.",
+    "url_not_img": "`{}` не является изображением."
   },
   "uk": {
     "order": "7",
@@ -238,7 +269,13 @@
     "share": "Поділитися",
     "share_desc": "Поділитися ботом",
     "share_text": "Я використовую EzStickerBot для створення власних стікерів не виходячи з Телеграмму!\n\nВідправ будь-яке фото або стікер, і я конвертую їх для тебе!",
-    "make_sticker_button": "Спробуй тут 👉"
+    "make_sticker_button": "Спробуй тут 👉",
+    "too_many_urls": "Будь ласка, відправляйте тільки по одному посиланню.",
+    "invalid_url": "`{}` недійсна.",
+    "url_does_not_exist": "`{}` не існуэ.",
+    "url_timeout": "З'эднання було розірване при спробі підключення до `{}`.",
+    "unable_to_connect": "Не вдалося під'єднатися до `{}`.",
+    "url_not_img": "`{}` не є зображенням."
   },
   "fa": {
     "order": "8",
@@ -267,7 +304,13 @@
     "share": "به اشتراک گذاشتن",
     "share_desc": "اطلاعات در مورد EzStickerBot را در این چت به اشتراک بگذارید",
     "share_text": "سلام، من از *EzStickerBot* واسه ساختن استیکرای تلگرام استفاده می کنم!\n\nیه عکس براش بفرست تا برات تبدیل به استیکرش کمه!",
-    "make_sticker_button": "شروع 👉"
+    "make_sticker_button": "شروع 👉",
+    "too_many_urls": "لطفاً فقط یک آدرس بفرستید.",
+    "invalid_url": "`{}` غیر قابل قبول است.",
+    "url_does_not_exist": "آدرس `{}` وجود ندارد\u200c.",
+    "url_timeout": "انتظار برای اتصال به آدرس `{}` بیش از حد طول کشید.",
+    "unable_to_connect": "سیستم قادر به اتصال به `{}` نیست.",
+    "url_not_img": "`{}` آدرس یک تصویر نیست."
   },
   "zh": {
     "order": "9",
@@ -296,6 +339,12 @@
     "share": "分享",
     "share_desc": "與這人/群組介紹EzStickerBot",
     "share_text": "用*EzStickerBot*來製作貼紙包，我只需使用Telegram，十分方便！\n\n只要傳送圖片或貼紙給它，它就會自動把圖片或貼紙適當地轉換！",
-    "make_sticker_button": "去看看👉"
+    "make_sticker_button": "去看看👉",
+    "too_many_urls": "請每次只傳送一條URL。",
+    "invalid_url": "`{}`不是格式正確的URL。",
+    "url_does_not_exist": "URL (`{}`)不存在。",
+    "url_timeout": "連線到`{}`時超時。",
+    "unable_to_connect": "未能連線到`{}`。",
+    "url_not_img": "`{}`不是正確的圖片URL。"
   }
 }

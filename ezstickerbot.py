@@ -51,7 +51,30 @@ def send_stats(bot, update):
 
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'typing')
-    stats_message = get_message(message.chat_id, "stats").format(config['uses'], len(config['lang_prefs']))
+    stats_message = get_message(message.chat_id, "stats").format(config['uses'], len(config['users']))
+    message.reply_markdown(stats_message)
+
+
+def send_all_stats(bot, update):
+    message = update.message
+    user_id = message.chat_id
+
+    # feedback to show bot is processing
+    bot.send_chat_action(user_id, 'typing')
+
+    stats_message = get_message(user_id, "stats").format(config['uses'], len(config['users'])) + "\n\n"
+    stats_message += get_message(user_id, "langs_auto_set").format(config['langs_auto_set']) + "\n\n"
+
+    opted_in = 0
+    opted_out = 0
+    for user in config['users'].values():
+        if user['opt_in']:
+            opted_in += 1
+        else:
+            opted_out += 1
+
+    stats_message += get_message(user_id, "opted_count").format(opted_in + opted_out, opted_in, opted_out)
+
     message.reply_markdown(stats_message)
 
 
@@ -65,7 +88,8 @@ def send_lang_stats(bot, update):
     lang_stats_message = get_message(message.chat_id, "lang_stats")
 
     # count lang usage
-    lang_usage = dict(Counter(config['lang_prefs'].values()))
+    langs = [user['lang'] for user in config['users'].values()]
+    lang_usage = dict(Counter(langs))
 
     sorted_usage = [(code, lang_usage[code]) for code in sorted(lang_usage, key=lang_usage.get, reverse=True)]
 
@@ -88,6 +112,16 @@ def send_lang_stats(bot, update):
 
 def main():
     get_config()
+
+    # global config
+    # config['users'] = {}
+    # for user_id in config['lang_prefs']:
+    #     config['users'][user_id] = {}
+    #     config['users'][user_id]['lang'] = config['lang_prefs'][user_id]
+    #     config['users'][user_id]['opt_in'] = True
+    # del config['lang_prefs']
+    # save_config()
+
     get_lang()
     global updater
     updater = Updater(config['token'])
@@ -107,6 +141,8 @@ def main():
     dispatcher.add_handler(CommandHandler('info', bot_info))
     dispatcher.add_handler(CommandHandler('lang', change_lang_command))
     dispatcher.add_handler(CommandHandler('broadcast', broadcast_command))
+    dispatcher.add_handler(CommandHandler(['optin', 'optout'], opt_command))
+    dispatcher.add_handler(CommandHandler('allstats', send_all_stats))
 
     # register invalid command handler
     dispatcher.add_handler(MessageHandler(Filters.command, invalid_command))
@@ -367,11 +403,25 @@ def broadcast_thread(bot, job):
         print("Broadcast thread created without message stored in job context")
         return
 
+    global config
     index = 0
-    for user_id in list(config['lang_prefs']):
+    for user_id in list(config['users']):
+        # check if user is opted in
+        try:
+            opt_in = config['users'][user_id]['opt_in']
+        except KeyError:
+            # set opt_in default to true
+            config['users'][user_id]['opt_in'] = True
+            opt_in = True
+
         # catch any errors thrown by users who have stopped bot
         try:
-            bot.send_message(chat_id=int(user_id), text=job.context, parse_mode='HTML', disable_web_page_preview=True)
+            if opt_in and not config['override_opt_out']:
+                bot.send_message(chat_id=int(user_id), text=job.context, parse_mode='HTML',
+                                 disable_web_page_preview=True)
+                # send opt out message
+                if config['send_opt_out_message']:
+                    bot.send_message(chat_id=int(user_id), text=get_message(user_id, "opt_out_info"))
         except TelegramError:
             pass
 
@@ -379,6 +429,36 @@ def broadcast_thread(bot, job):
         if index >= 10:
             time.sleep(15)
             index = 0
+
+
+def opt_command(bot, update):
+    message = update.message
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'typing')
+
+    # get user opt_in status
+    global config
+    user_id = str(message.from_user.id)
+    try:
+        opt_in = config['users'][user_id]['opt_in']
+    except KeyError:
+        config['users'][user_id]['opt_in'] = True
+        opt_in = True
+
+    command = message.text.split(' ')[0][1:].lower()
+    if command == 'optin':
+        if opt_in:
+            message.reply_text(get_message(user_id, "already_opted_in"))
+        else:
+            config['users'][user_id]['opt_in'] = True
+            message.reply_text(get_message(user_id, "opted_in"))
+    else:
+        if not opt_in:
+            message.reply_text(get_message(user_id, "already_opted_out"))
+        else:
+            config['users'][user_id]['opt_in'] = False
+            message.reply_text(get_message(user_id, "opted_out"))
 
 
 def change_lang_command(bot, update):
@@ -403,7 +483,7 @@ def change_lang(bot, update):
     lang_code = query.data.split(':')[-1]
     user_id = query.from_user.id
     global config
-    config['lang_prefs'][str(user_id)] = lang_code
+    config['users'][str(user_id)]['lang'] = lang_code
 
     # replace instances of $userid with username or name if no username
     message = get_message(user_id, "lang_set").split(' ')
@@ -430,14 +510,20 @@ def change_lang(bot, update):
 def get_message(user_id, message):
     global config
     user_id = str(user_id)
-    if user_id not in config['lang_prefs']:
+    if user_id not in config['users']:
+        # create user entry in users and set default values
+        config['users'][user_id] = {}
+        config['users'][user_id]['opt_in'] = True
+
         # attempt to automatically set language
         lang_code = updater.bot.get_chat(user_id).get_member(user_id).user.language_code.lower()
         if lang_code is not None and lang_code[:2] in lang:
-            config['lang_prefs'][user_id] = lang_code[:2]
+            config['users'][user_id]['lang'] = lang_code[:2]
+            if lang_code[:2] != 'en':
+                config['langs_auto_set'] += 1
         else:
-            config['lang_prefs'][user_id] = 'en'
-    lang_pref = config['lang_prefs'][user_id]
+            config['users'][user_id]['lang'] = 'en'
+    lang_pref = config['users'][user_id]['lang']
     # if message doesn't have translation in user's language default to english
     if message not in lang[lang_pref]:
         lang_pref = 'en'
