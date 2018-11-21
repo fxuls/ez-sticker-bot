@@ -285,7 +285,7 @@ def return_image(message, image):
     document = open(temp_path, 'rb')
     try:
         message.reply_document(document=document, filename='sticker.png',
-                               caption=get_message(message.chat_id, "forward"), quote=True, timeout=30)
+                               caption=get_message(message.chat_id, "forward_to_stickers"), quote=True, timeout=30)
     except TelegramError:
         message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
 
