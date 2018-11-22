@@ -79,7 +79,17 @@
     "url_does_not_exist": "La URL `{}` no existe.",
     "url_timeout": "Tiempo límite de espera agotado al intentar conectarse a `{}`.",
     "unable_to_connect": "No se puede conectar a `{}`.",
-    "url_not_img": "`{}` no es una URL de imagen válida."
+    "url_not_img": "`{}` no es una URL de imagen válida.",
+    "opt_out_info": "Puede utilizar /optout en cualquier momento para dejar de recibir futuros anuncios como éste.",
+    "opted_out": "Usted ha optado por no recibir anuncios de bot globales.\n\nPuede utilizar /optin en cualquier momento para volver a recibir mensajes globales.",
+    "opted_in": "Usted ha optado por recibir anuncios de bot globales una vez más.\n\nPuede utilizar /optout en cualquier momento para dejar de recibir mensajes globales de nuevo.",
+    "already_opted_out": "Ya has optado por no recibir anuncios de bot globales!",
+    "already_opted_in": "Ya estás inscrito y recibirás anuncios de bot globales!",
+    "langs_auto_set": "He detectado y configurado automáticamente el idioma del bot para *{:,}* personas que no hablan inglés.",
+    "opted_count": "De los usuarios de *{:,}*, *{:,}* optan por recibir anuncios y *{:,}* se excluyen.",
+    "forward": "Reenviar",
+    "your_sticker": "Tu Sticker",
+    "forward_desc": "Haga clic aquí para enviar el sticker que ha seleccionado."
   },
   "de": {
     "order": "2",
@@ -114,7 +124,17 @@
     "url_does_not_exist": "Die URL `{}` existiert nicht.",
     "url_timeout": "Zeitüberschreitung bei dem Versuch sich mit `{}` zu verbinden.",
     "unable_to_connect": "Verbindung zu `{}` konnte nicht hergestellt werden.",
-    "url_not_img": "`{}` ist keine gültige Bild URL."
+    "url_not_img": "`{}` ist keine gültige Bild URL.",
+    "opt_out_info": "Du kannst mit /optout zu jeder Zeit Ankündigungen, wie diese hier, unterbinden.",
+    "opted_out": "Du hast ausgewählt keine globalen Bot Ankündigungen mehr zu bekommen.\n\nDu kannst /optin zu jeder Zeit benutzen, um wieder globale Ankündigungen zu erhalten.",
+    "opted_in": "Du hast gewählt erneut globale Bot Ankündigungen zu erhalten.\n\nDu kannst zu jeder Zeit /optout benutzen, um dies wieder zu unterbinden.",
+    "already_opted_out": "Du hast bereits ausgewählt keine globalen Bot Ankündigungen mehr zu erhalten!",
+    "already_opted_in": "Du hast bereits ausgewählt globale Bot Ankündigungen zu erhalten.",
+    "langs_auto_set": "Ich habe folgende Sprache erkannt und diese auf *{:,}* festgelegt. Nicht-English sprechende.",
+    "opted_count": "Von *{:,}* Benutzern, haben *{:,}* gewählt Ankündigungen zu erhalten, während *{:,}* sich dagegen entschieden haben.",
+    "forward": "Weiterleiten",
+    "your_sticker": "Dein Sticker",
+    "forward_desc": "Klicke hier um deinen ausgewählten Sticker zu senden"
   },
   "it": {
     "order": "3",
@@ -149,7 +169,17 @@
     "url_does_not_exist": "L'URL `{}` non esiste.",
     "url_timeout": "Connessione persa durante la connessione a `{}`.",
     "unable_to_connect": "Impossibile connettersi a `{}`.",
-    "url_not_img": "`{}` non è un URL immagine valido."
+    "url_not_img": "`{}` non è un URL immagine valido.",
+    "opt_out_info": "Puoi usare /output in ogni momento per non ricevere annunci come questo.",
+    "opted_out": "Hai deciso di non ricevere più gli annunci globali del bot.\n\nPuoi usare /optin in ogni momento per ricevere messaggi globali nuovamente.",
+    "opted_in": "Hai deciso di ricevere nuovamente gli annunci globali del bot.\n\nPuoi usare /optout in ogni momento per non ricevere più messaggi globali.",
+    "already_opted_out": "Hai già deciso di non ricevere gli annunci globali del bot!",
+    "already_opted_in": "Hai già deciso di ricevere gli annunci globali del bot, e li riceverai!",
+    "langs_auto_set": "Ho rilevato e automaticamente cambiato la lingua del bot per *{:,}* utenti non anglofoni.",
+    "opted_count": "Su *{:,}* utenti, *{:,}* hanno deciso di ricevere gli annunci mentre *{:,}* no.",
+    "forward": "Invia",
+    "your_sticker": "Il Tuo Sticker",
+    "forward_desc": "Clicca qui per inviare lo sticker che hai selezionato"
   },
   "pt": {
     "order": "4",
@@ -250,7 +280,17 @@
     "url_does_not_exist": "`{}` не существует.",
     "url_timeout": "Соединение было сброшено при попытке подключения к `{}`.",
     "unable_to_connect": "Не удалось подключиться к `{}`.",
-    "url_not_img": "`{}` не является изображением."
+    "url_not_img": "`{}` не является изображением.",
+    "opt_out_info": "Для отключения уведомлений и напоминаний о работе бота, вы можете воспользоваться командой /optout.",
+    "opted_out": "Вы отключили глобальные уведомления о работает бота.\n\nВоспользуйтесь командой /optin для их включения.",
+    "opted_in": "Вы включили глобальные уведомления о работает бота.\n\nВоспользуйтесь командой /optout для их выключения.",
+    "already_opted_out": "Вы уже отключили уведомления о работе бота!",
+    "already_opted_in": "Уведомления о работе бота уже включены!",
+    "langs_auto_set": "Я распознал и автоматически выбрал *{:,}* язык для не говорящих на английском языке пользователей.",
+    "opted_count": "Из *{:,}* пользователей, *{:,}* пользователей получают уведомления о работе бота, а *{:,}* не получают.",
+    "forward": "Переслать",
+    "your_sticker": "Ваш Стикер",
+    "forward_desc": "Нажмите сюда, что бы отправить выбранный вами стикер"
   },
   "uk": {
     "order": "7",
@@ -284,7 +324,17 @@
     "url_does_not_exist": "`{}` не існуэ.",
     "url_timeout": "З'эднання було розірване при спробі підключення до `{}`.",
     "unable_to_connect": "Не вдалося під'єднатися до `{}`.",
-    "url_not_img": "`{}` не є зображенням."
+    "url_not_img": "`{}` не є зображенням.",
+    "opt_out_info": "",
+    "opted_out": "",
+    "opted_in": "",
+    "already_opted_out": "",
+    "already_opted_in": "",
+    "langs_auto_set": "",
+    "opted_count": "",
+    "forward": "",
+    "your_sticker": "",
+    "forward_desc": ""
   },
   "fa": {
     "order": "8",
@@ -319,7 +369,17 @@
     "url_does_not_exist": "آدرس `{}` وجود ندارد\u200c.",
     "url_timeout": "انتظار برای اتصال به آدرس `{}` بیش از حد طول کشید.",
     "unable_to_connect": "سیستم قادر به اتصال به `{}` نیست.",
-    "url_not_img": "`{}` آدرس یک تصویر نیست."
+    "url_not_img": "`{}` آدرس یک تصویر نیست.",
+    "opt_out_info": "",
+    "opted_out": "",
+    "opted_in": "",
+    "already_opted_out": "",
+    "already_opted_in": "",
+    "langs_auto_set": "",
+    "opted_count": "",
+    "forward": "",
+    "your_sticker": "",
+    "forward_desc": ""
   },
   "zh": {
     "order": "9",
@@ -354,6 +414,16 @@
     "url_does_not_exist": "URL (`{}`)不存在。",
     "url_timeout": "連線到`{}`時超時。",
     "unable_to_connect": "未能連線到`{}`。",
-    "url_not_img": "`{}`不是正確的圖片URL。"
+    "url_not_img": "`{}`不是正確的圖片URL。",
+    "opt_out_info": "你可用 /optout 選擇不再接收通告。",
+    "opted_out": "你已選擇不再接收通告。\n\n你可使用 /optin 重新開始接收通告。",
+    "opted_in": "你已重新開始接收通告。\n\n你可使用 /optout 選擇不再接收通告。",
+    "already_opted_out": "你已經選擇了不再接收通告。",
+    "already_opted_in": "你已經選擇了接收通告。",
+    "langs_auto_set": "已為*{:,}*人自動設定語言。",
+    "opted_count": "在*{:,}*個使用者中，有*{:,}*人接收通告，有*{:,}*人選擇不接收通告。",
+    "forward": "轉寄",
+    "your_sticker": "你的貼紙",
+    "forward_desc": "點擊傳送已選擇的貼紙"
   }
 }
