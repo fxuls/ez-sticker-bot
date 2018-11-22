@@ -216,7 +216,17 @@
     "url_does_not_exist": "O URL `{}` não existe.",
     "url_timeout": "O URL `{}` demorou muito para responder.",
     "unable_to_connect": "Não foi possível se conectar a `{}`.",
-    "url_not_img": "`{}` não é um URL de uma imagem válida."
+    "url_not_img": "`{}` não é um URL de uma imagem válida.",
+    "opt_out_info": "Você pode usar /optout a qualquer momento para parar de receber anúncios como este.",
+    "opted_out": "Você optou por parar de receber anúncios globais do bot.\n\nVocê pode usar /optin a qualquer momento para continuar a receber mensagens globais novamente.",
+    "opted_in": "Você optou por receber anúncios globais do bot novamente.\n\nVocê pode usar /optout a qualquer momento para parar de receber mensagens globais novamente.",
+    "already_opted_out": "Você já optou por não receber anúncios globais do bot!",
+    "already_opted_in": "Você já optou por receber anúncios globais do bot!",
+    "langs_auto_set": "Eu detectei e automaticamente coloquei a linguagem do bot para *{:,}* usuários que não falam inglês.",
+    "opted_count": "De *{:,}* usuários, *{:,}* optaram por receber anúncios e *{:,}* optaram por não.",
+    "forward": "Encaminhar",
+    "your_sticker": "Seu Sticker",
+    "forward_desc": "Clique aqui para enviar o sticker que você selecionou"
   },
   "sl": {
     "order": "5",
