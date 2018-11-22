@@ -12,7 +12,8 @@ from collections import Counter
 from io import BytesIO
 from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
+    InlineQueryResultCachedDocument
 from telegram.error import TelegramError
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler
 from urllib.parse import urlparse
@@ -284,8 +285,14 @@ def return_image(message, image):
     # send formatted image as a document
     document = open(temp_path, 'rb')
     try:
-        message.reply_document(document=document, filename='sticker.png',
-                               caption=get_message(message.chat_id, "forward_to_stickers"), quote=True, timeout=30)
+        sent_message = message.reply_document(document=document, filename='sticker.png',
+                                              caption=get_message(message.chat_id, "forward_to_stickers"), quote=True,
+                                              timeout=30)
+        # add a keyboard with a forward button to the document
+        file_id = sent_message.document.file_id
+        markup = InlineKeyboardMarkup(
+            [[InlineKeyboardButton(get_message(message.chat_id, "forward"), switch_inline_query=file_id)]])
+        sent_message.edit_reply_markup(reply_markup=markup)
     except TelegramError:
         message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
 
@@ -303,21 +310,38 @@ def inline_query_received(bot, update):
     # get query
     query = update.inline_query
     user_id = query.from_user.id
+    results = None
 
-    # build InlineQueryResultArticle arguments individually
-    title = get_message(user_id, "share")
-    description = get_message(user_id, "share_desc")
-    thumb_url = "https://i.imgur.com/wKPBstd.jpg"
-    markup = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(text=get_message(user_id, "make_sticker_button"), url="https://t.me/EzStickerBot")]])
-    input_message_content = InputTextMessageContent(get_message(user_id, "share_text"), parse_mode='Markdown')
+    # check if file_id is provided
+    if query.query.lower() not in ('', 'share'):
+        try:
+            file = bot.get_file(query.query)
 
-    # set id to preferred langs order
-    id = int(get_message(user_id, "order"))
+            # set id to preferred langs order
+            id = int(get_message(user_id, "order"))
 
-    results = [
-        InlineQueryResultArticle(id=id, title=title, description=description, thumb_url=thumb_url, reply_markup=markup,
-                                 input_message_content=input_message_content)]
+            title = get_message(user_id, "your_sticker")
+            desc = get_message(user_id, "forward_desc")
+            caption = "@EzStickerBot"
+            results = [InlineQueryResultCachedDocument(id, title, file.file_id, description=desc, caption=caption)]
+        except TelegramError:
+            pass
+
+    if results is None:
+        # build InlineQueryResultArticle arguments individually
+        title = get_message(user_id, "share")
+        description = get_message(user_id, "share_desc")
+        thumb_url = "https://i.imgur.com/wKPBstd.jpg"
+        markup = InlineKeyboardMarkup(
+            [[InlineKeyboardButton(text=get_message(user_id, "make_sticker_button"), url="https://t.me/EzStickerBot")]])
+        input_message_content = InputTextMessageContent(get_message(user_id, "share_text"), parse_mode='Markdown')
+
+        # set id to preferred langs order
+        id = int(get_message(user_id, "order"))
+
+        results = [
+            InlineQueryResultArticle(id=id, title=title, description=description, thumb_url=thumb_url,
+                                     reply_markup=markup, input_message_content=input_message_content)]
     query.answer(results=results, cache_time=60, is_personal=True)
 
 
