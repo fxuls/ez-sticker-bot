@@ -13,6 +13,7 @@ EzStickerBot will also format stickers sent to it so it can be used to get stick
 The following dependencies are needed to run EzStickerBot:
 - python-telegram-bot
 - Pillow
+- requests
 - simplejson
 
 ## Credits
@@ -25,7 +26,7 @@ Thanks to all the following people for their translations:
 - Portuguese [![https://t.me/lubien](https://img.shields.io/badge/telegram-Lubien-blue.svg)](https://t.me/lubien)
 - Ukrainian [![https://t.me/dzhmelyk](https://img.shields.io/badge/Telegram-dzhmelyk-blue.svg)](https://t.me/dzhmelyk)
 - Farsi [![https://t.me/smm_h](https://img.shields.io/badge/Telegram-smm_h-blue.svg)](https://t.me/smm_h)
-- Chinese (traditional/simplified) [![https://t.me/iristw](https://img.shields.io/badge/Telegram-iristw-blue.svg)](https://t.me/iristw)
+- Chinese (traditional) [![https://t.me/iristw](https://img.shields.io/badge/Telegram-iristw-blue.svg)](https://t.me/iristw)
 
 ## Contribute
 Feedback and suggestions are welcome for both the user experience and the source itself. If you speak English and another language fluently and want to contribute to the project contact [@fxuls](https://t.me/fxuls) on Telegram. If you want to make monetary donation to help pay for the server costs that would also be extremely appreciated because EzStickerBot is currently running on a very shitty VPS because I can't afford better plans while I'm a student full time without a source of income.
