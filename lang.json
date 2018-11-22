@@ -41,7 +41,10 @@
     "already_opted_out": "You have already opted out of receiving global bot announcements!",
     "already_opted_in": "You are already opted in and will receive global bot announcements!",
     "langs_auto_set": "I have detected and automatically set the bot language for *{:,}* non-English speakers.",
-    "opted_count": "Out of *{:,}* users, *{:,}* are opted in to receiving announcements and *{:,}* are opted out."
+    "opted_count": "Out of *{:,}* users, *{:,}* are opted in to receiving announcements and *{:,}* are opted out.",
+    "forward": "Forward",
+    "your_sticker": "Your Sticker",
+    "forward_desc": "Click here to send the sticker you selected"
   },
   "es": {
     "order": "1",
