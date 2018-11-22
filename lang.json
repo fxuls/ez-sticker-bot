@@ -180,7 +180,13 @@
     "share": "Compartilhar",
     "share_desc": "Compartilhe sobre o EzStickerBot com este chat",
     "share_text": "Ei, estou usando *EzStickerBot* para fazer meus próprios stickers sem sequer sair do Telegram!\n\nEnvie qualquer foto ou sticker e ele irá converter e redimensionar para você!",
-    "make_sticker_button": "Veja só 👉"
+    "make_sticker_button": "Veja só 👉",
+    "too_many_urls": "Por favor, envie apenas um URL por vez.",
+    "invalid_url": "`{}` não é um URL válido.",
+    "url_does_not_exist": "O URL `{}` não existe.",
+    "url_timeout": "O URL `{}` demorou muito para responder.",
+    "unable_to_connect": "Não foi possível se conectar a `{}`.",
+    "url_not_img": "`{}` não é um URL de uma imagem válida."
   },
   "sl": {
     "order": "5",
