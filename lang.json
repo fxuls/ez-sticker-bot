@@ -140,7 +140,7 @@
     "order": "3",
     "lang_name": "Italiano 🇮🇹",
     "start": "Ciao! Sono *EZ Sticker Bot*. Posso aiutarti a fare gli sticker! Prova /help per iniziare oppure /info per ricevere informazioni su di me.\n\n🌐 Per cambiare la lingua del bot, usa /lang.",
-    "help": "Per aggiungere uno sticker ad un pacchetto con @Stickers, il tuo file deve essere salvato in formato png, avere almeno un lato di 512px , e pesare meno di 512Kb.\n\nPuoi inviarmi qualunque foto o sticker, e lo formattero' in modo tale da soddisfare tutti e tre i requisiti e rinviartelo come file pronto per essere aggiunto al tuo pacchetto",
+    "help": "Per aggiungere uno sticker ad un pacchetto con @Stickers, il tuo file deve essere salvato in formato png, avere almeno un lato di 512px , e pesare meno di 512Kb.\n\nPuoi inviarmi qualunque foto o sticker, e lo formatterò in modo tale da soddisfare tutti e tre i requisiti e rinviartelo come file pronto per essere aggiunto al tuo pacchetto.",
     "forward_to_stickers": "Invia questo a @Stickers\n@EzStickerBot",
     "cant_process": "Non posso elaborare quel contenuto.",
     "send_sticker_photo": "Inviami una *photo* or *sticker*.",
