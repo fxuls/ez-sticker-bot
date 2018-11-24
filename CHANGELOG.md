@@ -4,6 +4,32 @@ All notable changes to this project will be documented in this file.
 
 * * *
 
+## [v2.0](https://github.com/fxuls/ez-sticker-bot/releases/tag/v2.0) [2018-11-24]
+
+**Added:**
+- Add automatic language detection when a user first starts the bot
+- Add tracking for how many times language was automatically set to something other than English for a new user
+- Add ability to opt in/out of receiving messages sent with /broadcast
+- Add a forward button to the stickers sent back by bot which allows users to forward the files via inline
+- Add the ability to send images to be converted via URL
+- Add /allstats command to display additional stats about users and usage
+- Add language support for Português 🇧🇷
+- Add list of dependencies in README.md
+
+**Changed:**
+- Increase number of buttons per row in language keyboard from 2 to 3
+- Add country flag after names of languages
+- Improve organization of source code
+- Restructure config file so it can store more individual user settings than just language
+
+**Fixed:**
+- Added all missing strings for all languages so messages should never be missing and default to English
+- Fix missing punctuation and markdown in translations
+- Improve quality of Spanish translation
+
+**Removed:**
+- Remove Chinese simplified translation as Telegram is blocked and unpopular in China where simplified is most used
+
 ## [v1.3.2](https://github.com/fxuls/ez-sticker-bot/releases/tag/v1.3.2) [2018-10-2]
 
 **Added:**
