@@ -395,17 +395,7 @@
     "url_does_not_exist": "آدرس `{}` وجود ندارد\u200c.",
     "url_timeout": "انتظار برای اتصال به آدرس `{}` بیش از حد طول کشید.",
     "unable_to_connect": "سیستم قادر به اتصال به `{}` نیست.",
-    "url_not_img": "`{}` آدرس یک تصویر نیست.",
-    "opt_out_info": "",
-    "opted_out": "",
-    "opted_in": "",
-    "already_opted_out": "",
-    "already_opted_in": "",
-    "langs_auto_set": "",
-    "opted_count": "",
-    "forward": "",
-    "your_sticker": "",
-    "forward_desc": ""
+    "url_not_img": "`{}` آدرس یک تصویر نیست."
   },
   "zh": {
     "order": "9",
