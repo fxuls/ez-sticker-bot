@@ -113,17 +113,8 @@ def send_lang_stats(bot, update):
 
 def main():
     get_config()
-
-    # global config
-    # config['users'] = {}
-    # for user_id in config['lang_prefs']:
-    #     config['users'][user_id] = {}
-    #     config['users'][user_id]['lang'] = config['lang_prefs'][user_id]
-    #     config['users'][user_id]['opt_in'] = True
-    # del config['lang_prefs']
-    # save_config()
-
     get_lang()
+    
     global updater
     updater = Updater(config['token'])
     global uses
