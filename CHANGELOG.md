@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 * * *
 
+## [v2.1](https://github.com/fxuls/ez-sticker-bot/releases/tag/v2.1) [2018-12-3]
+
+**Added:**
+- Add language support for Indonesian 🇮🇩
+
+**Fixed:**
+- Add missing strings for Persian
+
 ## [v2.0](https://github.com/fxuls/ez-sticker-bot/releases/tag/v2.0) [2018-11-24]
 
 **Added:**
