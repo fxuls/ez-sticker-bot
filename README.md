@@ -1,6 +1,6 @@
 ## EzStickerBot
 
-[@EzStickerBot](https://t.me/EzStickerBot) is a [Telegram](https://telegram.org) bot that can help users easily create their own stickers without ever needing to leave the app. EzStickerBot is also available in **__9 languages__**. See credits for all supported languages.
+[@EzStickerBot](https://t.me/EzStickerBot) is a [Telegram](https://telegram.org) bot that can help users easily create their own stickers without ever needing to leave the app. EzStickerBot is also available in **__11 languages__**. See credits for all supported languages.
 
 ## Features
 On Telegram stickers packs are created and managed through the official [@Stickers](https://t.me/Stickers) bot. After a user has created a pack [@Stickers](https://t.me/Stickers) prompts them to send stickers they want to add as file. The file must be no more than **512kb**, have one dimension equal to **512px** and the other of an equal or lower length, and be in **png** format.
@@ -22,6 +22,7 @@ Thanks to all the following people for their translations:
 - Spanish [![https://t.me/Vibe707](https://img.shields.io/badge/Telegram-Vibe707-blue.svg)](https://t.me/Vibe707)[![https://t.me/TheMachine](https://img.shields.io/badge/telegram-Sof%C3%ADa%20Miros%C5%82awa-blue.svg)](https://t.me/TheMachine)
 - German [![https://t.me/JosXa](https://img.shields.io/badge/Telegram-JosXa-blue.svg)](https://t.me/JosXa)[![https://t.me/HyenaArticle](https://img.shields.io/badge/telegram-HyenaArticle-blue.svg)](https://t.me/HyenaArticle)
 - Italian [![https://t.me/metonofri](https://img.shields.io/badge/Telegram-metonofri-blue.svg)](https://t.me/metonofri)
+- Indonesian [![https://t.me/CobaltFOXBOY](https://img.shields.io/badge/Telegram-Cobalt%20Foxpaw-blue.svg)](https://t.me/CobaltFOXBOY)
 - Portuguese [![https://t.me/lubien](https://img.shields.io/badge/telegram-Lubien-blue.svg)](https://t.me/lubien)
 - Slovenian [![https://t.me/VulpixBropix](https://img.shields.io/badge/Telegram-VulpixBropix-blue.svg)](https://t.me/VulpixBropix)
 - Ukrainian [![https://t.me/dzhmelyk](https://img.shields.io/badge/Telegram-dzhmelyk-blue.svg)](https://t.me/dzhmelyk)
