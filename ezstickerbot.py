@@ -16,6 +16,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResu
     InlineQueryResultCachedDocument
 from telegram.error import TelegramError
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler
+from telegram.ext.dispatcher import run_async
 from urllib.parse import urlparse
 
 # setup logger
@@ -31,6 +32,7 @@ config = {}
 lang = {}
 
 
+@run_async
 def start(bot, update):
     message = update.message
 
@@ -39,6 +41,7 @@ def start(bot, update):
     message.reply_markdown(get_message(message.chat_id, "start"))
 
 
+@run_async
 def help_command(bot, update):
     message = update.message
 
@@ -47,6 +50,7 @@ def help_command(bot, update):
     message.reply_text(get_message(message.chat_id, "help"))
 
 
+@run_async
 def send_stats(bot, update):
     message = update.message
 
@@ -116,7 +120,7 @@ def main():
     get_lang()
     
     global updater
-    updater = Updater(config['token'])
+    updater = Updater(config['token'], workers=10)
     global uses
     uses = config['uses']
     dispatcher = updater.dispatcher
@@ -163,6 +167,7 @@ def main():
     updater.idle()
 
 
+@run_async
 def image_sticker_received(bot, update):
     message = update.message
 
@@ -204,6 +209,7 @@ def image_sticker_received(bot, update):
     os.remove(download_path)
 
 
+@run_async
 def url_received(bot, update):
     message = update.message
     text = message.text.split(' ')
@@ -251,6 +257,7 @@ def url_received(bot, update):
     return_image(message, image)
 
 
+@run_async
 def format_image(image):
     width, height = image.size
     reference_length = max(width, height)
@@ -269,6 +276,7 @@ def format_image(image):
     return image.resize((new_width, new_height), Image.ANTIALIAS)
 
 
+@run_async
 def return_image(message, image):
     temp_path = os.path.join(dir, (uuid.uuid4().hex[:6].upper() + '.png'))
     image.save(temp_path, optimize=True)
@@ -297,6 +305,7 @@ def return_image(message, image):
     config['uses'] += 1
 
 
+@run_async
 def inline_query_received(bot, update):
     # get query
     query = update.inline_query
@@ -336,6 +345,7 @@ def inline_query_received(bot, update):
     query.answer(results=results, cache_time=60, is_personal=True)
 
 
+@run_async
 def invalid_command(bot, update):
     message = update.message
 
@@ -344,6 +354,7 @@ def invalid_command(bot, update):
     message.reply_text(get_message(message.chat_id, "invalid_command"))
 
 
+@run_async
 def invalid_content(bot, update):
     message = update.message
 
@@ -354,6 +365,7 @@ def invalid_content(bot, update):
     message.reply_markdown(get_message(message.chat_id, "send_sticker_photo"))
 
 
+@run_async
 def bot_info(bot, update):
     message = update.message
 
