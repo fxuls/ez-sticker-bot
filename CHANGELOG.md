@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 * * *
 
+## [v2.2](https://github.com/fxuls/ez-sticker-bot/releases/tag/v2.2) [2018-12-19]
+
+**Added:**
+- Add language support for Arabic 🇸🇦
+
 ## [v2.1](https://github.com/fxuls/ez-sticker-bot/releases/tag/v2.1) [2018-12-3]
 
 **Added:**
