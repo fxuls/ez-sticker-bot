@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 **Added:**
 - Add language support for Arabic 🇸🇦
 
+**Changed:**
+- Changed most functions to run async so the bot can process multiple requests at the same time
+
 ## [v2.1](https://github.com/fxuls/ez-sticker-bot/releases/tag/v2.1) [2018-12-3]
 
 **Added:**
