@@ -25,6 +25,7 @@ Thanks to all the following people for their translations:
 - Indonesian [![https://t.me/CobaltFOXBOY](https://img.shields.io/badge/Telegram-Cobalt%20Foxpaw-blue.svg)](https://t.me/CobaltFOXBOY)
 - Portuguese [![https://t.me/lubien](https://img.shields.io/badge/telegram-Lubien-blue.svg)](https://t.me/lubien)
 - Slovenian [![https://t.me/VulpixBropix](https://img.shields.io/badge/Telegram-VulpixBropix-blue.svg)](https://t.me/VulpixBropix)
+- Polish [![https://t.me/RafQBS](https://img.shields.io/badge/Telegram-RafQ-blue.svg)](https://t.me/RafQBS)
 - Ukrainian [![https://t.me/dzhmelyk](https://img.shields.io/badge/Telegram-dzhmelyk-blue.svg)](https://t.me/dzhmelyk)
 - Farsi [![https://t.me/smm_h](https://img.shields.io/badge/Telegram-smm_h-blue.svg)](https://t.me/smm_h)
 - Arabic [![https://t.me/ehabatef559](https://img.shields.io/badge/Telegram-Ehab%20Atef-blue.svg)](https://t.me/ehabatef559)
