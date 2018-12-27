@@ -114,7 +114,7 @@ def send_lang_stats(bot, update):
 def main():
     get_config()
     get_lang()
-    
+
     global updater
     updater = Updater(config['token'])
     global uses
@@ -360,11 +360,11 @@ def bot_info(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'typing')
     keyboard = [
-        [InlineKeyboardButton(get_message(message.chat_id, "contact_dev"), url="https://t.me/fxuls"),
+        [InlineKeyboardButton(get_message(message.chat_id, "contact_dev"), url=config['contact_dev_link']),
          InlineKeyboardButton(get_message(message.chat_id, "source"),
-                              url="https://github.com/fxuls/ez-sticker-bot")],
+                              url=config['source_link'])],
         [InlineKeyboardButton(get_message(message.chat_id, "rate"),
-                              url="https://telegram.me/storebot?start=ezstickerbot"),
+                              url=config['rate_link']),
          InlineKeyboardButton(get_message(message.chat_id, "share"), switch_inline_query="")]]
     markup = InlineKeyboardMarkup(keyboard)
     message.reply_markdown(get_message(update.message.chat_id, "info").format(config['uses']), reply_markup=markup)

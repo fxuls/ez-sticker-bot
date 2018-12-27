@@ -5,5 +5,8 @@
   "token": "TOKEN_FROM_BOTFATHER",
   "langs_auto_set": 0,
   "override_opt_out": false,
-  "send_opt_out_message": true
+  "send_opt_out_message": true,
+  "contact_dev_link": "https://t.me/fxuls",
+  "rate_bot_link": "https://t.me/tlgrmcbot?start=ezstickerbot-bot",
+  "source_link": "https://github.com/fxuls/ez-sticker-bot"
 }
