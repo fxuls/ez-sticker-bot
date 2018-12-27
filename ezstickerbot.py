@@ -147,7 +147,7 @@ def main():
     # register button handlers
     dispatcher.add_handler(CallbackQueryHandler(change_lang, pattern="lang"))
 
-    # register inline share handler
+    # register inline handler
     dispatcher.add_handler(InlineQueryHandler(inline_query_received))
 
     # register variable dump loop
@@ -308,9 +308,7 @@ def inline_query_received(bot, update):
         try:
             file = bot.get_file(query.query)
 
-            # set id to preferred langs order
-            id = int(get_message(user_id, "order"))
-
+            id = uuid.uuid4()
             title = get_message(user_id, "your_sticker")
             desc = get_message(user_id, "forward_desc")
             caption = "@EzStickerBot"
@@ -320,15 +318,13 @@ def inline_query_received(bot, update):
 
     if results is None:
         # build InlineQueryResultArticle arguments individually
+        id = uuid.uuid4()
         title = get_message(user_id, "share")
         description = get_message(user_id, "share_desc")
         thumb_url = "https://i.imgur.com/wKPBstd.jpg"
         markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton(text=get_message(user_id, "make_sticker_button"), url="https://t.me/EzStickerBot")]])
         input_message_content = InputTextMessageContent(get_message(user_id, "share_text"), parse_mode='Markdown')
-
-        # set id to preferred langs order
-        id = int(get_message(user_id, "order"))
 
         results = [
             InlineQueryResultArticle(id=id, title=title, description=description, thumb_url=thumb_url,
