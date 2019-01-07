@@ -2,21 +2,22 @@ import codecs
 import json
 import logging
 import os
-import requests
-import simplejson
 import sys
 import time
 import uuid
-
 from collections import Counter
 from io import BytesIO
+from urllib.parse import urlparse
+
+import requests
+import simplejson
 from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
     InlineQueryResultCachedDocument
 from telegram.error import TelegramError
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler
-from urllib.parse import urlparse
+from telegram.ext.dispatcher import run_async
 
 # setup logger
 logging.getLogger("urllib3.connection").setLevel(logging.CRITICAL)
@@ -29,86 +30,6 @@ updater = None
 
 config = {}
 lang = {}
-
-
-def start(bot, update):
-    message = update.message
-
-    # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'typing')
-    message.reply_markdown(get_message(message.chat_id, "start"))
-
-
-def help_command(bot, update):
-    message = update.message
-
-    # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'typing')
-    message.reply_text(get_message(message.chat_id, "help"))
-
-
-def send_stats(bot, update):
-    message = update.message
-
-    # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'typing')
-    stats_message = get_message(message.chat_id, "stats").format(config['uses'], len(config['users']))
-    message.reply_markdown(stats_message)
-
-
-def send_all_stats(bot, update):
-    message = update.message
-    user_id = message.chat_id
-
-    # feedback to show bot is processing
-    bot.send_chat_action(user_id, 'typing')
-
-    stats_message = get_message(user_id, "stats").format(config['uses'], len(config['users'])) + "\n\n"
-    stats_message += get_message(user_id, "langs_auto_set").format(config['langs_auto_set']) + "\n\n"
-
-    opted_in = 0
-    opted_out = 0
-    for user in config['users'].values():
-        if user['opt_in']:
-            opted_in += 1
-        else:
-            opted_out += 1
-
-    stats_message += get_message(user_id, "opted_count").format(opted_in + opted_out, opted_in, opted_out)
-
-    message.reply_markdown(stats_message)
-
-
-def send_lang_stats(bot, update):
-    message = update.message
-
-    # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'typing')
-
-    # get message header
-    lang_stats_message = get_message(message.chat_id, "lang_stats")
-
-    # count lang usage
-    langs = [user['lang'] for user in config['users'].values()]
-    lang_usage = dict(Counter(langs))
-
-    sorted_usage = [(code, lang_usage[code]) for code in sorted(lang_usage, key=lang_usage.get, reverse=True)]
-
-    # create stats message entries
-    message_lines = {}
-    for code, count in sorted_usage:
-        lang_stats_message += "\n" + u"\u200E" + "{}: {:,}".format(lang[code]['lang_name'], count)
-
-    # compile stats message in order
-    for index in range(0, len(lang)):
-        try:
-            lang_stats_message += message_lines[str(index)]
-        # Skip langs with 0 users
-        except KeyError:
-            continue
-
-    # send message
-    message.reply_markdown(lang_stats_message)
 
 
 def main():
@@ -125,16 +46,16 @@ def main():
     dispatcher.add_handler(MessageHandler(~ Filters.private, do_fucking_nothing))
 
     # register commands
-    dispatcher.add_handler(CommandHandler('start', start))
+    dispatcher.add_handler(CommandHandler('start', start_command))
     dispatcher.add_handler(CommandHandler('help', help_command))
-    dispatcher.add_handler(CommandHandler('stats', send_stats))
-    dispatcher.add_handler(CommandHandler('langstats', send_lang_stats))
-    dispatcher.add_handler(CommandHandler('restart', restart_bot))
-    dispatcher.add_handler(CommandHandler('info', bot_info))
+    dispatcher.add_handler(CommandHandler('stats', stats_command))
+    dispatcher.add_handler(CommandHandler('langstats', lang_stats_command))
+    dispatcher.add_handler(CommandHandler('restart', restart_command))
+    dispatcher.add_handler(CommandHandler('info', info_command))
     dispatcher.add_handler(CommandHandler('lang', change_lang_command))
     dispatcher.add_handler(CommandHandler('broadcast', broadcast_command))
     dispatcher.add_handler(CommandHandler(['optin', 'optout'], opt_command))
-    dispatcher.add_handler(CommandHandler('allstats', send_all_stats))
+    dispatcher.add_handler(CommandHandler('allstats', all_stats_command))
 
     # register invalid command handler
     dispatcher.add_handler(MessageHandler(Filters.command, invalid_command))
@@ -145,7 +66,7 @@ def main():
     dispatcher.add_handler(MessageHandler(Filters.all, invalid_content))
 
     # register button handlers
-    dispatcher.add_handler(CallbackQueryHandler(change_lang, pattern="lang"))
+    dispatcher.add_handler(CallbackQueryHandler(change_lang_callback, pattern="lang"))
 
     # register inline handler
     dispatcher.add_handler(InlineQueryHandler(inline_query_received))
@@ -154,13 +75,20 @@ def main():
     updater.job_queue.run_repeating(save_config, 300, 300)
 
     # register error handler
-    dispatcher.add_error_handler(error)
+    dispatcher.add_error_handler(handle_error)
 
     updater.start_polling(clean=True, timeout=99999)
 
     print("Bot finished starting")
 
     updater.idle()
+
+
+#   ____
+#  / ___|   ___    _ __    ___
+# | |      / _ \  | '__|  / _ \
+# | |___  | (_) | | |    |  __/
+#  \____|  \___/  |_|     \___|
 
 
 def image_sticker_received(bot, update):
@@ -297,6 +225,48 @@ def return_image(message, image):
     config['uses'] += 1
 
 
+#  _____                          _       _   _                       _   _
+# | ____| __   __   ___   _ __   | |_    | | | |   __ _   _ __     __| | | |   ___   _ __   ___
+# |  _|   \ \ / /  / _ \ | '_ \  | __|   | |_| |  / _` | | '_ \   / _` | | |  / _ \ | '__| / __|
+# | |___   \ V /  |  __/ | | | | | |_    |  _  | | (_| | | | | | | (_| | | | |  __/ | |    \__ \
+# |_____|   \_/    \___| |_| |_|  \__|   |_| |_|  \__,_| |_| |_|  \__,_| |_|  \___| |_|    |___/
+
+
+@run_async
+def change_lang_callback(bot, update):
+    query = update.callback_query
+    lang_code = query.data.split(':')[-1]
+    user_id = query.from_user.id
+    global config
+    config['users'][str(user_id)]['lang'] = lang_code
+
+    # replace instances of $userid with username or name if no username
+    message = get_message(user_id, "lang_set").split(' ')
+    for i in range(len(message)):
+        word = message[i]
+        if word[0] == '$':
+            try:
+                id = int(''.join(c for c in word if c.isdigit()))
+                user = bot.get_chat(id)
+                message[i] = '<a href="tg://user?id={}">{}{}</a>'.format(id, user.first_name,
+                                                                         ' ' + user.last_name if user.last_name else '')
+            except ValueError:
+                message[i] = 'UNKNOWN_USER_ID'
+                continue
+            except TelegramError:
+                message[i] = 'INVALID_USER_ID'
+                continue
+    message = ' '.join(message)
+
+    query.edit_message_text(text=message, reply_markup=None, parse_mode='HTML')
+    query.answer()
+
+
+def do_fucking_nothing(bot, update):
+    pass
+
+
+@run_async
 def inline_query_received(bot, update):
     # get query
     query = update.inline_query
@@ -332,6 +302,7 @@ def inline_query_received(bot, update):
     query.answer(results=results, cache_time=60, is_personal=True)
 
 
+@run_async
 def invalid_command(bot, update):
     message = update.message
 
@@ -340,6 +311,7 @@ def invalid_command(bot, update):
     message.reply_text(get_message(message.chat_id, "invalid_command"))
 
 
+@run_async
 def invalid_content(bot, update):
     message = update.message
 
@@ -350,35 +322,38 @@ def invalid_content(bot, update):
     message.reply_markdown(get_message(message.chat_id, "send_sticker_photo"))
 
 
-def bot_info(bot, update):
+#   ____                                                       _
+#  / ___|   ___    _ __ ___    _ __ ___     __ _   _ __     __| |  ___
+# | |      / _ \  | '_ ` _ \  | '_ ` _ \   / _` | | '_ \   / _` | / __|
+# | |___  | (_) | | | | | | | | | | | | | | (_| | | | | | | (_| | \__ \
+#  \____|  \___/  |_| |_| |_| |_| |_| |_|  \__,_| |_| |_|  \__,_| |___/
+
+
+@run_async
+def all_stats_command(bot, update):
     message = update.message
+    user_id = message.chat_id
 
     # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'typing')
-    keyboard = [
-        [InlineKeyboardButton(get_message(message.chat_id, "contact_dev"), url=config['contact_dev_link']),
-         InlineKeyboardButton(get_message(message.chat_id, "source"),
-                              url=config['source_link'])],
-        [InlineKeyboardButton(get_message(message.chat_id, "rate"),
-                              url=config['rate_link']),
-         InlineKeyboardButton(get_message(message.chat_id, "share"), switch_inline_query="")]]
-    markup = InlineKeyboardMarkup(keyboard)
-    message.reply_markdown(get_message(update.message.chat_id, "info").format(config['uses']), reply_markup=markup)
+    bot.send_chat_action(user_id, 'typing')
+
+    stats_message = get_message(user_id, "stats").format(config['uses'], len(config['users'])) + "\n\n"
+    stats_message += get_message(user_id, "langs_auto_set").format(config['langs_auto_set']) + "\n\n"
+
+    opted_in = 0
+    opted_out = 0
+    for user in config['users'].values():
+        if user['opt_in']:
+            opted_in += 1
+        else:
+            opted_out += 1
+
+    stats_message += get_message(user_id, "opted_count").format(opted_in + opted_out, opted_in, opted_out)
+
+    message.reply_markdown(stats_message)
 
 
-def restart_bot(bot, update):
-    message = update.message
-
-    # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'typing')
-    if update.message.from_user.id in config['admins']:
-        message.reply_text(get_message(update.message.chat_id, "restarting"))
-        save_config()
-        os.execl(sys.executable, sys.executable, *sys.argv)
-    else:
-        message.reply_text(get_message(update.message.chat_id, "no_permission"))
-
-
+@run_async
 def broadcast_command(bot, update):
     message = update.message
     chat_id = update.message.chat_id
@@ -408,6 +383,154 @@ def broadcast_command(bot, update):
     updater.job_queue.run_once(broadcast_thread, 2, context=broadcast_message)
 
 
+@run_async
+def change_lang_command(bot, update):
+    ordered_langs = [None] * len(lang)
+    for lang_code in lang.keys():
+        ordered_langs[int(lang[lang_code]['order'])] = lang_code
+    keyboard = [[]]
+    row = 0
+    for lang_code in ordered_langs:
+        if len(keyboard[row]) == 3:
+            row += 1
+            keyboard.append([])
+        # noinspection PyTypeChecker
+        keyboard[row].append(
+            InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
+    markup = InlineKeyboardMarkup(keyboard)
+    update.message.reply_text(get_message(update.message.chat_id, "select_lang"), reply_markup=markup)
+
+
+@run_async
+def help_command(bot, update):
+    message = update.message
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'typing')
+    message.reply_text(get_message(message.chat_id, "help"))
+
+
+@run_async
+def info_command(bot, update):
+    message = update.message
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'typing')
+    keyboard = [
+        [InlineKeyboardButton(get_message(message.chat_id, "contact_dev"), url=config['contact_dev_link']),
+         InlineKeyboardButton(get_message(message.chat_id, "source"),
+                              url=config['source_link'])],
+        [InlineKeyboardButton(get_message(message.chat_id, "rate"),
+                              url=config['rate_link']),
+         InlineKeyboardButton(get_message(message.chat_id, "share"), switch_inline_query="")]]
+    markup = InlineKeyboardMarkup(keyboard)
+    message.reply_markdown(get_message(update.message.chat_id, "info").format(config['uses']), reply_markup=markup)
+
+
+@run_async
+def lang_stats_command(bot, update):
+    message = update.message
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'typing')
+
+    # get message header
+    lang_stats_message = get_message(message.chat_id, "lang_stats")
+
+    # count lang usage
+    langs = [user['lang'] for user in config['users'].values()]
+    lang_usage = dict(Counter(langs))
+
+    sorted_usage = [(code, lang_usage[code]) for code in sorted(lang_usage, key=lang_usage.get, reverse=True)]
+
+    # create stats message entries
+    message_lines = {}
+    for code, count in sorted_usage:
+        lang_stats_message += "\n" + u"\u200E" + "{}: {:,}".format(lang[code]['lang_name'], count)
+
+    # compile stats message in order
+    for index in range(0, len(lang)):
+        try:
+            lang_stats_message += message_lines[str(index)]
+        # Skip langs with 0 users
+        except KeyError:
+            continue
+
+    # send message
+    message.reply_markdown(lang_stats_message)
+
+
+@run_async
+def opt_command(bot, update):
+    message = update.message
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'typing')
+
+    # get user opt_in status
+    global config
+    user_id = str(message.from_user.id)
+    try:
+        opt_in = config['users'][user_id]['opt_in']
+    except KeyError:
+        config['users'][user_id]['opt_in'] = True
+        opt_in = True
+
+    command = message.text.split(' ')[0][1:].lower()
+    if command == 'optin':
+        if opt_in:
+            message.reply_text(get_message(user_id, "already_opted_in"))
+        else:
+            config['users'][user_id]['opt_in'] = True
+            message.reply_text(get_message(user_id, "opted_in"))
+    else:
+        if not opt_in:
+            message.reply_text(get_message(user_id, "already_opted_out"))
+        else:
+            config['users'][user_id]['opt_in'] = False
+            message.reply_text(get_message(user_id, "opted_out"))
+
+
+def restart_command(bot, update):
+    message = update.message
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'typing')
+    if update.message.from_user.id in config['admins']:
+        message.reply_text(get_message(update.message.chat_id, "restarting"))
+        save_config()
+        os.execl(sys.executable, sys.executable, *sys.argv)
+    else:
+        message.reply_text(get_message(update.message.chat_id, "no_permission"))
+
+
+@run_async
+def start_command(bot, update):
+    message = update.message
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'typing')
+    message.reply_markdown(get_message(message.chat_id, "start"))
+
+
+@run_async
+def stats_command(bot, update):
+    message = update.message
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'typing')
+    stats_message = get_message(message.chat_id, "stats").format(config['uses'], len(config['users']))
+    message.reply_markdown(stats_message)
+
+
+#  _   _   _     _   _
+# | | | | | |_  (_) | |  ___
+# | | | | | __| | | | | / __|
+# | |_| | | |_  | | | | \__ \
+#  \___/   \__| |_| |_| |___/
+
+
+@run_async
 def broadcast_thread(bot, job):
     # check that message was included with the job obj
     if job.context is None:
@@ -442,80 +565,22 @@ def broadcast_thread(bot, job):
             index = 0
 
 
-def opt_command(bot, update):
-    message = update.message
-
-    # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'typing')
-
-    # get user opt_in status
-    global config
-    user_id = str(message.from_user.id)
-    try:
-        opt_in = config['users'][user_id]['opt_in']
-    except KeyError:
-        config['users'][user_id]['opt_in'] = True
-        opt_in = True
-
-    command = message.text.split(' ')[0][1:].lower()
-    if command == 'optin':
-        if opt_in:
-            message.reply_text(get_message(user_id, "already_opted_in"))
-        else:
-            config['users'][user_id]['opt_in'] = True
-            message.reply_text(get_message(user_id, "opted_in"))
-    else:
-        if not opt_in:
-            message.reply_text(get_message(user_id, "already_opted_out"))
-        else:
-            config['users'][user_id]['opt_in'] = False
-            message.reply_text(get_message(user_id, "opted_out"))
+def get_config():
+    path = os.path.join(dir, 'config.json')
+    with open(path) as config_file:
+        global config
+        config = json.load(config_file)
+    config_file.close()
 
 
-def change_lang_command(bot, update):
-    ordered_langs = [None] * len(lang)
-    for lang_code in lang.keys():
-        ordered_langs[int(lang[lang_code]['order'])] = lang_code
-    keyboard = [[]]
-    row = 0
-    for lang_code in ordered_langs:
-        if len(keyboard[row]) == 3:
-            row += 1
-            keyboard.append([])
-        # noinspection PyTypeChecker
-        keyboard[row].append(
-            InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
-    markup = InlineKeyboardMarkup(keyboard)
-    update.message.reply_text(get_message(update.message.chat_id, "select_lang"), reply_markup=markup)
-
-
-def change_lang(bot, update):
-    query = update.callback_query
-    lang_code = query.data.split(':')[-1]
-    user_id = query.from_user.id
-    global config
-    config['users'][str(user_id)]['lang'] = lang_code
-
-    # replace instances of $userid with username or name if no username
-    message = get_message(user_id, "lang_set").split(' ')
-    for i in range(len(message)):
-        word = message[i]
-        if word[0] == '$':
-            try:
-                id = int(''.join(c for c in word if c.isdigit()))
-                user = bot.get_chat(id)
-                message[i] = '<a href="tg://user?id={}">{}{}</a>'.format(id, user.first_name,
-                                                                         ' ' + user.last_name if user.last_name else '')
-            except ValueError:
-                message[i] = 'UNKNOWN_USER_ID'
-                continue
-            except TelegramError:
-                message[i] = 'INVALID_USER_ID'
-                continue
-    message = ' '.join(message)
-
-    query.edit_message_text(text=message, reply_markup=None, parse_mode='HTML')
-    query.answer()
+def get_lang():
+    path = os.path.join(dir, 'lang.json')
+    data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
+    for lang_code in data:
+        for message in data[lang_code]:
+            data[lang_code][message] = data[lang_code][message].replace('\\n', '\n')
+    global lang
+    lang = data
 
 
 def get_message(user_id, message):
@@ -541,22 +606,12 @@ def get_message(user_id, message):
     return lang[lang_pref][message]
 
 
-def get_lang():
-    path = os.path.join(dir, 'lang.json')
-    data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
-    for lang_code in data:
-        for message in data[lang_code]:
-            data[lang_code][message] = data[lang_code][message].replace('\\n', '\n')
-    global lang
-    lang = data
-
-
-def get_config():
-    path = os.path.join(dir, 'config.json')
-    with open(path) as config_file:
-        global config
-        config = json.load(config_file)
-    config_file.close()
+# logs bot errors thrown
+def handle_error(bot, update, error):
+    # prevent spammy errors from logging
+    if error in ("Forbidden: bot was blocked by the user", "Timed out"):
+        return
+    logger.warning('Update "{}" caused error "{}"'.format(update, error))
 
 
 def save_config(bot=None, job=None):
@@ -565,18 +620,6 @@ def save_config(bot=None, job=None):
     with open(path, "w") as config_file:
         config_file.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
     config_file.close()
-
-
-# logs bot errors thrown
-def error(bot, update, error):
-    # prevent spammy errors from logging
-    if error in ("Forbidden: bot was blocked by the user", "Timed out"):
-        return
-    logger.warning('Update "{}" caused error "{}"'.format(update, error))
-
-
-def do_fucking_nothing(bot, update):
-    pass
 
 
 if __name__ == '__main__':
