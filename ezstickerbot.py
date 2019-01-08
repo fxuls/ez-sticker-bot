@@ -55,7 +55,6 @@ def main():
     dispatcher.add_handler(CommandHandler('lang', change_lang_command))
     dispatcher.add_handler(CommandHandler('broadcast', broadcast_command))
     dispatcher.add_handler(CommandHandler(['optin', 'optout'], opt_command))
-    dispatcher.add_handler(CommandHandler('allstats', all_stats_command))
 
     # register invalid command handler
     dispatcher.add_handler(MessageHandler(Filters.command, invalid_command))
@@ -82,7 +81,6 @@ def main():
     print("Bot finished starting")
 
     updater.idle()
-
 
 #   ____
 #  / ___|   ___    _ __    ___
@@ -321,36 +319,11 @@ def invalid_content(bot, update):
     message.reply_text(get_message(message.chat_id, "cant_process"))
     message.reply_markdown(get_message(message.chat_id, "send_sticker_photo"))
 
-
 #   ____                                                       _
 #  / ___|   ___    _ __ ___    _ __ ___     __ _   _ __     __| |  ___
 # | |      / _ \  | '_ ` _ \  | '_ ` _ \   / _` | | '_ \   / _` | / __|
 # | |___  | (_) | | | | | | | | | | | | | | (_| | | | | | | (_| | \__ \
 #  \____|  \___/  |_| |_| |_| |_| |_| |_|  \__,_| |_| |_|  \__,_| |___/
-
-
-@run_async
-def all_stats_command(bot, update):
-    message = update.message
-    user_id = message.chat_id
-
-    # feedback to show bot is processing
-    bot.send_chat_action(user_id, 'typing')
-
-    stats_message = get_message(user_id, "stats").format(config['uses'], len(config['users'])) + "\n\n"
-    stats_message += get_message(user_id, "langs_auto_set").format(config['langs_auto_set']) + "\n\n"
-
-    opted_in = 0
-    opted_out = 0
-    for user in config['users'].values():
-        if user['opt_in']:
-            opted_in += 1
-        else:
-            opted_out += 1
-
-    stats_message += get_message(user_id, "opted_count").format(opted_in + opted_out, opted_in, opted_out)
-
-    message.reply_markdown(stats_message)
 
 
 @run_async
@@ -516,12 +489,22 @@ def start_command(bot, update):
 @run_async
 def stats_command(bot, update):
     message = update.message
+    user_id = message.chat_id
 
     # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'typing')
-    stats_message = get_message(message.chat_id, "stats").format(config['uses'], len(config['users']))
-    message.reply_markdown(stats_message)
+    bot.send_chat_action(user_id, 'typing')
 
+    opted_in = 0
+    opted_out = 0
+    for user in config['users'].values():
+        if user['opt_in']:
+            opted_in += 1
+        else:
+            opted_out += 1
+
+    stats_message = get_message(user_id, "stats").format(config['uses'], len(config['users']), config['langs_auto_set'],
+                                                         opted_in + opted_out, opted_in, opted_out)
+    message.reply_markdown(stats_message)
 
 #  _   _   _     _   _
 # | | | | | |_  (_) | |  ___
