@@ -291,7 +291,7 @@ def inline_query_received(bot, update):
         id = uuid.uuid4()
         title = get_message(user_id, "share")
         description = get_message(user_id, "share_desc")
-        thumb_url = "https://i.imgur.com/wKPBstd.jpg"
+        thumb_url = config['share_thumb_url']
         markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton(text=get_message(user_id, "make_sticker_button"), url="https://t.me/EzStickerBot")]])
         input_message_content = InputTextMessageContent(get_message(user_id, "share_text"), parse_mode='Markdown')

@@ -8,5 +8,6 @@
   "send_opt_out_message": true,
   "contact_dev_link": "https://t.me/fxuls",
   "rate_link": "https://t.me/tlgrmcbot?start=ezstickerbot-bot",
-  "source_link": "https://github.com/fxuls/ez-sticker-bot"
+  "source_link": "https://github.com/fxuls/ez-sticker-bot",
+  "share_thumb_url": "https://i.imgur.com/wKPBstd.jpg"
 }
