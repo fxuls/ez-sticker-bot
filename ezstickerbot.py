@@ -37,7 +37,7 @@ def main():
     get_lang()
 
     global updater
-    updater = Updater(config['token'])
+    updater = Updater(config['token'], workers=10)
     global uses
     uses = config['uses']
     dispatcher = updater.dispatcher
@@ -89,6 +89,7 @@ def main():
 #  \____|  \___/  |_|     \___|
 
 
+@run_async
 def image_sticker_received(bot, update):
     message = update.message
 
@@ -130,6 +131,7 @@ def image_sticker_received(bot, update):
     os.remove(download_path)
 
 
+@run_async
 def url_received(bot, update):
     message = update.message
     text = message.text.split(' ')
