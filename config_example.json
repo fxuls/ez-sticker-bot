@@ -1,6 +1,11 @@
 {
   "uses": 0,
   "users": {},
+  "default_user": {
+        "lang": "en",
+        "mode": "creation",
+        "opt_in": true
+    },
   "admins": [],
   "token": "TOKEN_FROM_BOTFATHER",
   "langs_auto_set": 0,

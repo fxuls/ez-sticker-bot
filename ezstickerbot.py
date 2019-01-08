@@ -445,11 +445,7 @@ def opt_command(bot, update):
     # get user opt_in status
     global config
     user_id = str(message.from_user.id)
-    try:
-        opt_in = config['users'][user_id]['opt_in']
-    except KeyError:
-        config['users'][user_id]['opt_in'] = True
-        opt_in = True
+    opt_in = get_user_config(user_id, "opt_in")
 
     command = message.text.split(' ')[0][1:].lower()
     if command == 'optin':
@@ -526,12 +522,7 @@ def broadcast_thread(bot, job):
     index = 0
     for user_id in list(config['users']):
         # check if user is opted in
-        try:
-            opt_in = config['users'][user_id]['opt_in']
-        except KeyError:
-            # set opt_in default to true
-            config['users'][user_id]['opt_in'] = True
-            opt_in = True
+        opt_in = get_user_config(user_id, "opt_in")
 
         # catch any errors thrown by users who have stopped bot
         try:
@@ -569,12 +560,22 @@ def get_lang():
 
 
 def get_message(user_id, message):
+    lang_pref = get_user_config(user_id, "lang")
+
+    # if message doesn't have translation in user's language default to english
+    if message not in lang[lang_pref]:
+        lang_pref = 'en'
+
+    return lang[lang_pref][message]
+
+
+def get_user_config(user_id, key):
     global config
     user_id = str(user_id)
+
+    # if user not registered register with default values
     if user_id not in config['users']:
-        # create user entry in users and set default values
-        config['users'][user_id] = {}
-        config['users'][user_id]['opt_in'] = True
+        config['users'][user_id] = config['default_user'].copy()
 
         # attempt to automatically set language
         lang_code = updater.bot.get_chat(user_id).get_member(user_id).user.language_code.lower()
@@ -582,13 +583,16 @@ def get_message(user_id, message):
             config['users'][user_id]['lang'] = lang_code[:2]
             if lang_code[:2] != 'en':
                 config['langs_auto_set'] += 1
-        else:
-            config['users'][user_id]['lang'] = 'en'
-    lang_pref = config['users'][user_id]['lang']
-    # if message doesn't have translation in user's language default to english
-    if message not in lang[lang_pref]:
-        lang_pref = 'en'
-    return lang[lang_pref][message]
+    # if user is registered but does not have requested key set to default value from config
+    elif key not in config['users'][user_id]:
+        try:
+            config['users'][user_id][key] = config['default_user'][key].copy()
+        # if value isn't a type with a copy function like a string or int
+        except AttributeError:
+            config['users'][user_id][key] = config['default_user'][key]
+
+    # return value
+    return config['users'][user_id][key]
 
 
 # logs bot errors thrown
