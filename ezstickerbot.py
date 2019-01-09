@@ -46,16 +46,16 @@ def main():
     dispatcher.add_handler(MessageHandler(~ Filters.private, do_fucking_nothing))
 
     # register commands
-    dispatcher.add_handler(CommandHandler('start', start_command))
+    dispatcher.add_handler(CommandHandler('broadcast', broadcast_command))
     dispatcher.add_handler(CommandHandler('help', help_command))
-    dispatcher.add_handler(CommandHandler('stats', stats_command))
-    dispatcher.add_handler(CommandHandler('langstats', lang_stats_command))
-    dispatcher.add_handler(CommandHandler('restart', restart_command))
     dispatcher.add_handler(CommandHandler('info', info_command))
     dispatcher.add_handler(CommandHandler('lang', change_lang_command))
-    dispatcher.add_handler(CommandHandler('broadcast', broadcast_command))
-    dispatcher.add_handler(CommandHandler(['optin', 'optout'], opt_command))
+    dispatcher.add_handler(CommandHandler('langstats', lang_stats_command))
     dispatcher.add_handler(CommandHandler('mode', change_mode_command))
+    dispatcher.add_handler(CommandHandler(['optin', 'optout'], opt_command))
+    dispatcher.add_handler(CommandHandler('restart', restart_command))
+    dispatcher.add_handler(CommandHandler('start', start_command))
+    dispatcher.add_handler(CommandHandler('stats', stats_command))
 
     # register invalid command handler
     dispatcher.add_handler(MessageHandler(Filters.command, invalid_command))
