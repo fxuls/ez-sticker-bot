@@ -159,7 +159,7 @@
     "doc_not_img": "Het document moet een plaatje zijn.",
     "share": "Delen",
     "share_desc": "Deel informatie over EzStickerBot met deze chat",
-    "share_text": "Hoi! Ik gebruik *EzStickerBot* om mijn eigen stickers te maken zonder Telegram te hoeven verlaten!\n\nZend het elke foto of sticker en ik zal het omzetten en herschalen voor je!",
+    "share_text": "Hoi! Ik gebruik *EzStickerBot* om mijn eigen stickers te maken zonder Telegram te hoeven verlaten!\n\nZend het elke foto of sticker en het zal het voor je omzetten en herschalen!",
     "make_sticker_button": "Check 't uit 👉",
     "too_many_urls": "Verzend alleen maar één URL, alstublieft.",
     "invalid_url": "`{}` Dit is geen geldige URL.",
