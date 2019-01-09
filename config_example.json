@@ -3,8 +3,9 @@
   "users": {},
   "default_user": {
         "lang": "en",
-        "mode": "creation",
-        "opt_in": true
+        "mode": "file",
+        "opt_in": true,
+        "personal_pack": {}
     },
   "admins": [],
   "token": "TOKEN_FROM_BOTFATHER",
