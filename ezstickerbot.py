@@ -55,6 +55,7 @@ def main():
     dispatcher.add_handler(CommandHandler('lang', change_lang_command))
     dispatcher.add_handler(CommandHandler('broadcast', broadcast_command))
     dispatcher.add_handler(CommandHandler(['optin', 'optout'], opt_command))
+    dispatcher.add_handler(CommandHandler('mode', change_mode_command))
 
     # register invalid command handler
     dispatcher.add_handler(MessageHandler(Filters.command, invalid_command))
@@ -66,6 +67,7 @@ def main():
 
     # register button handlers
     dispatcher.add_handler(CallbackQueryHandler(change_lang_callback, pattern="lang"))
+    dispatcher.add_handler(CallbackQueryHandler(change_mode_callback, pattern="mode"))
 
     # register inline handler
     dispatcher.add_handler(InlineQueryHandler(inline_query_received))
@@ -236,9 +238,10 @@ def return_image(message, image):
 def change_lang_callback(bot, update):
     query = update.callback_query
     lang_code = query.data.split(':')[-1]
-    user_id = query.from_user.id
+    user_id = str(query.from_user.id)
+
     global config
-    config['users'][str(user_id)]['lang'] = lang_code
+    config['users'][user_id]['lang'] = lang_code
 
     # replace instances of $userid with username or name if no username
     message = get_message(user_id, "lang_set").split(' ')
@@ -262,8 +265,18 @@ def change_lang_callback(bot, update):
     query.answer()
 
 
-def do_fucking_nothing(bot, update):
-    pass
+@run_async
+def change_mode_callback(bot, update):
+    query = update.callback_query
+    mode = query.data.split(':')[-1]
+    user_id = str(query.from_user.id)
+
+    global config
+    config['users'][user_id]['mode'] = mode
+
+    # edit message to display info about chosen mode and answer query
+    message = get_message(user_id, "{}_mode_info".format(mode))
+    query.edit_message_text(text=message, reply_markup=None, parse_mode='Markdown')
 
 
 @run_async
@@ -321,6 +334,10 @@ def invalid_content(bot, update):
     message.reply_text(get_message(message.chat_id, "cant_process"))
     message.reply_markdown(get_message(message.chat_id, "send_sticker_photo"))
 
+
+def do_fucking_nothing(bot, update):
+    pass
+
 #   ____                                                       _
 #  / ___|   ___    _ __ ___    _ __ ___     __ _   _ __     __| |  ___
 # | |      / _ \  | '_ ` _ \  | '_ ` _ \   / _` | | '_ \   / _` | / __|
@@ -374,6 +391,15 @@ def change_lang_command(bot, update):
             InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
     markup = InlineKeyboardMarkup(keyboard)
     update.message.reply_text(get_message(update.message.chat_id, "select_lang"), reply_markup=markup)
+
+
+@run_async
+def change_mode_command(bot, update):
+    message = update.message
+    user_id = message.from_user.id
+    keyboard = [[InlineKeyboardButton(get_message(user_id, "sticker_creation_button"), callback_data="mode:file"),
+                 InlineKeyboardButton(get_message(user_id, "personal_pack_button"), callback_data="mode:personal")]]
+    message.reply_text(get_message(user_id, "select_mode"), reply_markup=InlineKeyboardMarkup(keyboard))
 
 
 @run_async
