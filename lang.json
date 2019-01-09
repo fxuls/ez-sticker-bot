@@ -133,8 +133,51 @@
     "your_sticker": "Dein Sticker",
     "forward_desc": "Klicke hier um deinen ausgewählten Sticker zu senden"
   },
-  "it": {
+  "nl": {
     "order": "3",
+    "lang_name": "Nederlands 🇳🇱",
+    "start": "Hallo! Ik ben *EZ Sticker Bot*. Ik kan je helpen met stickers maken! Typ /help om te beginnen of /info voor meer informatie.\n\n🌐 Om de taal te veranderen, typ /lang.",
+    "help": "Om een sticker aan een pack toe te voegen met @Stickers, moet jouw bestand opgeslagen zijn in png formaat, en één dimensie hebben van 512px, en kleiner zijn dan 512Kb.\n\n Je kan me elke sticker of foto sturen, en ik zal het omzetten om aan alle drie de vereisden te voldoen, en dan stuur ik je het bestand terug, klaar voor het stickerpack!",
+    "forward_to_stickers": "Stuur dit door naar @Stickers\n@EzStickerBot",
+    "cant_process": "Ik kan dit bestand niet verwerken.",
+    "send_sticker_photo": "Stuur me een *foto* of een *sticker*.",
+    "info": "*EZ Sticker Bot* is een bot die ik ontwikkel en host met geen verwachting om er iets aan te doen ontvangen behalve de voldoening van het helpen van andere Telegram gebruikers.\n\nHet delen van deze bot in jouw groeppen en/of kanalen helpt anderen met het maken van hun eigen geweldige stickerpacks die iedereen kan gebruiken!\n\nI'Ik heb *{:,}* stickers gemaakt voor mensen tot nu toe!",
+    "contact_dev": "Contact",
+    "source": "Bron",
+    "rate": "Beoordeel ⭐️⭐️⭐️⭐️⭐️",
+    "restarting": "Bot wordt herstart...",
+    "select_lang": "Selecteer taal.",
+    "lang_set": "Taal is gezet naar Nederlands.\n\nBedankt aan $195841097 voor het beschikbaar maken van deze bot in het Nederlands!",
+    "invalid_command": "Sorry, maar ik herken dit bevel niet.",
+    "no_permission": "Je hebt geen toestemming om dit te doen.",
+    "broadcast_in_reply": "Gebruik `/broadcast` als antwoordt op het bericht dat je net hebt verzonden.",
+    "will_broadcast": "Oké, je bericht wordt verzonden.",
+    "broadcast_only_text": "Op het ogenblik kunnen alleen *tekst* berichtjes worden uitgezonden.",
+    "stats": "Ik heb *{:,}* stickers gemaakt voor *{:,}* unieke bezoekers sinds *10.23.2017*.\n\nI Ik heb automatisch gedetecteert en de bot's taal ingesteld voor *{:,}* niet-Engels sprekers.\n\nVan *{:,}* gebruikers, hebben *{:,}* er voor gekozen om aankondigingen te ontvangen, en *{:,}* er voor gekozen dit niet te doen.",
+    "lang_stats": "Taalstatistieken:*",
+    "send_timeout": "Het duurde te lang om de geformatteerde sticker naar de Telegram servers te uploaden. Wacht alstublieft een minuut om het opnieuw te proberen.",
+    "doc_not_img": "Het document moet een plaatje zijn.",
+    "share": "Delen",
+    "share_desc": "Deel informatie over EzStickerBot met deze chat",
+    "share_text": "Hoi! Ik gebruik *EzStickerBot* om mijn eigen stickers te maken zonder Telegram te hoeven verlaten!\n\nZend het elke foto of sticker en ik zal het omzetten en herschalen voor je!",
+    "make_sticker_button": "Check 't uit 👉",
+    "too_many_urls": "Verzend alleen maar één URL, alstublieft.",
+    "invalid_url": "`{}` Dit is geen geldige URL.",
+    "url_does_not_exist": "Deze URL `{}` bestaat niet.",
+    "url_timeout": "Het duurde te lang om te verbinden met `{}`.",
+    "unable_to_connect": "Kan niet verbinden met `{}`.",
+    "url_not_img": "`{}` is geen geldige afbeeldings-URL.",
+    "opt_out_info": "Je kan /optout gebruiken om wanneer je maar wilt berichten zoals dit niet meer te ontvangen.",
+    "opted_out": "Je hebt er voor gekozen geen global bot aankondigingen meer te ontvangen.\n\nJe kan /optin gebruiken om deze berichten weer te ontvangen.",
+    "opted_in": "Je hebt er voor gekozen om weer global bot aankondigingen te ontvangen.\n\nJe kan /optout gebruiken om deze berichten weer stop te zetten.",
+    "already_opted_out": "Je hebt er al voor gekozen om geen global bot aankondigingen meer te ontvangen!",
+    "already_opted_in": "Je hebt er al voor gekozen om global bot aankondigingen te ontvangen!",
+    "forward": "Doorsturen",
+    "your_sticker": "Jouw Sticker",
+    "forward_desc": "Klik hier om de sticker die je hebt geselecteerd te verzenden"
+  },
+  "it": {
+    "order": "4",
     "lang_name": "Italiano 🇮🇹",
     "start": "Ciao! Sono *EZ Sticker Bot*. Posso aiutarti a fare gli sticker! Prova /help per iniziare oppure /info per ricevere informazioni su di me.\n\n🌐 Per cambiare la lingua del bot, usa /lang.",
     "help": "Per aggiungere uno sticker ad un pacchetto con @Stickers, il tuo file deve essere salvato in formato png, avere almeno un lato di 512px , e pesare meno di 512Kb.\n\nPuoi inviarmi qualunque foto o sticker, e lo formatterò in modo tale da soddisfare tutti e tre i requisiti e rinviartelo come file pronto per essere aggiunto al tuo pacchetto.",
@@ -177,7 +220,7 @@
     "forward_desc": "Clicca qui per inviare lo sticker che hai selezionato"
   },
   "id": {
-    "order": "4",
+    "order": "5",
     "lang_name": "Indonesian 🇮🇩",
     "start": "Hai! Saya *EZ Sticker Bot*. Saya bisa membantumu mebuat stiker! Ketik /help untuk memulai atau /info untuk mendapatkan informasi tentang saya.\n\n🌐 untuk mengubah bahasa bot gunakan /lang.",
     "help": "Untuk menabahkan stiker ke sebuah paket stiker dengan @Stickers, filemu harus disimpan dengan format png, memiliki paling tidak satu dimensi berukuran 512px, dan kurang dari 512Kb.\n\n Kamu bisa mengirimkan saya gambar atau stiker apapun dan saya akan memformatnya untuk memenuhi ketiga syarat dan mengirimnya kembali sebagai sebuah file yang siap ditambahkan ke paket stikermu.",
@@ -220,7 +263,7 @@
     "forward_desc": "Klik disini untuk mengirim stiker yang kamu pilih."
   },
   "pt": {
-    "order": "5",
+    "order": "6",
     "lang_name": "Português 🇧🇷",
     "start": "Olá! Sou *EZ Sticker Bot*. Eu posso lhe ajudar a fazer stickers! Escreva /help para iniciar ou /info para conseguir informações sobre mim.\n\n🌐 Para mudar o idioma do bot use /lang.",
     "help": "Para adicionar um sticker em um pacote com @Stickers seu arquivo deve ser salvo no formato png, ter pelo menos uma dimensão em 512px e ser menor do que 512Kb.\n\n Você pode me enviar uma foto ou um sticker e eu irei formatar ele para todos os requisitos e lhe enviar de volta um arquivo pronto para ser adicionado no pacote!",
@@ -263,7 +306,7 @@
     "forward_desc": "Clique aqui para enviar o sticker que você selecionou"
   },
   "sl": {
-    "order": "6",
+    "order": "7",
     "lang_name": "Slovenščina 🇸🇮",
     "start": "Pozdravljeni! Jaz sem *EZ Sticker Bot*. Lahko vam pomagam narediti nalepke! Vnesite /help, da začnete ali /info, da bi dobili informacijo o meni.\n\n🌐 Če želite spremenit jezik, vnesite /lang.",
     "help": "Če želite dodati nalepko v paket s @Stickers, mora biti vaša datoteka shranjena v formatu png, mora imeti vsaj eno dimenzijo, ki je 512 slikovnih pik in mora biti manjša od 512Kb.\n\nLahko mi pošljete poljubno fotografijo ali nalepko. To nalepko bom formatiral in izpolnil vse zahteve ter jo poslal nazaj v obliki datoteke, ki bo pripravljena za dodajanje v paket!",
@@ -306,7 +349,7 @@
     "forward_desc": "Klikni tukaj da pošlješ izbrano nalepko"
   },
   "pl": {
-    "order": "7",
+    "order": "8",
     "lang_name": "Polski 🇵🇱",
     "start": "Cześć! Jestem *EZ Sticker Bot*. Mogę pomóc ci w tworzeniu naklejek! Napisz /help, aby rozpocząć lub /info, aby dostać informacje o mnie.\n\n🌐Aby zmienić język, użyj /lang.",
     "help": "Aby dodać naklejkę do paczki przy użyciu @Stickers, plik musi być zapisany w formacie png, mieć co najmniej jeden wymiar 512px i mieć mniej niż 512Kb. \n\nMożesz wysłać mi dowolne zdjęcie lub naklejkę a ja sformatuję je tak, aby spełniało wszystkie trzy warunki i odeślę je do ciebie jako gotowy plik do dodania do paczki!",
@@ -349,7 +392,7 @@
     "forward_desc": "Kliknij tutaj, aby wysłać wybraną naklejkę"
   },
   "ru": {
-    "order": "8",
+    "order": "9",
     "lang_name": "Русский 🇷🇺",
     "start": "Привет! Я *EZ Sticker Bot*. Я помогу помочь тебе с созданием стикеров! Напиши /help для того, чтобы начать или /info, чтобы получить больше информации обо мне.\n\n🌐 Чтобы переключить язык, используй /lang.",
     "help": "Чтобы добавить стикер в пак с помощью @Stickers, ваш файл должен быть сохранен в формате .png, иметь одну из сторон минимум 512px и весить меньше 512Кб.\n\nТы можешь отправить мне любое фото или стикер и я его переведу в нужный формат, а затем отправлю его тебе файлом.",
@@ -392,7 +435,7 @@
     "forward_desc": "Нажмите сюда, что бы отправить выбранный вами стикер"
   },
   "uk": {
-    "order": "9",
+    "order": "10",
     "lang_name": "Українська 🇺🇦",
     "start": "Вітаю! Я - *EZ Sticker Bot*. Я можу допомогти вам створити стікери. Введіть /help, щоб розпочати або /info , щоб отримати інформацію про мене.\n\n🌐 Щоб замінити боту мову пишіть /lang.",
     "help": "Щоб додати стікер до паку з @Stickers, ваш файл повинен бути збережений у форматі png, має мати принаймні одне розширення на 512 пікселів і повинен бути менше 512Kb.\n\nВи можете надіслати мені будь-яку фотографію або стікер, і я форматую його, щоб він відповідав усім трьом вимогам і відправлю його вам як файл, готовий до додавання у ваш пак!",
@@ -434,7 +477,7 @@
     "forward_desc": "Натисніть сюди, щоб надіслати обраний вами стікер"
   },
   "fa": {
-    "order": "10",
+    "order": "11",
     "lang_name": "فارسی 🇮🇷",
     "start": "سلام! من *EZ Sticker Bot* هستم. من میتونم کمکت کنم تا استیکر بسازی! برای شروع بزن روی: /help یا برای اطلاعاتی در مورد من /info رو بزن.\n\n🌐 برای تغییر زبان بات بزنین رو /lang.",
     "help": "برای افزودن استیکری به پکت تو @Stickers, فایلت باید پسوند png داشته باشه, حداقل یکی از طول و عرضش 512 پیکسل باشه, و حجمش کمتر از 512 کیلوبایت باشه.\n\nتو میتونی هر عکس یا استیکری رو برا من بفرستی, و من همه ی این کارارو برات انجام میدم و فایل آماده رو میفرستم برات تا به پکت اضافش کنی!",
@@ -453,7 +496,7 @@
     "broadcast_in_reply": "از `/broadcast` برای پاسخ دادن به پیام استفاده کنید.",
     "will_broadcast": "پیام شما ارسال شد.",
     "broadcast_only_text": "در حال حاضر فقط پیام های متنی قابل قبول هستند.",
-    "stats": "من *{:,}* استیکر برای *{:,}* کاربر از تاریخ *10.23.2017* درست کردم.\\n\\nبه طور خودکار زبان بات به *{:,}* تغییر کرد.\\n\\nاز *{:,}* کاربر بات، *{:,}* نفر در حال دریافت اطلاعیه ها هستند و *{:,}* نفر از دریافت آن\u200Cها صرف نظر کرده\u200Cاند.",
+    "stats": "من *{:,}* استیکر برای *{:,}* کاربر از تاریخ *10.23.2017* درست کردم.\\n\\nبه طور خودکار زبان بات به *{:,}* تغییر کرد.\\n\\nاز *{:,}* کاربر بات، *{:,}* نفر در حال دریافت اطلاعیه ها هستند و *{:,}* نفر از دریافت آن\u200cها صرف نظر کرده\u200cاند.",
     "lang_stats": "*آمار زبان:*",
     "send_timeout": "خطای طولانی بودن زمان هنگام آپلود استیکر به سرور های تلگرام رخ داد. لطفا یک دقیقه صبر کنید و دوباره امتحان کنید.",
     "doc_not_img": "باید عکس باشد.",
@@ -477,7 +520,7 @@
     "forward_desc": "برای ارسال استیکر انتخاب شده اینجا کلیک کنید"
   },
   "ar": {
-    "order": "11",
+    "order": "12",
     "lang_name": "العربيه 🇸🇦",
     "start": "مرحبا، انا*EZ Sticker Bot*. استطيع مسعادتك فى صنع ملصقات. اكتب/help للبدا، او  /info للحصول على معلومات عنى.\n\n🌐  ولتغيير اللغه استخدم  /lang.",
     "help": "لاضافه ملصق الى حزمه مع @Stickers, يجب على ملفك ان يكون فى صيغه png ، والجوده اقل من  512، واقل من 512Kb.\n\n يمكنك ارسال اى صوره او ملصق ،وانا ساجعله ملام لك هذه المواصفات وسارسلهولك كملف جاهز للاضافه الى الحزمه.",
@@ -520,7 +563,7 @@
     "forward_desc": "اضغط هنا لارسال الملصق الذى حدده"
   },
   "zh": {
-    "order": "12",
+    "order": "13",
     "lang_name": "繁體中文 🇨🇳",
     "start": "嗨！我係*EZ Sticker Bot*。我可以幫你輕鬆整貼圖！打 /help 開始或者打 /info 睇關於我既資料。\n\n🌐 打 /lang 轉換語言",
     "help": "要加新貼圖到 @Stickers 時，你既檔案必須是png格式及至少一邊係512px，同埋檔案大小要細過512kb。\n\n你可以傳送任何相片或貼圖俾我，我就會製成一個符合所有條件既檔案俾返你，你就可以用佢加落貼圖啦！",
