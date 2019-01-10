@@ -363,7 +363,6 @@ def personal_pack_query_received(bot, update):
 
     # create sorted list of stickers
     stickers = [(vals['uses'], id, vals['file_id']) for id, vals in pack.items()]
-    print(stickers)
     stickers.sort()
 
     # create results from sticker list
