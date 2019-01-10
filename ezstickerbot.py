@@ -2,6 +2,7 @@ import codecs
 import json
 import logging
 import os
+import re
 import sys
 import time
 import uuid
@@ -14,7 +15,7 @@ import simplejson
 from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
-    InlineQueryResultCachedDocument
+    InlineQueryResultCachedDocument, InlineQueryResultCachedSticker
 from telegram.error import TelegramError
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler
 from telegram.ext.dispatcher import run_async
@@ -70,7 +71,9 @@ def main():
     dispatcher.add_handler(CallbackQueryHandler(change_mode_callback, pattern="mode"))
 
     # register inline handler
-    dispatcher.add_handler(InlineQueryHandler(inline_query_received))
+    dispatcher.add_handler(InlineQueryHandler(share_query_received, pattern=re.compile("^share$", re.IGNORECASE)))
+    dispatcher.add_handler(InlineQueryHandler(file_id_query_received, pattern=re.compile("")))
+    dispatcher.add_handler(InlineQueryHandler(personal_pack_query_received))
 
     # register variable dump loop
     updater.job_queue.run_repeating(save_config, 300, 300)
@@ -125,9 +128,14 @@ def image_sticker_received(bot, update):
     download_path = os.path.join(dir, (photo_id + ext))
     file.download(custom_path=download_path)
 
-    # process image and send to user
-    image = format_image(Image.open(download_path))
-    return_image(message, image)
+    image = Image.open(download_path)
+
+    # decide what to do with image based on user mode
+    mode = get_user_config(message.from_user.id, "mode")
+    if mode.lower() == "file":
+        create_sticker_file(message, image)
+    else:
+        add_personal_sticker(message, image)
 
     # delete local file
     os.remove(download_path)
@@ -176,12 +184,16 @@ def url_received(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'upload_photo')
 
-    # format image and send it to user
-    image = format_image(image)
-    return_image(message, image)
+    # decide what to do with image based on user mode
+    mode = get_user_config(message.from_user.id, "mode")
+    if mode.lower() == "file":
+        create_sticker_file(message, image)
+    else:
+        add_personal_sticker(message, image)
 
 
-def format_image(image):
+def create_sticker_file(message, image):
+    # format image
     width, height = image.size
     reference_length = max(width, height)
     ratio = 512 / reference_length
@@ -196,10 +208,9 @@ def format_image(image):
         new_height = int(round(new_height))
     else:
         new_height = int(new_height)
-    return image.resize((new_width, new_height), Image.ANTIALIAS)
+    image = image.resize((new_width, new_height), Image.ANTIALIAS)
 
-
-def return_image(message, image):
+    # save image object to temporary file
     temp_path = os.path.join(dir, (uuid.uuid4().hex[:6].upper() + '.png'))
     image.save(temp_path, optimize=True)
 
@@ -226,6 +237,46 @@ def return_image(message, image):
     global config
     config['uses'] += 1
 
+
+def add_personal_sticker(message, image):
+    user_id = str(message.from_user.id)
+    # save image object as webp
+    temp_path = os.path.join(dir, (uuid.uuid4().hex[:6].upper() + '.webp'))
+    image.save(temp_path, optimize=True)
+
+    document = open(temp_path, 'rb')
+    try:
+        # send info message
+        message.reply_text(get_message(user_id, "personal_sticker_added"))
+
+        # send the photo to the user and store the message
+        sent_message = message.reply_document(document=document, timeout=30)
+
+        # add photo to users personal pack
+        file_id = sent_message.sticker.file_id
+        user_pack = get_user_config(user_id, "personal_pack")
+        index = '1' if len(user_pack) == 0 else str(max([int(key) for key in user_pack.keys()]) + 1)
+        pack_entry = dict()
+        pack_entry['file_id'] = file_id
+        pack_entry['uses'] = 0
+        global config
+        config['users'][user_id]['personal_pack'][index] = pack_entry
+
+        # add a keyboard with a button to remove it from pack
+        keyboard = [[
+            InlineKeyboardButton(get_message(user_id, "remove_from_pack"), callback_data="personal_rm:{}".format(index))
+        ]]
+        sent_message.edit_reply_markup(reply_markup=InlineKeyboardMarkup(keyboard))
+    except TelegramError:
+        message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
+
+    # delete local files and close image object
+    image.close()
+    time.sleep(0.2)
+    os.remove(temp_path)
+
+    # increase total uses count by one
+    config['personal_stickers_added'] += 1
 
 #  _____                          _       _   _                       _   _
 # | ____| __   __   ___   _ __   | |_    | | | |   __ _   _ __     __| | | |   ___   _ __   ___
@@ -280,39 +331,69 @@ def change_mode_callback(bot, update):
 
 
 @run_async
-def inline_query_received(bot, update):
+def share_query_received(bot, update):
+    query = update.inline_query
+    user_id = query.from_user.id
+
+    # get labels in user's language
+    title = get_message(user_id, "share")
+    description = get_message(user_id, "share_desc")
+    thumb_url = config['share_thumb_url']
+    markup = InlineKeyboardMarkup(
+        [[InlineKeyboardButton(text=get_message(user_id, "make_sticker_button"), url="https://t.me/EzStickerBot")]])
+    input_message_content = InputTextMessageContent(get_message(user_id, "share_text"), parse_mode='Markdown')
+
+    # build response and answer query
+    results = [InlineQueryResultArticle(id="share", title=title, description=description, thumb_url=thumb_url,
+                                        reply_markup=markup, input_message_content=input_message_content)]
+    query.answer(results=results, cache_time=5, is_personal=True)
+
+
+@run_async
+def personal_pack_query_received(bot, update):
+    query = update.inline_query
+    user_id = query.from_user.id
+
+    pack = get_user_config(user_id, "personal_pack")
+
+    # if pack is empty show share option
+    if len(pack) == 0:
+        share_query_received(bot, update)
+        return
+
+    # create sorted list of stickers
+    stickers = [(vals['uses'], id, vals['file_id']) for id, vals in pack.items()]
+    print(stickers)
+    stickers.sort()
+
+    # create results from sticker list
+    results = []
+    for sticker in stickers:
+        results.append(InlineQueryResultCachedSticker(sticker[1], sticker[2]))
+
+    query.answer(results=results, cache_time=30, is_personal=True)
+
+
+@run_async
+def file_id_query_received(bot, update):
     # get query
     query = update.inline_query
     user_id = query.from_user.id
     results = None
 
-    # check if file_id is provided
-    if query.query.lower() not in ('', 'share'):
-        try:
-            file = bot.get_file(query.query)
+    try:
+        file = bot.get_file(query.query)
 
-            id = uuid.uuid4()
-            title = get_message(user_id, "your_sticker")
-            desc = get_message(user_id, "forward_desc")
-            caption = "@EzStickerBot"
-            results = [InlineQueryResultCachedDocument(id, title, file.file_id, description=desc, caption=caption)]
-        except TelegramError:
-            pass
-
-    if results is None:
-        # build InlineQueryResultArticle arguments individually
         id = uuid.uuid4()
-        title = get_message(user_id, "share")
-        description = get_message(user_id, "share_desc")
-        thumb_url = config['share_thumb_url']
-        markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton(text=get_message(user_id, "make_sticker_button"), url="https://t.me/EzStickerBot")]])
-        input_message_content = InputTextMessageContent(get_message(user_id, "share_text"), parse_mode='Markdown')
+        title = get_message(user_id, "your_sticker")
+        desc = get_message(user_id, "forward_desc")
+        caption = "@EzStickerBot"
+        results = [InlineQueryResultCachedDocument(id, title, file.file_id, description=desc, caption=caption)]
 
-        results = [
-            InlineQueryResultArticle(id=id, title=title, description=description, thumb_url=thumb_url,
-                                     reply_markup=markup, input_message_content=input_message_content)]
-    query.answer(results=results, cache_time=60, is_personal=True)
+        query.answer(results=results, cache_time=5, is_personal=True)
+    # if file_id wasn't found show share option
+    except TelegramError:
+        share_query_received(bot, update)
 
 
 @run_async

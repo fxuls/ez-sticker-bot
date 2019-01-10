@@ -45,7 +45,10 @@
     "sticker_creation_button": "Create Sticker Files",
     "personal_pack_button": "Add to Personal Pack",
     "file_mode_info": "Bot mode has been set to *Sticker File Creation Mode*.\n\nThis is the default mode EzStickerBot operates in. When you send a photo, sticker, image file, or image URL it will be formatted and sent back to you as a file ready to be added to a pack using @Stickers.",
-    "personal_mode_info": "Bot mode has been set to *Personal Pack Mode*.\n\nThis mode let's you create a personal sticker pack that *you can use by typing @EzStickerBot in any chat*.\n\nIn this mode, any photos, stickers, image files, or image URLs will be immediately be added to a pack that only you can see and use. These stickers do not have emoji and won't display a pack when clicked on. When you type @EzStickerBot in a chat you will be shown the stickers in your pack sorted with your most used at the beginning. To remove a sticker from your pack you can either click the remove button attached to the sticker preview sent when you added it to your pack or by using /personal command."
+    "personal_mode_info": "Bot mode has been set to *Personal Pack Mode*.\n\nThis mode let's you create a personal sticker pack that *you can use by typing @EzStickerBot in any chat*.\n\nIn this mode, any photos, stickers, image files, or image URLs will be immediately be added to a pack that only you can see and use. These stickers do not have emoji and won't display a pack when clicked on. When you type @EzStickerBot in a chat you will be shown the stickers in your pack sorted with your most used at the beginning. To remove a sticker from your pack you can either click the remove button attached to the sticker preview sent when you added it to your pack or by using /personal command.",
+    "personal_sticker_added": "Nice! That sticker has been added to your personal pack.\n\nIt will take about 30 seconds to show up in your pack. Type @EzStickerBot in any chat to send it.\n\nHere's how your sticker will look:",
+    "remove_from_pack": "Remove from pack",
+    "already_in_pack": "That sticker is already in your pack!"
   },
   "es": {
     "order": "1",
