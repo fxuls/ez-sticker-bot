@@ -16,8 +16,9 @@ from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
     InlineQueryResultCachedDocument, InlineQueryResultCachedSticker
-from telegram.error import TelegramError
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler
+from telegram.error import TelegramError, TimedOut
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler, \
+    ChosenInlineResultHandler
 from telegram.ext.dispatcher import run_async
 
 # setup logger
@@ -70,10 +71,11 @@ def main():
     dispatcher.add_handler(CallbackQueryHandler(change_lang_callback, pattern="lang"))
     dispatcher.add_handler(CallbackQueryHandler(change_mode_callback, pattern="mode"))
 
-    # register inline handler
+    # register inline handlers
     dispatcher.add_handler(InlineQueryHandler(share_query_received, pattern=re.compile("^share$", re.IGNORECASE)))
     dispatcher.add_handler(InlineQueryHandler(file_id_query_received, pattern=re.compile("")))
     dispatcher.add_handler(InlineQueryHandler(personal_pack_query_received))
+    dispatcher.add_handler(ChosenInlineResultHandler(inline_result_chosen))
 
     # register variable dump loop
     updater.job_queue.run_repeating(save_config, 300, 300)
@@ -87,6 +89,7 @@ def main():
 
     updater.idle()
 
+
 #   ____
 #  / ___|   ___    _ __    ___
 # | |      / _ \  | '__|  / _ \
@@ -97,6 +100,7 @@ def main():
 @run_async
 def image_sticker_received(bot, update):
     message = update.message
+    user_id = message.from_user.id
 
     # get file id
     if message.document:
@@ -106,9 +110,9 @@ def image_sticker_received(bot, update):
             photo_id = document.file_id
         else:
             # feedback to show bot is processing
-            bot.send_chat_action(message.chat_id, 'typing')
+            bot.send_chat_action(user_id, 'typing')
 
-            message.reply_markdown(get_message(message.chat_id, 'doc_not_img'))
+            message.reply_markdown(get_message(user_id, 'doc_not_img'))
             return
     elif message.photo:
         photo_id = message.photo[-1].file_id
@@ -116,29 +120,32 @@ def image_sticker_received(bot, update):
         photo_id = message.sticker.file_id
 
     # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'upload_photo')
+    bot.send_chat_action(user_id, 'upload_photo')
 
-    # download file
-    file = bot.get_file(file_id=photo_id)
-    temp = file.file_path.split('/')[-1].split('.')
-    if len(temp) > 1:
-        ext = '.' + file.file_path.split('/')[-1].split('.')[1]
-    else:
-        ext = '.webp'
-    download_path = os.path.join(dir, (photo_id + ext))
-    file.download(custom_path=download_path)
+    try:
+        # download file
+        file = bot.get_file(file_id=photo_id, timeout=30)
+        temp = file.file_path.split('/')[-1].split('.')
+        if len(temp) > 1:
+            ext = '.' + file.file_path.split('/')[-1].split('.')[1]
+        else:
+            ext = '.webp'
+        download_path = os.path.join(dir, (photo_id + ext))
+        file.download(custom_path=download_path)
 
-    image = Image.open(download_path)
+        image = Image.open(download_path)
 
-    # decide what to do with image based on user mode
-    mode = get_user_config(message.from_user.id, "mode")
-    if mode.lower() == "file":
-        create_sticker_file(message, image)
-    else:
-        add_personal_sticker(message, image)
+        # decide what to do with image based on user mode
+        mode = get_user_config(message.from_user.id, "mode")
+        if mode.lower() == "file":
+            create_sticker_file(message, image)
+        else:
+            add_personal_sticker(message, image)
 
-    # delete local file
-    os.remove(download_path)
+        # delete local file
+        os.remove(download_path)
+    except TimedOut:
+        message.reply_text(get_message(user_id, "send_timeout"))
 
 
 @run_async
@@ -278,6 +285,7 @@ def add_personal_sticker(message, image):
     # increase total uses count by one
     config['personal_stickers_added'] += 1
 
+
 #  _____                          _       _   _                       _   _
 # | ____| __   __   ___   _ __   | |_    | | | |   __ _   _ __     __| | | |   ___   _ __   ___
 # |  _|   \ \ / /  / _ \ | '_ \  | __|   | |_| |  / _` | | '_ \   / _` | | |  / _ \ | '__| / __|
@@ -370,7 +378,7 @@ def personal_pack_query_received(bot, update):
     for sticker in stickers:
         results.append(InlineQueryResultCachedSticker(sticker[1], sticker[2]))
 
-    query.answer(results=results, cache_time=30, is_personal=True)
+    query.answer(results=results, cache_time=15, is_personal=True)
 
 
 @run_async
@@ -396,6 +404,22 @@ def file_id_query_received(bot, update):
 
 
 @run_async
+def inline_result_chosen(bot, update):
+    chosen_result = update.chosen_inline_result
+    result_id = chosen_result.result_id
+    user_id = chosen_result.from_user.id
+
+    global config
+    # if was a share increase count by one
+    if result_id == 'share':
+        config['times_shared'] += 1
+    # if was not a file request increase use of sticker
+    elif '-' not in result_id:
+        pack = get_user_config(user_id, "personal_pack")
+        pack[result_id]['uses'] += 1
+
+
+@run_async
 def invalid_command(bot, update):
     message = update.message
 
@@ -417,6 +441,7 @@ def invalid_content(bot, update):
 
 def do_fucking_nothing(bot, update):
     pass
+
 
 #   ____                                                       _
 #  / ___|   ___    _ __ ___    _ __ ___     __ _   _ __     __| |  ___
@@ -609,6 +634,7 @@ def stats_command(bot, update):
     stats_message = get_message(user_id, "stats").format(config['uses'], len(config['users']), config['langs_auto_set'],
                                                          opted_in + opted_out, opted_in, opted_out)
     message.reply_markdown(stats_message)
+
 
 #  _   _   _     _   _
 # | | | | | |_  (_) | |  ___
