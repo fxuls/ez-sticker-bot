@@ -56,7 +56,7 @@ def main():
     dispatcher.add_handler(CommandHandler('langstats', lang_stats_command))
     dispatcher.add_handler(CommandHandler('mode', change_mode_command))
     dispatcher.add_handler(CommandHandler(['optin', 'optout'], opt_command))
-    dispatcher.add_handler(CommandHandler('personal', personal_pack_command))
+    dispatcher.add_handler(CommandHandler('personal', personal_command))
     dispatcher.add_handler(CommandHandler('restart', restart_command))
     dispatcher.add_handler(CommandHandler('start', start_command))
     dispatcher.add_handler(CommandHandler('stats', stats_command))
@@ -624,7 +624,7 @@ def opt_command(bot, update):
 
 
 @run_async
-def personal_pack_command(bot, update):
+def personal_command(bot, update):
     message = update.message
     user_id = message.from_user.id
 
