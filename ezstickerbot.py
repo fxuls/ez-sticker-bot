@@ -12,14 +12,13 @@ from urllib.parse import urlparse
 
 import requests
 import simplejson
-from operator import itemgetter
 from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
-    InlineQueryResultCachedDocument, InlineQueryResultCachedSticker
+    InlineQueryResultCachedDocument
 from telegram.error import TelegramError, TimedOut
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler, \
-    ChosenInlineResultHandler, ConversationHandler
+    ChosenInlineResultHandler
 from telegram.ext.dispatcher import run_async
 
 # setup logger
@@ -54,9 +53,7 @@ def main():
     dispatcher.add_handler(CommandHandler('info', info_command))
     dispatcher.add_handler(CommandHandler('lang', change_lang_command))
     dispatcher.add_handler(CommandHandler('langstats', lang_stats_command))
-    dispatcher.add_handler(CommandHandler('mode', change_mode_command))
     dispatcher.add_handler(CommandHandler(['optin', 'optout'], opt_command))
-    dispatcher.add_handler(CommandHandler('personal', personal_command))
     dispatcher.add_handler(CommandHandler('restart', restart_command))
     dispatcher.add_handler(CommandHandler('start', start_command))
     dispatcher.add_handler(CommandHandler('stats', stats_command))
@@ -71,17 +68,13 @@ def main():
 
     # register button handlers
     dispatcher.add_handler(CallbackQueryHandler(change_lang_callback, pattern="lang"))
-    dispatcher.add_handler(CallbackQueryHandler(change_mode_callback, pattern="mode"))
-    dispatcher.add_handler(CallbackQueryHandler(personal_remove_callback, pattern="prm"))
 
     # register inline handlers
     dispatcher.add_handler(InlineQueryHandler(share_query_received, pattern=re.compile("^share$", re.IGNORECASE)))
     dispatcher.add_handler(InlineQueryHandler(file_id_query_received, pattern=re.compile("")))
-    dispatcher.add_handler(InlineQueryHandler(personal_pack_query_received))
+    dispatcher.add_handler(InlineQueryHandler(share_query_received))
 
     dispatcher.add_handler(ChosenInlineResultHandler(inline_result_chosen))
-
-    # todo - add conversation handler
 
     # register variable dump loop
     updater.job_queue.run_repeating(save_config, 300, 300)
@@ -141,12 +134,7 @@ def image_sticker_received(bot, update):
 
         image = Image.open(download_path)
 
-        # decide what to do with image based on user mode
-        mode = get_user_config(message.from_user.id, "mode")
-        if mode.lower() == "file":
-            create_sticker_file(message, image)
-        else:
-            add_personal_sticker(message, image)
+        create_sticker_file(message, image)
 
         # delete local file
         os.remove(download_path)
@@ -197,12 +185,7 @@ def url_received(bot, update):
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'upload_photo')
 
-    # decide what to do with image based on user mode
-    mode = get_user_config(message.from_user.id, "mode")
-    if mode.lower() == "file":
-        create_sticker_file(message, image)
-    else:
-        add_personal_sticker(message, image)
+    create_sticker_file(message, image)
 
 
 def create_sticker_file(message, image):
@@ -249,47 +232,7 @@ def create_sticker_file(message, image):
     # increase total uses count by one
     global config
     config['uses'] += 1
-
-
-def add_personal_sticker(message, image):
-    user_id = str(message.from_user.id)
-    # save image object as webp
-    temp_path = os.path.join(dir, (uuid.uuid4().hex[:6].upper() + '.webp'))
-    image.save(temp_path, optimize=True)
-
-    document = open(temp_path, 'rb')
-    try:
-        # send the photo to the user and store the message
-        sent_preview = message.reply_document(document=document, timeout=30)
-
-        # add photo to users personal pack
-        file_id = sent_preview.sticker.file_id
-        user_pack = get_user_config(user_id, "personal_pack")
-        index = '1' if len(user_pack) == 0 else str(max([int(key) for key in user_pack.keys()]) + 1)
-        pack_entry = dict()
-        pack_entry['file_id'] = file_id
-        pack_entry['uses'] = 0
-        global config
-        config['users'][user_id]['personal_pack'][index] = pack_entry
-
-        # send info message
-        sent_message = message.reply_text(get_message(user_id, "personal_sticker_added"))
-
-        # add a keyboard with a button to remove it from pack
-        keyboard = [[
-            InlineKeyboardButton(get_message(user_id, "remove_from_pack"), callback_data="prm:{}".format(file_id))
-        ]]
-        sent_message.edit_reply_markup(reply_markup=InlineKeyboardMarkup(keyboard))
-    except TelegramError:
-        message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
-
-    # delete local files and close image object
-    image.close()
-    time.sleep(0.2)
-    os.remove(temp_path)
-
-    # increase total uses count by one
-    config['personal_stickers_added'] += 1
+    config['users'][str(message.from_user.id)]['uses'] += 1
 
 
 #  _____                          _       _   _                       _   _
@@ -331,43 +274,6 @@ def change_lang_callback(bot, update):
 
 
 @run_async
-def change_mode_callback(bot, update):
-    query = update.callback_query
-    mode = query.data.split(':')[-1]
-    user_id = str(query.from_user.id)
-
-    global config
-    config['users'][user_id]['mode'] = mode
-
-    # edit message to display info about chosen mode and answer query
-    message = get_message(user_id, "{}_mode_info".format(mode))
-    query.edit_message_text(text=message, reply_markup=None, parse_mode='Markdown')
-    query.answer()
-
-
-@run_async
-def personal_remove_callback(bot, update):
-    query = update.callback_query
-    file_id = query.data.split(':')[-1]
-    user_id = str(query.from_user.id)
-
-    pack = get_user_config(user_id, "personal_pack")
-    remove_id = None
-    for id, values in pack.items():
-        if values['file_id'] == file_id:
-            remove_id = id
-            break
-
-    if remove_id:
-        del pack[remove_id]
-        query.edit_message_text(text=get_message(user_id, "removed_sticker"), reply_markup=None)
-    else:
-        query.edit_message_text(text=get_message(user_id, "already_removed_sticker"), reply_markup=None)
-
-    query.answer()
-
-
-@run_async
 def share_query_received(bot, update):
     query = update.inline_query
     user_id = query.from_user.id
@@ -384,30 +290,6 @@ def share_query_received(bot, update):
     results = [InlineQueryResultArticle(id="share", title=title, description=description, thumb_url=thumb_url,
                                         reply_markup=markup, input_message_content=input_message_content)]
     query.answer(results=results, cache_time=5, is_personal=True)
-
-
-@run_async
-def personal_pack_query_received(bot, update):
-    query = update.inline_query
-    user_id = query.from_user.id
-
-    pack = get_user_config(user_id, "personal_pack")
-
-    # if pack is empty show share option
-    if len(pack) == 0:
-        share_query_received(bot, update)
-        return
-
-    # create sorted list of stickers
-    stickers = [(vals['uses'], id, vals['file_id']) for id, vals in pack.items()]
-    stickers = sorted(stickers, key=itemgetter(0), reverse=True)
-
-    # create results from sticker list
-    results = []
-    for sticker in stickers:
-        results.append(InlineQueryResultCachedSticker(sticker[1], sticker[2]))
-
-    query.answer(results=results, cache_time=15, is_personal=True)
 
 
 @run_async
@@ -436,17 +318,11 @@ def file_id_query_received(bot, update):
 def inline_result_chosen(bot, update):
     chosen_result = update.chosen_inline_result
     result_id = chosen_result.result_id
-    user_id = chosen_result.from_user.id
 
     global config
     # if was a share increase count by one
     if result_id == 'share':
         config['times_shared'] += 1
-    # if was not a file request increase use of sticker
-    elif '-' not in result_id:
-        pack = get_user_config(user_id, "personal_pack")
-        pack[result_id]['uses'] += 1
-        config['personal_stickers_sent'] += 1
 
 
 @run_async
@@ -529,15 +405,6 @@ def change_lang_command(bot, update):
 
 
 @run_async
-def change_mode_command(bot, update):
-    message = update.message
-    user_id = message.from_user.id
-    keyboard = [[InlineKeyboardButton(get_message(user_id, "sticker_creation_button"), callback_data="mode:file"),
-                 InlineKeyboardButton(get_message(user_id, "personal_pack_button"), callback_data="mode:personal")]]
-    message.reply_text(get_message(user_id, "select_mode"), reply_markup=InlineKeyboardMarkup(keyboard))
-
-
-@run_async
 def help_command(bot, update):
     message = update.message
 
@@ -558,7 +425,7 @@ def info_command(bot, update):
                               url=config['source_link'])],
         [InlineKeyboardButton(get_message(message.chat_id, "rate"),
                               url=config['rate_link']),
-         InlineKeyboardButton(get_message(message.chat_id, "share"), switch_inline_query="")]]
+         InlineKeyboardButton(get_message(message.chat_id, "share"), switch_inline_query="share")]]
     markup = InlineKeyboardMarkup(keyboard)
     message.reply_markdown(get_message(update.message.chat_id, "info").format(config['uses']), reply_markup=markup)
 
@@ -621,27 +488,6 @@ def opt_command(bot, update):
         else:
             config['users'][user_id]['opt_in'] = False
             message.reply_text(get_message(user_id, "opted_out"))
-
-
-@run_async
-def personal_command(bot, update):
-    message = update.message
-    user_id = message.from_user.id
-
-    # check if user has stickers in pack
-    pack = get_user_config(user_id, "personal_pack")
-    if len(pack) == 0:
-        message.reply_text(get_message(user_id, "no_personal_pack")
-                           .format(get_message(user_id, "personal_pack_button")))
-    else:
-        sticker_count = len(pack)
-        total_uses = sum([values['uses'] for values in pack.values()])
-        message_text = get_message(user_id, "personal_pack_info").format(sticker_count, total_uses)
-        keyboard = [[
-            InlineKeyboardButton(get_message(user_id, "personal_remove_button"), callback_data="personal_remove"),
-            InlineKeyboardButton(get_message(user_id, "clear_personal_button"), callback_data="clear_personal_confirm")
-        ]]
-        message.reply_markdown(message_text, reply_markup=InlineKeyboardMarkup(keyboard))
 
 
 def restart_command(bot, update):
