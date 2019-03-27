@@ -19,7 +19,7 @@
     "broadcast_in_reply": "Use `/broadcast` in reply to the message to be sent.",
     "will_broadcast": "Ok, your message will be sent.",
     "broadcast_only_text": "Currently only *text* messages can be broadcasted.",
-    "stats": "I have created *{:,}* stickers for *{:,}* unique users since *10.23.2017*.\n\nI have detected and automatically set the bot language for *{:,}* non-English speakers.\n\nOut of *{:,}* users, *{:,}* are opted in to receiving announcements and *{:,}* are opted out.",
+    "stats": "I have created *{:,}* stickers for *{:,}* unique users since *10.23.2017*.\n\nYou personally have created *{:,}* stickers since *3.17.2019*.\n\nI have detected and automatically set the bot language for *{:,}* non-English speakers.\n\nI have been shared via inline *{:,}* times.\n\nOut of *{:,}* users, *{:,}* are opted in to receiving announcements and *{:,}* are opted out.",
     "lang_stats": "*Language Stats:*",
     "send_timeout": "Timed out when trying to upload formatted sticker to Telegram servers. Please wait a minute and try again.",
     "doc_not_img": "The document must be an image.",

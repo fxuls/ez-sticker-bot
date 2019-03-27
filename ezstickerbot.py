@@ -528,7 +528,9 @@ def stats_command(bot, update):
         else:
             opted_out += 1
 
-    stats_message = get_message(user_id, "stats").format(config['uses'], len(config['users']), config['langs_auto_set'],
+    personal_uses = get_user_config(user_id, "uses")
+    stats_message = get_message(user_id, "stats").format(config['uses'], len(config['users']), personal_uses,
+                                                         config['langs_auto_set'], config['times_shared'],
                                                          opted_in + opted_out, opted_in, opted_out)
     message.reply_markdown(stats_message)
 
