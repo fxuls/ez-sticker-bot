@@ -40,7 +40,11 @@
     "already_opted_in": "You are already opted in and will receive global bot announcements!",
     "forward": "Forward",
     "your_sticker": "Your Sticker",
-    "forward_desc": "Click here to send the sticker you selected"
+    "forward_desc": "Click here to send the sticker you selected",
+    "cancel": "Cancel",
+    "icon_command_info": "You can now set an icon for your sticker packs to display in a user's list of packs instead of just the first sticker in the pack. Icons are 100x100 and _must_ be square. If you send me an image that isn't square I will add transparent background above and below it in order to make it square, but the closer the original dimensions are to being square the better it will look. If you aren't seeing your new pack icon an hour after adding it you may be using an unofficial client that hasn't been updated to support icons yet.\n\n*Warning: Once you add an icon to your sticker pack you can change it but not remove it. You can create an icon of your first sticker and set it as that but you cannot revert to the default behavior of the pack using the first sticker automatically.*",
+    "icon_command": "Use the /setpackicon command in @Stickers and then send the photo, sticker, or image URL you want to turn into an icon to me.",
+    "icon_canceled": "Ok, I've canceled the creation of an icon. You are now back in normal sticker creation mode."
   },
   "es": {
     "order": "1",
@@ -83,7 +87,11 @@
     "already_opted_in": "Ya estás inscrito y recibirás anuncios de bot globales!",
     "forward": "Reenviar",
     "your_sticker": "Tu Sticker",
-    "forward_desc": "Haga clic aquí para enviar el sticker que ha seleccionado."
+    "forward_desc": "Haga clic aquí para enviar el sticker que ha seleccionado.",
+    "cancel": "",
+    "icon_command_info": "",
+    "icon_command": "",
+    "icon_canceled": ""
   },
   "de": {
     "order": "2",
@@ -105,7 +113,7 @@
     "broadcast_in_reply": "Sende `/broadcast` als Antwort auf die Nachricht, die gesendet werden soll.",
     "will_broadcast": "Ok, deine Nachricht wird gesendet.",
     "broadcast_only_text": "Zurzeit können nur *Textnachrichten* per broadcast versendet werden.",
-    "stats": "Ich habe *{:,}* Sticker für *{:,}* Nutzer erstellt seit dem *10.23.2017*.\n\nIch habe folgende Sprache erkannt und diese auf *{:,}* festgelegt. Nicht-English sprechende.\n\nVon *{:,}* Benutzern, haben *{:,}* gewählt Ankündigungen zu erhalten, während *{:,}* sich dagegen entschieden haben.",
+    "stats": "Ich habe *{:,}* Sticker für *{:,}* Nutzer erstellt seit dem *10.23.2017*.\n\nDu hast *{:,}* stickers seid dem *3.17.2019* erstellt.\n\nIch habe folgende Sprache erkannt und diese auf *{:,}* festgelegt. Nicht-English sprechende.\n\nVon *{:,}* Benutzern, haben *{:,}* gewählt Ankündigungen zu erhalten, während *{:,}* sich dagegen entschieden haben.",
     "lang_stats": "*Sprachstatistiken:*",
     "send_timeout": "Zeitüberschreitung beim Hochladen des Stickers zu den Telegram Servern. Versuch es in einigen Minuten nochmal.",
     "doc_not_img": "Das Dokument muss ein Bild sein.",
@@ -126,7 +134,11 @@
     "already_opted_in": "Du hast bereits ausgewählt globale Bot Ankündigungen zu erhalten.",
     "forward": "Weiterleiten",
     "your_sticker": "Dein Sticker",
-    "forward_desc": "Klicke hier um deinen ausgewählten Sticker zu senden"
+    "forward_desc": "Klicke hier um deinen ausgewählten Sticker zu senden",
+    "cancel": "Abbrechen",
+    "icon_command_info": "Du kannst jetzt Icons für deine Stickerpacks festlegen, welche anstatt des ersten Stickers in der Stickerliste des Benutzers angezeigt werden. Diese Icons müssen die Größe 100x100 einhalten und quadratisch sein. Wenn du mir kein quadratisches Bild sendest, werde ich einen transparenten Hintergrund von oben und unten an das Bild setzen um es quadratisch zu machen. Je näher die originalen Dimensionen jedoch an ein Quadrat herankommen, desto besser wird es am Ende aussehen. Falls deine neuen Stickerpack Icons nicht nach einer Stunde angezeigt werden, benutzt du vielleicht einen inoffiziellen Clienten, welchen noch nicht für die Verwendung von Icons aktualisiert wurde.\n\n*Achtung: Nach dem Hinzufügen eines Icons zu deinem Stickerpack kann dieses beliebig geändert, aber nicht mehr gelöscht werden. Du kannst jedoch ein Icon aus dem ersten Sticker erstellen; allerdings wird es das automatische Festlegen des ersten Stickers als Icon nicht wiederherstellen.",
+    "icon_command": "Benutze den /setpackicon Befehl in @Stickers und sende dann das Foto, den Sticker oder die Bild-URL welche ich zum Icon verwandeln soll.",
+    "icon_canceled": "Ok, die Icon Erstellung ist abgebrochen. Du bist jetzt wieder im normalen Modus zur Sticker Erstellung."
   },
   "nl": {
     "order": "3",
@@ -148,7 +160,7 @@
     "broadcast_in_reply": "Gebruik `/broadcast` als antwoordt op het bericht dat je net hebt verzonden.",
     "will_broadcast": "Oké, je bericht wordt verzonden.",
     "broadcast_only_text": "Op het ogenblik kunnen alleen *tekst* berichtjes worden uitgezonden.",
-    "stats": "Ik heb *{:,}* stickers gemaakt voor *{:,}* unieke bezoekers sinds *10.23.2017*.\n\nI Ik heb automatisch gedetecteert en de bot's taal ingesteld voor *{:,}* niet-Engels sprekers.\n\nVan *{:,}* gebruikers, hebben *{:,}* er voor gekozen om aankondigingen te ontvangen, en *{:,}* er voor gekozen dit niet te doen.",
+    "stats": "Ik heb *{:,}* stickers gemaakt voor *{:,}* unieke bezoekers sinds *10.23.2017*.\n\nJe hebt *{:,}* stickers gemaakt sinds *3.17.2019*.\n\nI Ik heb automatisch gedetecteert en de bot's taal ingesteld voor *{:,}* niet-Engels sprekers.\n\nIk ben *{:,}* keer gedeelt via inline.\n\nVan *{:,}* gebruikers, hebben *{:,}* er voor gekozen om aankondigingen te ontvangen, en *{:,}* er voor gekozen dit niet te doen.",
     "lang_stats": "Taalstatistieken:*",
     "send_timeout": "Het duurde te lang om de geformatteerde sticker naar de Telegram servers te uploaden. Wacht alstublieft een minuut om het opnieuw te proberen.",
     "doc_not_img": "Het document moet een plaatje zijn.",
@@ -169,7 +181,11 @@
     "already_opted_in": "Je hebt er al voor gekozen om global bot aankondigingen te ontvangen!",
     "forward": "Doorsturen",
     "your_sticker": "Jouw Sticker",
-    "forward_desc": "Klik hier om de sticker die je hebt geselecteerd te verzenden"
+    "forward_desc": "Klik hier om de sticker die je hebt geselecteerd te verzenden",
+    "cancel": "Annuleren",
+    "icon_command_info": "Je kan nu een icoon kiezen voor je stickerpak dat andere gebruikers kunnen zien, in plaats van de eerste sticker in het pakket. Een icoon is 100x100 pixels en _moet_ vierkant zijn. Als je mij een plaatje stuurt dat niet vierkant is zal ik een transparante achtergrond aan de boven- en onderkant toevoegen om het vierkant te maken, des te dichter bij het een vierkant is, des te beter het er uit ziet. Als je nieuwe pakketicoon niet na een uur nog niet ziet, dan is het mogelijk dat jij een onofficiële client nog niet is geüpdate om deze functie te ondersteunen.\n\n*Waarschuwing: Zodra je een icoon aan je stickerpak hebt toegovoegd kan je dit niet meer verwijderen, wel kan je het veranderen. Je kan een icoon maken van je eerste sticker in het pakket, maar het kan niet terugkeren naar het standaard gedrag om de eerste sticker automatisch te selecteren.*",
+    "icon_command": "Gebruik het /setpackicon commando in @Stickers en stuur mij dan de foto, sticker of URL van het plaatje dat je in een icoon wilt veranderen.",
+    "icon_canceled": "Ok, ik heb het maken van een icoon geannuleerd. Je bent nu terug in normale sticker creatie modus."
   },
   "it": {
     "order": "4",
@@ -191,7 +207,7 @@
     "broadcast_in_reply": "Usa `/broadcast` in risposta al messaggio da inviare",
     "will_broadcast": "Ok, il tuo messaggio verra' inviato.",
     "broadcast_only_text": "Attualmente solo i messaggi *text* possono essere trasmessi. ",
-    "stats": "Ho creato *{:,}* sticker per *{:,}* utenti singoli dal *10.23.2017*.\n\nHo rilevato e automaticamente cambiato la lingua del bot per *{:,}* utenti non anglofoni.\n\nSu *{:,}* utenti, *{:,}* hanno deciso di ricevere gli annunci mentre *{:,}* no.",
+    "stats": "Ho creato *{:,}* sticker per *{:,}* utenti singoli dal *10.23.2017*.\n\nHai creato *{:,}* sticker a partire dal *3.17.2019*.\n\nHo rilevato e automaticamente cambiato la lingua del bot per *{:,}* utenti non anglofoni.\n\nSono stato condiviso direttamente *{:,}* volte.\n\nSu *{:,}* utenti, *{:,}* hanno deciso di ricevere gli annunci mentre *{:,}* no.",
     "lang_stats": "*Language Stats:*",
     "send_timeout": "Connessione scaduta mentre caricavo lo sticker sui server di Telegram. Le prego di aspettare un minuto e riprovare.",
     "doc_not_img": "Il documento deve essere un'immagine.",
@@ -212,7 +228,11 @@
     "already_opted_in": "Hai già deciso di ricevere gli annunci globali del bot, e li riceverai!",
     "forward": "Invia",
     "your_sticker": "Il Tuo Sticker",
-    "forward_desc": "Clicca qui per inviare lo sticker che hai selezionato"
+    "forward_desc": "Clicca qui per inviare lo sticker che hai selezionato",
+    "cancel": "Annulla",
+    "icon_command_info": "Puoi ora impostare un'icona per i tuoi pacchetti, da mostrare nella lista di questi ultimi degli utenti, invece che il primo sticker in esso. Le icone sono 100*100 e _devono_ essere quadrate. Se invii un'immagine non quadrata, aggiungerò uno sfondo trasparente al di sopra e al di sotto di essa per renderla quadrata, ma più le dimensioni originali saranno simili ad un quadrato, più sarà meglio a vedersi. Se non vedi la tua nuova icona del pacchetto dopo un'ora all'aggiunta, potresti star utilizzando un client non ufficiale che non è stato ancora aggiornato per supportare le icone.\n\n*Attenzione: Una volta aggiunta un'icona al tuo pacchetto, puoi cambiarla ma non rimuoverla. Puoi creare un'icona del tuo primo sticker e impostarla, ma non puoi ripristinare il sistema precedente che utilizzava automaticamente il primo sticker.*",
+    "icon_command": "Usa il comando /setpackicon in @Stickers e poi inviami la foto, sticker, o URL dell'immagine che vuoi rendere un'icona.",
+    "icon_canceled": "Ok, ho cancellato la creazione di un'icona. Sei ritornato alla creazione standard degli sticker."
   },
   "id": {
     "order": "5",
@@ -234,7 +254,7 @@
     "broadcast_in_reply": "Gunakan /broadcast sebagai balasan ke pesan tersebut untuk dikirim.",
     "will_broadcast": "Ok, pesan anda akan segera dikirim.",
     "broadcast_only_text": "Saat ini hanya pesan *teks* yang dapat dikirim.",
-    "stats": "Saya telah membuat *{:,}* stiker untuk *{:,}* pengguna yang unik sejak *23.10.2017*.\n\nSaya telah mendeteksi dan secara otomatis mengubah bahasa bot untuk *{:,}* orang yang tidak bicara bahasa Inggris.\n\nDari *{:,}* pengguna, *{:,}* memilih untuk menerima pemberitahuan dan *{:,}* memilih untuk tidak menerima pemberitahuan.",
+    "stats": "Saya telah membuat *{:,}* stiker untuk *{:,}* pengguna yang unik sejak *23.10.2017*.\n\nAnda secara pribadi telah membuat *{:,}* stiker sejak *3.17.2019*.\n\nSaya telah mendeteksi dan secara otomatis mengubah bahasa bot untuk *{:,}* orang yang tidak bicara bahasa Inggris.\n\nSaya telah dibagikan *{:,}* kali.\n\nDari *{:,}* pengguna, *{:,}* memilih untuk menerima pemberitahuan dan *{:,}* memilih untuk tidak menerima pemberitahuan.",
     "lang_stats": "*Statistik Bahasa:*",
     "send_timeout": "Koleksi bermasalah ketika mencoba untuk mengunggah stiker yang telah diformat ke server Telegram. Harap tunggu sebentar dan coba lagi.",
     "doc_not_img": "Document tersebut harus berupa gambar.",
@@ -255,7 +275,11 @@
     "already_opted_in": "Kamu telah memilih untuk mulai menerima pemberitahuan.",
     "forward": "Teruskan pesan",
     "your_sticker": "Stikermu",
-    "forward_desc": "Klik disini untuk mengirim stiker yang kamu pilih."
+    "forward_desc": "Klik disini untuk mengirim stiker yang kamu pilih",
+    "cancel": "Batal",
+    "icon_command_info": "Kamu sekarang bisa mengatur ikon untuk paket stikermu untuk ditampilkan di daftar stiker daripada stiker pertama dalam paket. Ikon berukuran 100x100 dan _harus_ berbentuk persegi. Jika kamu mengirimku sebuah gambar yang tidak berbentuk persegi saya akan membuat latar belakang transparan di atas dan bawahnya untuk membuatnya berbentuk persegi, tetapi semakin dekat dimensi asli ke bentuk persegi, akan terlihat semakin baik. Jika kamu tidak melihat ikon paketmu setelah satu jam setelah membuatnya, kamu mungkin menggunakan klien tidak resmi yang belum di update untuk mendukung ikon.\n\n*Peringatan: sekali kamu menambahkan ikon ke paket stikermu kamu bisa menggantinya tetapi tidak bisa menghilangkanya. Kamu bisa membuat ikon dari stiker pertamamu tetapi kamu tidak bisa mengubahnya kembali untuk menggunakan stiker pertama secara otomatis.*",
+    "icon_command": "Gunakan perintah /setpackicon di @Stickers lalu kirimkan foto pilihan, stiker, atau URL gambar yang kamu ingin jadikan ikon padaku.",
+    "icon_canceled": "Ok, aku telah membatalkan pembuatan sebuah ikon. Kamu sekarang kembali ke mode pembuatan stiker biasa."
   },
   "pt": {
     "order": "6",
@@ -277,7 +301,7 @@
     "broadcast_in_reply": "Use `/broadcast` na resposta para a mensagem ser enviada.",
     "will_broadcast": "Ok, sua mensagem será enviada.",
     "broadcast_only_text": "Atualmente apenas mensagens de *texto* podem ser transmitidas.",
-    "stats": "Eu criei *{:,}* stickers para *{:,}* usuários diferentes desde *23/10/17*.\n\nEu detectei e automaticamente coloquei a linguagem do bot para *{:,}* usuários que não falam inglês.\n\nDe *{:,}* usuários, *{:,}* optaram por receber anúncios e *{:,}* optaram por não.",
+    "stats": "Eu criei *{:,}* stickers para *{:,}* usuários diferentes desde *23/10/17*.\n\nVocê criou pessoalmente *{:,}* stickers desde *17/03/2019*.\n\nEu detectei e automaticamente coloquei a linguagem do bot para *{:,}* usuários que não falam inglês.\n\nFui compartilhado inline *{:,}* vezes.\n\nDe *{:,}* usuários, *{:,}* optaram por receber anúncios e *{:,}* optaram por não.",
     "lang_stats": "*Estatística das Linguagens:*",
     "send_timeout": "Tempo esgotado ao tentar fazer upload do sticker formatado aos servidores do Telegram. Por favor, espere um minuto e tente novamente.",
     "doc_not_img": "O documento deve ser uma imagem.",
@@ -298,7 +322,11 @@
     "already_opted_in": "Você já optou por receber anúncios globais do bot!",
     "forward": "Encaminhar",
     "your_sticker": "Seu Sticker",
-    "forward_desc": "Clique aqui para enviar o sticker que você selecionou"
+    "forward_desc": "Clique aqui para enviar o sticker que você selecionou",
+    "cancel": "Cancelar",
+    "icon_command_info": "Agora você pode colocar um ícone para seu pacote de stickers para exibição na lista de pacotes de um usuário ao invés do primeiro sticker do pacote. Ícones são 100x100 e _devem_ ser quadrados. Se você me enviar uma imagem que não é quadrada eu irei adicionar um fundo transparente acima ou abaixo dele para gerar o quadrado, mas quanto mais próximas as dimensões originais forem de um quadrado melhor ficará o resultado. Se você não ver o novo ícone do pacote uma hora após adicionar ele você provavelmente está usando um cliente não oficial que ainda não adicionou suporte a ícones ainda.\n\n*Aviso: Assim que você adiciona um ícone ao seu pacote de stickers você pode alterá-lo, mas não removê-lo. Você pode criar um ícone do seu primeiro sticker e colocar ele como isto mas não pode reverter ao comportamento original do pacote de usar o primeiro sticker automaticamente.*",
+    "icon_command": "Use o comando /setpackicon em @Stickers e então envie a foto, sticker ou URL de imagem que você quer transformar em ícone para mim.",
+    "icon_canceled": "Ok, eu cancelei a criação do ícone. Você voltou ao modo normal de criação de stickers."
   },
   "sl": {
     "order": "7",
@@ -341,7 +369,11 @@
     "already_opted_in": "Ste se že prijavili na globalna obvestila!.",
     "forward": "Posreduj",
     "your_sticker": "Tvoja nalepka",
-    "forward_desc": "Klikni tukaj da pošlješ izbrano nalepko"
+    "forward_desc": "Klikni tukaj da pošlješ izbrano nalepko",
+    "cancel": "",
+    "icon_command_info": "",
+    "icon_command": "",
+    "icon_canceled": ""
   },
   "pl": {
     "order": "8",
@@ -363,7 +395,7 @@
     "broadcast_in_reply": "Użyj `/broadcast` w odpowiedzi na wiadomość do wysłania.",
     "will_broadcast": "Ok, twoja wiadomość zostanie wysłana.",
     "broadcast_only_text": "Obecnie można nadawać tylko wiadomości *tekstowe*.",
-    "stats": "Od *23.10.2017* stworzyłem *{:,}* naklejek dla *{:,}* unikalnych użytkowników.\n\nWykryłem i automatycznie ustawiłem język bota dla *{:,}* nieanglojęzycznych osób.\n\nZ *{:,}* użytkowników, *{:,}* otrzymuje powiadomienia, natomiast *{:,}* wyłączyło sobie tę opcję.",
+    "stats": "Od *23.10.2017* stworzyłem *{:,}* naklejek dla *{:,}* unikalnych użytkowników.\n\nWłasnoręcznie stworzyłeś *{:,}* naklejek od *3.17.2019*.\n\nWykryłem i automatycznie ustawiłem język bota dla *{:,}* nieanglojęzycznych osób.\n\nZostałem udostępniony przez wstawkę *{:,}* razy.\n\nZ *{:,}* użytkowników, *{:,}* otrzymuje powiadomienia, natomiast *{:,}* wyłączyło sobie tę opcję.",
     "lang_stats": "*Statystyki języków:*",
     "send_timeout": "Przekroczono limit czasu podczas przesyłania naklejki na serwery Telegrama. Odczekaj chwilę i spróbuj ponownie.",
     "doc_not_img": "Dokument musi być obrazem.",
@@ -384,7 +416,11 @@
     "already_opted_in": "Aktualnie otrzymujesz globalne powiadomienia o bocie!.",
     "forward": "Przekaż",
     "your_sticker": "Twoja naklejka",
-    "forward_desc": "Kliknij tutaj, aby wysłać wybraną naklejkę"
+    "forward_desc": "Kliknij tutaj, aby wysłać wybraną naklejkę",
+    "cancel": "Anuluj",
+    "icon_command_info": "Możesz teraz ustawić ikonę twojej paczki naklejek by wyświetlała się na liście paczek użytkownika zamiast pierwszej naklejki w paczce. Ikony są 100x100 i _muszą_ być kwadratowe. Jeśli wyślesz mi obraz który nie jest kwadratowy to ja dodam przezroczyste tło powyżej lub poniżej tego w celu uczynienia go kwadratowym, ale im bliżej kwadratu są oryginalne wymiary tym lepiej będzie to wyglądać. Jeśli nie będziesz widział ikony twojej nowej paczki po kilku godzinach po dodaniu jej, możliwe że korzystasz z nieoficjalnego klienta który jeszcze nie jest zaktualizowany by wspierać ikony.\n\n*Ostrzeżenie: Kiedy dodasz ikonę do twojej paczki będziesz mógł ją zmienić ale nie usunąć. Możesz stworzyć ikonę z pierwszej naklejki i ustawić ją tak, ale nie możesz przywrócić paczki do domyślnego zachowania używającej automatycznie pierwszej naklejki.*",
+    "icon_command": "Użyj komendy /setpackicon w @Stickers, a następnie wyślij do mnie zdjęcie, naklejkę lub URL obrazu którego chcesz zamienić w ikonę.",
+    "icon_canceled": "Ok, anulowałem tworzenie ikon. Jesteś teraz znowu w trybie normalnego tworzenia naklejek."
   },
   "ru": {
     "order": "9",
@@ -406,7 +442,7 @@
     "broadcast_in_reply": "Используйте /broadcast в ответ на отправленное сообщение.",
     "will_broadcast": "Ваше сообщение будет отправлено.",
     "broadcast_only_text": "Оповестить можно только *текстовым* сообщением.",
-    "stats": "Я создал *{:,}* стикеров для *{:,}* пользователей с 23 октября 2017.\n\nЯ распознал и автоматически выбрал *{:,}* язык для не говорящих на английском языке пользователей.\n\nИз *{:,}* пользователей, *{:,}* пользователей получают уведомления о работе бота, а *{:,}* не получают.",
+    "stats": "Я создал *{:,}* стикеров для *{:,}* пользователей с 23 октября 2017.\n\nВами было создано *{:,}* стикеров начиная с *3.17.2019*\n\nЯ распознал и автоматически выбрал *{:,}* язык для не говорящих на английском языке пользователей.\n\nМною поделились *{:,}* раз.\n\nИз *{:,}* пользователей, *{:,}* пользователей получают уведомления о работе бота, а *{:,}* не получают.",
     "lang_stats": "*Статистика языков:*",
     "send_timeout": "Превышено время загрузки форматированных стикеров на сервера Телеграма. Пожалуйста, подождите немного и повторите попытку.",
     "doc_not_img": "Документ должен быть изображением.",
@@ -427,7 +463,11 @@
     "already_opted_in": "Уведомления о работе бота уже включены!",
     "forward": "Переслать",
     "your_sticker": "Ваш Стикер",
-    "forward_desc": "Нажмите сюда, что бы отправить выбранный вами стикер"
+    "forward_desc": "Нажмите сюда, что бы отправить выбранный вами стикер",
+    "cancel": "Отмена",
+    "icon_command_info": "Теперь вы можете добавить свою иконку, вместо использования первого стикера, своему набору стикеров для его отображения в списке ваших наборов. Иконки _должны_ быть квадратные и иметь разрешение 100х100. Если вы отправите мне неквадратное изображение, я добавлю к нему прозрачный фон под ним и на него для превращения его в квадрат. Учтите, что чем ближе ваше изображение к квадрату, тем лучше оно будет выглядеть. Если вы не видите иконку вашего набора более чем через час после добавления, то вероятно вы используете неофициальный клиент, который не поддерживает иконки стикер-паков.\n\n*Внимание: если вы добавили иконку, то удалить ее будет невозможно.*",
+    "icon_command": "Используйте команду /setpackicon в @Stickers и отправьте изображение, стикер, или ссылку, которую вы хотите установить в качестве иконки, мне.",
+    "icon_canceled": "Выход из режима создания иконки. Возврат в режим создания стикеров."
   },
   "uk": {
     "order": "10",
@@ -448,7 +488,7 @@
     "no_permission": "Ви не маєте дозволу на це.",
     "broadcast_in_reply": "Використовуйте `/broadcast` у відповідь на повідомлення, яке потрібно надіслати.",
     "broadcast_only_text": "На разі, я можу транслювати лише *текст*.",
-    "stats": "Я створив *{:,}* стікери для *{:,}* унікальних користувачів з *10.23.2017*.\n\nЯ розпізнав та автоматично вибрав *{:,}* мову для користувачів що не розмовляють англійською.\n\nЗ *{:,}*  користувачів,  *{:,}* отримують повідомлення про роботу бота, *{:,}* а не отримують.",
+    "stats": "Я створив *{:,}* стікери для *{:,}* унікальних користувачів з *10.23.2017*.\n\nВи особисто створили *{:,}* стікери з *3.17.2019*.\n\nЯ розпізнав та автоматично вибрав *{:,}* мову для користувачів що не розмовляють англійською.\n\nЯ був розділений через inline *{:,}* раз.\n\nЗ *{:,}*  користувачів,  *{:,}* отримують повідомлення про роботу бота, *{:,}* а не отримують.",
     "lang_stats": "*Мовна статистика:*",
     "send_timeout": "Вичерпано час при спробі завантажити відформатовані стикери на сервери Telegram. Будь ласка, зачекайте хвилину і повторіть спробу",
     "doc_not_img": "Документ повинен бути зображенням.",
@@ -469,7 +509,11 @@
     "already_opted_in": "Повідомлення про роботу бота вже ввімкнені!",
     "forward": "Переслати",
     "your_sticker": "Ваш Стікер",
-    "forward_desc": "Натисніть сюди, щоб надіслати обраний вами стікер"
+    "forward_desc": "Натисніть сюди, щоб надіслати обраний вами стікер",
+    "cancel": "Скасувати",
+    "icon_command_info": "Тепер ви можете встановити значок для ваших пакетів стікерів для відображення в списку пакетів користувача, а не тільки у перший стікер в пакеті. Іконки 100х100 і _мусять_ бути квадратної. Якщо ви надішлете мені зображення, яке не є квадратним, я додам прозорий фон вище та нижче нього, щоб зробити його квадратним, але чим ближче вихідні розміри до квадрату, тим краще він виглядатиме. Якщо ви не бачите значок нового пакету через годину після його додавання, ви можете використовувати неофіційний клієнт, який ще не оновлено для підтримки значків.\n\n*Попередження: після додавання значка в стікер ви можете змінити його, але не видалити. Ви можете створити значок своєї першого стікера і встановити його так, але ви не можете повернутися до поведінки за замовчуванням пакету, використовуючи перший стікер автоматично.*",
+    "icon_command": "Використовуйте команду /setpackicon в @Stickers, а потім надішліть мені фотографію, стікер або URL-адресу зображення, яку ви хочете перетворити на значок.",
+    "icon_canceled": "Гаразд, я скасував створення значка. Тепер ви повернулися в звичайний режим створення стікерів."
   },
   "fa": {
     "order": "11",
@@ -512,7 +556,11 @@
     "already_opted_in": "شما هم\u200cاکنون دریافت اطلاعیه ها را انتخاب کرده\u200cاید و آن ها را دریافت خواهید کرد!",
     "forward": "ارسال",
     "your_sticker": "استیکر شما",
-    "forward_desc": "برای ارسال استیکر انتخاب شده اینجا کلیک کنید"
+    "forward_desc": "برای ارسال استیکر انتخاب شده اینجا کلیک کنید",
+    "cancel": "",
+    "icon_command_info": "",
+    "icon_command": "",
+    "icon_canceled": ""
   },
   "ar": {
     "order": "12",
@@ -555,7 +603,11 @@
     "already_opted_in": "انت بالفعل اخترت استقبال الاعلانات!",
     "forward": "متابعه",
     "your_sticker": "ملصقك",
-    "forward_desc": "اضغط هنا لارسال الملصق الذى حدده"
+    "forward_desc": "اضغط هنا لارسال الملصق الذى حدده",
+    "cancel": "",
+    "icon_command_info": "",
+    "icon_command": "",
+    "icon_canceled": ""
   },
   "zh": {
     "order": "13",
@@ -598,6 +650,10 @@
     "already_opted_in": "你已經選擇了接收通告。",
     "forward": "轉寄",
     "your_sticker": "你的貼紙",
-    "forward_desc": "點擊傳送已選擇的貼紙"
+    "forward_desc": "點擊傳送已選擇的貼紙",
+    "cancel": "",
+    "icon_command_info": "",
+    "icon_command": "",
+    "icon_canceled": ""
   }
 }

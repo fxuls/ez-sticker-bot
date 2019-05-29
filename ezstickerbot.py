@@ -33,6 +33,8 @@ updater = None
 config = {}
 lang = {}
 
+make_icon = []
+
 
 def main():
     get_config()
@@ -50,6 +52,7 @@ def main():
     # register commands
     dispatcher.add_handler(CommandHandler('broadcast', broadcast_command))
     dispatcher.add_handler(CommandHandler('help', help_command))
+    dispatcher.add_handler(CommandHandler('icon', icon_command))
     dispatcher.add_handler(CommandHandler('info', info_command))
     dispatcher.add_handler(CommandHandler('lang', change_lang_command))
     dispatcher.add_handler(CommandHandler('langstats', lang_stats_command))
@@ -68,6 +71,7 @@ def main():
 
     # register button handlers
     dispatcher.add_handler(CallbackQueryHandler(change_lang_callback, pattern="lang"))
+    dispatcher.add_handler(CallbackQueryHandler(icon_cancel_callback, pattern="icon_cancel"))
 
     # register inline handlers
     dispatcher.add_handler(InlineQueryHandler(share_query_received, pattern=re.compile("^share$", re.IGNORECASE)))
@@ -189,22 +193,35 @@ def url_received(bot, update):
 
 
 def create_sticker_file(message, image):
-    # format image
-    width, height = image.size
-    reference_length = max(width, height)
-    ratio = 512 / reference_length
-    new_width = width * ratio
-    new_height = height * ratio
-    # round up if new dimension has .999 or more
-    if new_width % 1 >= .999:
-        new_width = int(round(new_width))
+    # check if user is making icon
+    global make_icon
+    icon = message.from_user.id in make_icon
+
+    # if user is making icon
+    if icon:
+        image.thumbnail((100, 100), Image.ANTIALIAS)
+        background = Image.new('RGBA', (100, 100), (255, 255, 255, 0))
+        background.paste(image, (int(((100 - image.size[0]) / 2)), int(((100 - image.size[1]) / 2))))
+        image = background
+
+    # else format image to sticker
     else:
-        new_width = int(new_width)
-    if new_height % 1 >= .999:
-        new_height = int(round(new_height))
-    else:
-        new_height = int(new_height)
-    image = image.resize((new_width, new_height), Image.ANTIALIAS)
+        width, height = image.size
+        reference_length = max(width, height)
+        ratio = 512 / reference_length
+        new_width = width * ratio
+        new_height = height * ratio
+        # round up if new dimension has .999 or more
+        if new_width % 1 >= .999:
+            new_width = int(round(new_width))
+        else:
+            new_width = int(new_width)
+        if new_height % 1 >= .999:
+            new_height = int(round(new_height))
+        else:
+            new_height = int(new_height)
+
+        image = image.resize((new_width, new_height), Image.ANTIALIAS)
 
     # save image object to temporary file
     temp_path = os.path.join(dir, (uuid.uuid4().hex[:6].upper() + '.png'))
@@ -213,7 +230,8 @@ def create_sticker_file(message, image):
     # send formatted image as a document
     document = open(temp_path, 'rb')
     try:
-        sent_message = message.reply_document(document=document, filename='sticker.png',
+        filename = 'icon.png' if icon else 'sticker.png'
+        sent_message = message.reply_document(document=document, filename=filename,
                                               caption=get_message(message.chat_id, "forward_to_stickers"), quote=True,
                                               timeout=30)
         # add a keyboard with a forward button to the document
@@ -228,6 +246,10 @@ def create_sticker_file(message, image):
     image.close()
     time.sleep(0.2)
     os.remove(temp_path)
+
+    # remove user from make_icon if icon was created
+    if icon:
+        make_icon.remove(message.from_user.id)
 
     # increase total uses count by one
     global config
@@ -312,6 +334,20 @@ def file_id_query_received(bot, update):
     # if file_id wasn't found show share option
     except TelegramError:
         share_query_received(bot, update)
+
+
+@run_async
+def icon_cancel_callback(bot, update):
+    query = update.callback_query
+    user_id = str(query.from_user.id)
+
+    # if user is in make_icon remove them
+    global make_icon
+    if user_id in make_icon:
+        make_icon.remove(user_id)
+
+    query.edit_message_text(text=get_message(user_id, "icon_canceled"), reply_markup=None)
+    query.answer()
 
 
 @run_async
@@ -414,6 +450,34 @@ def help_command(bot, update):
 
 
 @run_async
+def icon_command(bot, update):
+    message = update.message
+
+    # feedback to show bot is processing
+    bot.send_chat_action(message.chat_id, 'typing')
+
+    # add user to make_icon if not already in it
+    global make_icon
+    if message.from_user.id not in make_icon:
+        make_icon.append(message.from_user.id)
+
+    # create keyboard with cancel button
+    keyboard = [[
+        InlineKeyboardButton(get_message(message.chat_id, "cancel"), callback_data="icon_cancel")
+    ]]
+    markup = InlineKeyboardMarkup(keyboard)
+
+    # if user has not been sent icon info message send it
+    if not get_user_config(message.chat_id, 'icon_warned'):
+        message.reply_markdown(get_message(message.chat_id, "icon_command_info"))
+
+        global config
+        config['users'][str(message.chat_id)]['icon_warned'] = True
+
+    message.reply_markdown(get_message(message.chat_id, "icon_command"), reply_markup=markup)
+
+
+@run_async
 def info_command(bot, update):
     message = update.message
 
@@ -427,7 +491,7 @@ def info_command(bot, update):
                               url=config['rate_link']),
          InlineKeyboardButton(get_message(message.chat_id, "share"), switch_inline_query="share")]]
     markup = InlineKeyboardMarkup(keyboard)
-    message.reply_markdown(get_message(update.message.chat_id, "info").format(config['uses']), reply_markup=markup)
+    message.reply_markdown(get_message(message.chat_id, "info").format(config['uses']), reply_markup=markup)
 
 
 @run_async
