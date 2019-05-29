@@ -291,6 +291,9 @@ def change_lang_callback(bot, update):
                 continue
     message = ' '.join(message)
 
+    # set icon_warned to false
+    config['users'][user_id]['icon_warned'] = False
+
     query.edit_message_text(text=message, reply_markup=None, parse_mode='HTML')
     query.answer()
 
