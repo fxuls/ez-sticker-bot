@@ -2,11 +2,12 @@
   "uses": 0,
   "users": {},
   "default_user": {
+    "icon_warned": false
     "lang": "en",
-    "mode": "file",
     "opt_in": true,
-    "personal_pack": {}
+    "uses": 0
   },
+  "times_shared": 0,
   "admins": [],
   "token": "TOKEN_FROM_BOTFATHER",
   "langs_auto_set": 0,
