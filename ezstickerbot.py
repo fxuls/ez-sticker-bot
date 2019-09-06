@@ -14,11 +14,11 @@ import requests
 import simplejson
 from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
-    InlineQueryResultCachedDocument
+from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
+    InlineQueryResultCachedDocument, Update
 from telegram.error import TelegramError, TimedOut
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler, \
-    ChosenInlineResultHandler
+    ChosenInlineResultHandler, CallbackContext
 from telegram.ext.dispatcher import run_async
 
 # setup logger
@@ -28,7 +28,8 @@ logger = logging.getLogger(__name__)
 
 dir = os.path.dirname(__file__)
 
-updater = None
+updater: Updater = None
+bot: Bot = None
 
 config = {}
 lang = {}
@@ -41,8 +42,10 @@ def main():
     get_lang()
 
     global updater
-    updater = Updater(config['token'], workers=10)
+    updater = Updater(config['token'], use_context=True, workers=10)
     dispatcher = updater.dispatcher
+    global bot
+    bot = updater.bot
 
     # register a handler to ignore all non-private updates
     dispatcher.add_handler(MessageHandler(~ Filters.private, do_fucking_nothing))
@@ -90,7 +93,6 @@ def main():
 
     updater.idle()
 
-
 #   ____
 #  / ___|   ___    _ __    ___
 # | |      / _ \  | '__|  / _ \
@@ -99,7 +101,7 @@ def main():
 
 
 @run_async
-def image_sticker_received(bot, update):
+def image_sticker_received(update: Update, context: CallbackContext):
     message = update.message
     user_id = message.from_user.id
 
@@ -145,7 +147,7 @@ def image_sticker_received(bot, update):
 
 
 @run_async
-def url_received(bot, update):
+def url_received(update: Update, context: CallbackContext):
     message = update.message
     text = message.text.split(' ')
 
@@ -263,7 +265,7 @@ def create_sticker_file(message, image):
 
 
 @run_async
-def change_lang_callback(bot, update):
+def change_lang_callback(update: Update, context: CallbackContext):
     query = update.callback_query
     lang_code = query.data.split(':')[-1]
     user_id = str(query.from_user.id)
@@ -297,7 +299,7 @@ def change_lang_callback(bot, update):
 
 
 @run_async
-def share_query_received(bot, update):
+def share_query_received(update: Update, context: CallbackContext):
     query = update.inline_query
     user_id = query.from_user.id
 
@@ -316,7 +318,7 @@ def share_query_received(bot, update):
 
 
 @run_async
-def file_id_query_received(bot, update):
+def file_id_query_received(update: Update, context: CallbackContext):
     # get query
     query = update.inline_query
     user_id = query.from_user.id
@@ -338,7 +340,7 @@ def file_id_query_received(bot, update):
 
 
 @run_async
-def icon_cancel_callback(bot, update):
+def icon_cancel_callback(update: Update, context: CallbackContext):
     query = update.callback_query
     user_id = str(query.from_user.id)
 
@@ -352,7 +354,7 @@ def icon_cancel_callback(bot, update):
 
 
 @run_async
-def inline_result_chosen(bot, update):
+def inline_result_chosen(update: Update, context: CallbackContext):
     chosen_result = update.chosen_inline_result
     result_id = chosen_result.result_id
 
@@ -363,7 +365,7 @@ def inline_result_chosen(bot, update):
 
 
 @run_async
-def invalid_command(bot, update):
+def invalid_command(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
@@ -372,7 +374,7 @@ def invalid_command(bot, update):
 
 
 @run_async
-def invalid_content(bot, update):
+def invalid_content(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
@@ -382,7 +384,7 @@ def invalid_content(bot, update):
     message.reply_markdown(get_message(message.chat_id, "send_sticker_photo"))
 
 
-def do_fucking_nothing(bot, update):
+def do_fucking_nothing(update: Update, context: CallbackContext):
     pass
 
 
@@ -392,9 +394,8 @@ def do_fucking_nothing(bot, update):
 # | |___  | (_) | | | | | | | | | | | | | | (_| | | | | | | (_| | \__ \
 #  \____|  \___/  |_| |_| |_| |_| |_| |_|  \__,_| |_| |_|  \__,_| |___/
 
-
 @run_async
-def broadcast_command(bot, update):
+def broadcast_command(update: Update, context: CallbackContext):
     message = update.message
     chat_id = update.message.chat_id
 
@@ -424,7 +425,7 @@ def broadcast_command(bot, update):
 
 
 @run_async
-def change_lang_command(bot, update):
+def change_lang_command(update: Update, context: CallbackContext):
     ordered_langs = [None] * len(lang)
     for lang_code in lang.keys():
         ordered_langs[int(lang[lang_code]['order'])] = lang_code
@@ -442,7 +443,7 @@ def change_lang_command(bot, update):
 
 
 @run_async
-def help_command(bot, update):
+def help_command(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
@@ -451,7 +452,7 @@ def help_command(bot, update):
 
 
 @run_async
-def icon_command(bot, update):
+def icon_command(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
@@ -479,7 +480,7 @@ def icon_command(bot, update):
 
 
 @run_async
-def info_command(bot, update):
+def info_command(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
@@ -496,7 +497,7 @@ def info_command(bot, update):
 
 
 @run_async
-def lang_stats_command(bot, update):
+def lang_stats_command(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
@@ -529,7 +530,7 @@ def lang_stats_command(bot, update):
 
 
 @run_async
-def opt_command(bot, update):
+def opt_command(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
@@ -555,7 +556,7 @@ def opt_command(bot, update):
             message.reply_text(get_message(user_id, "opted_out"))
 
 
-def restart_command(bot, update):
+def restart_command(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
@@ -569,7 +570,7 @@ def restart_command(bot, update):
 
 
 @run_async
-def start_command(bot, update):
+def start_command(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
@@ -578,7 +579,7 @@ def start_command(bot, update):
 
 
 @run_async
-def stats_command(bot, update):
+def stats_command(update: Update, context: CallbackContext):
     message = update.message
     user_id = message.chat_id
 
@@ -608,9 +609,9 @@ def stats_command(bot, update):
 
 
 @run_async
-def broadcast_thread(bot, job):
+def broadcast_thread(context: CallbackContext):
     # check that message was included with the job obj
-    if job.context is None:
+    if context.job.context is None:
         print("Broadcast thread created without message stored in job context")
         return
 
@@ -623,7 +624,7 @@ def broadcast_thread(bot, job):
         # catch any errors thrown by users who have stopped bot
         try:
             if opt_in and not config['override_opt_out']:
-                bot.send_message(chat_id=int(user_id), text=job.context, parse_mode='HTML',
+                bot.send_message(chat_id=int(user_id), text=context.job.context, parse_mode='HTML',
                                  disable_web_page_preview=True)
                 # send opt out message
                 if config['send_opt_out_message']:
@@ -692,14 +693,14 @@ def get_user_config(user_id, key):
 
 
 # logs bot errors thrown
-def handle_error(bot, update, error):
+def handle_error(update: Update, context: CallbackContext):
     # prevent spammy errors from logging
-    if error in ("Forbidden: bot was blocked by the user", "Timed out"):
+    if context.error in ("Forbidden: bot was blocked by the user", "Timed out"):
         return
-    logger.warning('Update "{}" caused error "{}"'.format(update, error))
+    logger.warning('Update "{}" caused error "{}"'.format(update, context.error))
 
 
-def save_config(bot=None, job=None):
+def save_config(context: CallbackContext = None):
     data = json.dumps(config)
     path = os.path.join(dir, 'config.json')
     with open(path, "w") as config_file:
