@@ -66,7 +66,7 @@
     "broadcast_in_reply": "Utilize `/broadcast`en respuesta al mensaje para ser enviado.",
     "will_broadcast": "Bien, su mensaje será¡ enviado.",
     "broadcast_only_text": "Por ahora solo *text* mensajes puede ser difundido.",
-    "stats": "He creado *{:,}* stickes para *{:,}* usuarios desde *10.23.2017*.\n\nHe detectado y configurado automáticamente el idioma del bot para *{:,}* personas que no hablan inglés.\n\nDe los usuarios de *{:,}*, *{:,}* optan por recibir anuncios y *{:,}* se excluyen.",
+    "stats": "He creado *{:,}* stickes para *{:,}* usuarios desde *10.23.2017*.\n\nUsted ha creado *{:,}* stickers desde *3.17.2019*.\n\nHe detectado y configurado automáticamente el idioma del bot para *{:,}* personas que no hablan inglés.\n\nHe sido compartido vía inline *{:,}* veces.\n\nDe los usuarios de *{:,}*, *{:,}* optan por recibir anuncios y *{:,}* se excluyen.",
     "lang_stats": "*Estadistica de Idioma:*",
     "send_timeout": "Tiempo expirado tratando de cargar sticker a servidores de Telegram. Por favor espere un minuto e inténtelo de nuevo.",
     "doc_not_img": "El archivo tiene que ser una imagen.",
@@ -88,10 +88,10 @@
     "forward": "Reenviar",
     "your_sticker": "Tu Sticker",
     "forward_desc": "Haga clic aquí para enviar el sticker que ha seleccionado.",
-    "cancel": "",
-    "icon_command_info": "",
-    "icon_command": "",
-    "icon_canceled": ""
+    "cancel": "Cancelar",
+    "icon_command_info": "Ahora puede configurar un icono para que se muestre en la lista de paquetes de stickers de un usuario en lugar de sólo el primer sticker del paquete. Los iconos son de 100x100 y deben ser cuadrados. Si me envías una imagen que no es cuadrada, añadiré un fondo transparente por encima y por debajo para hacerla cuadrada, pero cuanto más cerca estén las dimensiones originales de ser cuadrada, mejor se verá. Si no estás viendo tu nuevo icono de paquete de stickers en una hora después de añadirlo, es posible que estés usando un cliente no oficial que aún no ha sido actualizado para soportar iconos.\n\n*Advertencia: Una vez que hayas añadido un icono a tu paquete de stickers, podrás cambiarlo pero no eliminarlo. Puedes crear un icono de tu primer sticker y configurarlo como tal, pero no puedes revertir esta acción una vez que hayas utilizado la creación de icono por default usando el primer sticker como icono automáticamente.*",
+    "icon_command": "Usa el comando /setpackicon en @Stickers y luego envíame la foto, sticker o URL de la imagen que quieras convertir en un icono.",
+    "icon_canceled": "Ok, he cancelado la creación de un icono. Ahora está de nuevo en el modo normal de creación de stickers."
   },
   "de": {
     "order": "2",
@@ -348,7 +348,7 @@
     "broadcast_in_reply": "Uporabite /broadcast v odgovoru za želeno poslano sporočilo.",
     "will_broadcast": "Sporočilo bo poslano.",
     "broadcast_only_text": "Trenutno se lahko oddajajo samo *text* sporočila",
-    "stats": "Ustvaril sem *{:,}* nalepke za *{:,}* unikatne uporabnike od *10.23.2017*.\n\nSem zaznal in avtomatsko spremenil jezik za *{:,}* ne-Angleške govorce.\n\nOd *{:,}* uporabnikov, *{:,}* so prijavljeni na obvestila in *{:,}* jih je odjavljenjih.",
+    "stats": "Ustvaril sem *{:,}* nalepke za *{:,}* unikatne uporabnike od *10.23.2017*.\n\nVi ste ustvarili *{:,}* nalepk od *{:,}*.\n\nSem zaznal in avtomatsko spremenil jezik za *{:,}* ne-Angleške govorce.\n\nBil sem deljen *{:,}* krat.\n\nOd *{:,}* uporabnikov, *{:,}* so prijavljeni na obvestila in *{:,}* jih je odjavljenjih.",
     "lang_stats": "*Statistika jezikov uporabnikov:*",
     "send_timeout": "Čas trajanja predolg pri nalaganju formatiranih nalepk na Telegramov strežnik. Prosim počakajte minuto in poskusite znova.",
     "doc_not_img": "Dokument more biti slika.",
@@ -370,10 +370,10 @@
     "forward": "Posreduj",
     "your_sticker": "Tvoja nalepka",
     "forward_desc": "Klikni tukaj da pošlješ izbrano nalepko",
-    "cancel": "",
-    "icon_command_info": "",
-    "icon_command": "",
-    "icon_canceled": ""
+    "cancel": "Prekliči",
+    "icon_command_info": "Zdaj lahko nastaviš ikono za tvojo zbirko nalepk, ki bo prikazovala glavno nalepko zbirke namesto samo prvo nalepko. Ikona je 100x100 velikosti in __mora__ biti kvadratna. Če pošlješ sliko, ki ni kvadratna, se bo dodalo transparentno ozadje nad in pod ikono, da izgleda kvadratno. Če ne vidiš svoje nove ikone po eni uri, je možno da uporabljaš ne-uradno verzijo aplikacije, ki ne podpira te funkcije.\n\n*Opozorilo: Enkrat, ko dodaš ikono svoji zbirki, lahko to spremeniš, vendar izgubiš opcijo da bi zbirka izbrala prvo nalepko za svojo ikono.*",
+    "icon_command": "Uporabi /setpackicon ukaz v @Stickers in potem pošlji sliko, nalepko ali URL slike katero hočeš spremeniti v ikono.",
+    "icon_canceled": "Ok, proces ustvarjanja ikone ustavljen. Si nazaj v navadnih nastavitvah."
   },
   "pl": {
     "order": "8",
@@ -395,7 +395,7 @@
     "broadcast_in_reply": "Użyj `/broadcast` w odpowiedzi na wiadomość do wysłania.",
     "will_broadcast": "Ok, twoja wiadomość zostanie wysłana.",
     "broadcast_only_text": "Obecnie można nadawać tylko wiadomości *tekstowe*.",
-    "stats": "Od *23.10.2017* stworzyłem *{:,}* naklejek dla *{:,}* unikalnych użytkowników.\n\nWłasnoręcznie stworzyłeś *{:,}* naklejek od *3.17.2019*.\n\nWykryłem i automatycznie ustawiłem język bota dla *{:,}* nieanglojęzycznych osób.\n\nZostałem udostępniony przez wstawkę *{:,}* razy.\n\nZ *{:,}* użytkowników, *{:,}* otrzymuje powiadomienia, natomiast *{:,}* wyłączyło sobie tę opcję.",
+    "stats": "Od *23.10.2017* stworzyłem *{:,}* naklejek dla *{:,}* unikalnych użytkowników.\n\nWłasnoręcznie stworzyłeś *{:,}* naklejek od *17.3.2019*.\n\nWykryłem i automatycznie ustawiłem język bota dla *{:,}* nieanglojęzycznych osób.\n\nZostałem udostępniony przez wstawkę *{:,}* razy.\n\nZ *{:,}* użytkowników, *{:,}* otrzymuje powiadomienia, natomiast *{:,}* wyłączyło sobie tę opcję.",
     "lang_stats": "*Statystyki języków:*",
     "send_timeout": "Przekroczono limit czasu podczas przesyłania naklejki na serwery Telegrama. Odczekaj chwilę i spróbuj ponownie.",
     "doc_not_img": "Dokument musi być obrazem.",
@@ -529,13 +529,13 @@
     "rate": "به من امتیاز بدین ⭐️⭐️⭐️⭐️⭐️",
     "restarting": "در حال شروع مجدد ربات...",
     "select_lang": "زبان خود را انتخاب کنید.",
-    "lang_set": "زبان شما فارسی شد.\n\nترجمه از $133066667",
+    "lang_set": "زبان شما فارسی شد.\n\n با سپاس و قدردانی از $126873946 و $133066667 که بات را برای فارسی زبانان در دسترس قرار دادند!",
     "invalid_command": "این دستور را نمیشناسم.",
     "no_permission": "شما اجازه این کار را ندارید.",
     "broadcast_in_reply": "از `/broadcast` برای پاسخ دادن به پیام استفاده کنید.",
     "will_broadcast": "پیام شما ارسال شد.",
     "broadcast_only_text": "در حال حاضر فقط پیام های متنی قابل قبول هستند.",
-    "stats": "من *{:,}* استیکر برای *{:,}* کاربر از تاریخ *10.23.2017* درست کردم.\\n\\nبه طور خودکار زبان بات به *{:,}* تغییر کرد.\\n\\nاز *{:,}* کاربر بات، *{:,}* نفر در حال دریافت اطلاعیه ها هستند و *{:,}* نفر از دریافت آن\u200cها صرف نظر کرده\u200cاند.",
+    "stats": "من، از تاریخ *10.23.2017* تا به حال *{:,}* استیکر برای *{:,}* کاربر مختلف ساخته\u200cام. \n\n شما از تاریخ *3.17.2019* تا کنون *{:,}* ساخته\u200cاید. \n\n من برای *{:,}* کاربر غیر-انگلیسی زبان، زبان مناسب را به صورت خودکار، تشخیص و زبان بات را تغییر داده\u200cام. \n\n من به وسیله\u200cی دستور اینلاین (inline) *{:,}* بار، به اشتراک گذاشته شده\u200cام. \n\n از *{:,}* کاربر، *{:,}* نفر اعلانات را دریافت می\u200cکنند و *{:,}* نفر تمایلی به درفت اعلانات ندارند.",
     "lang_stats": "*آمار زبان:*",
     "send_timeout": "خطای طولانی بودن زمان هنگام آپلود استیکر به سرور های تلگرام رخ داد. لطفا یک دقیقه صبر کنید و دوباره امتحان کنید.",
     "doc_not_img": "باید عکس باشد.",
@@ -557,10 +557,10 @@
     "forward": "ارسال",
     "your_sticker": "استیکر شما",
     "forward_desc": "برای ارسال استیکر انتخاب شده اینجا کلیک کنید",
-    "cancel": "",
-    "icon_command_info": "",
-    "icon_command": "",
-    "icon_canceled": ""
+    "cancel": "لغو",
+    "icon_command_info": "اکنون شما می\u200cتوانید برای پک\u200cهای استیکرتان، آیکون تعیین کنید تا به جای اولین استیکر موجود در پک، در لیست پک\u200cهای کاربران نمایش داده شود.\nآیکون\u200cها باید در ابعاد 100x100 و _حتماً_ به شکل مربع باشند. اگر عکسی بفرستید که مربعی شکل نباشد، من پس\u200cزمینه\u200cی شفافی (transparent) را به اطراف عکس اضافه خواهم کرد تا به شکل مربع در بیاید. با این حال، هرچقدر که ابعاد عکس به مربع نزدیک\u200cتر باشد؛ ظاهر بهتری به خود می\u200cگیرد.\nپس از یک ساعت اگر آیکون جدید پک\u200cتان را نمی\u200cبینید؛ احتمالاً به این خاطر است که شما دارید از برنامه\u200cای غیررسمی استفاده می\u200cکنید که برای افزودن آیکون به پک\u200cها آپدیت نشده است.*هشدار: زمانی که آیکون پک را تعیین کنید؛ می\u200cتوانید آن را تغییر دهید ولی نمی\u200cتوانید آن را حذف کنید. \nمی\u200cتوانید آیکونی را از استیکر اول پک\u200cتان تعیین کنید ولی نمی\u200cتوانید پک استیکر را به حالت اولیه\u200cی خودش بازگردانید. یعنی پک استیکر شما دیگر به صورت خودکار، اولین استیکر را به عنوان آیکون پک در نظر نمی\u200cگیرد.*",
+    "icon_command": "از دستور /setpackicon در بات @Stickers برای تعیین کردن آیکون استفاده کنید. سپس عکس، استیکر و یا لینک عکس مورد نظرتان را برای من بفرستید.",
+    "icon_canceled": "خوب, من ایجاد یک نماد لغو کرده ام. شما در حال حاضر در حالت عادی ایجاد برچسب."
   },
   "ar": {
     "order": "12",
@@ -582,7 +582,7 @@
     "broadcast_in_reply": "استخدم `/broadcast` فى reply للرساله للارسال.",
     "will_broadcast": "حسنا، سيتم ارسال الرساله.",
     "broadcast_only_text": "حاليا *text* فقط الرساله يمكن بثها.",
-    "stats": "لقد صنعت *{:,}* ملصق لـ *{:,}*  مستخدما فريد منذ*10.23.2017*\\n\\nلقد اكتشفت وعينت تلقائيا لغه البوت الى *{:,}* المتحدثين بغير الانجليزيه.\\n\\nمن بين *{:,}* مستخدمًا ، تم اختيار *{:,}* لتلقي الإعلانات المستلمة و *{:,}* تم إلغاء",
+    "stats": "لقد صنعت *{:,}* ملصق ل *{:,}* مستخدم منذ *10.23.2017*.\n\nانت شخصيا صنعت *{:,}* ملصق من  *3.17.2019*.\n\nلقد قمت باكتشاف وتعيين اللغة تلقائيًا ل *{:,}* غير الناطقين باللغة الإنجليزية.\n\nتمت مشاركتي عبر الإنترنت *{:,}* مره.\n\nمن خلال *{:,}* مسخدم, *{:,}* مشتركين في تلقي الإعلانات و *{:,}* وغير مشاركين.",
     "lang_stats": "*شعرات اللغه:*",
     "send_timeout": "انتها الوفت عند محاولت رفع صيغه الملصق لخوادم التليجرام  . انتظر لحظات وحاول مره اخرى.",
     "doc_not_img": "الملف يجب ان يكون صوره.",
@@ -604,10 +604,10 @@
     "forward": "متابعه",
     "your_sticker": "ملصقك",
     "forward_desc": "اضغط هنا لارسال الملصق الذى حدده",
-    "cancel": "",
-    "icon_command_info": "",
-    "icon_command": "",
-    "icon_canceled": ""
+    "cancel": "الغاء",
+    "icon_command_info": "يمكنك الآن تعيين رمز لحزم الملصقات الخاصة بك لعرضها في قائمة حزم المستخدم بدلاً من الملصق الأول فقط في الحزمة. الصوره تكون ١٠٠×١٠٠و _يجب_ ان تكون مربعه. إذا قمت بإرسال صورة غير مربعة ، فسأضيف خلفية شفافة أعلاها وأسفلها لجعلها مربعة ، لكن كلما كانت الأبعاد الأصلية أقرب إلى المربع ، ستبدو أفضل. إذا كنت لا ترى أيقونة الحزمة الجديدة بعد ساعة من إضافتها ، فربما تستخدم عميلًا غير رسمي لم يتم تحديثه لدعم الرموز بعد.\n\n*تحذير: بمجرد إضافة رمز إلى حزمة الملصقات الخاصة بك ، يمكنك تغييره ولكن لا يمكنك إزالته.  يمكنك إنشاء أيقونة للملصق الأول وتعيينه على هذا النحو ولكن لا يمكنك الرجوع إلى السلوك الافتراضي للحزمة باستخدام الملصق الأول تلقائيًا.*",
+    "icon_command": "استخدام /setpackicon فى @Stickers ثم أرسل الصورة أو الملصق أو عنوان URL للصورة الذي تريد تحويله إلى ملصق.",
+    "icon_canceled": "حسنًا ، لقد ألغيت إنشاء رمز.  لقد عدت الآن إلى وضع إنشاء الملصقات العادي."
   },
   "zh": {
     "order": "13",
@@ -629,7 +629,7 @@
     "broadcast_in_reply": "打 /broadcast 回覆你想發送既訊息。",
     "will_broadcast": "收到！我即將發送你既訊息。",
     "broadcast_only_text": "依家只可以廣播*文字*訊息。",
-    "stats": "截止*10.23.2017*，我幫*{:,}*位使用者整左*{:,}*個貼圖。\n\n已為*{:,}*人自動設定語言。\n\n在*{:,}*個使用者中，有*{:,}*人接收通告，有*{:,}*人選擇不接收通告。",
+    "stats": "截止*10.23.2017*，我幫*{:,}*位使用者整左*{:,}*個貼圖。\n\n自*3.17.2019*你已製造了*{:,}*張貼紙。\n\n已為*{:,}*人自動設定語言。\n\n貼紙已以inline方式被分享了*{:,}*次。\n\n在*{:,}*個使用者中，有*{:,}*人接收通告，有*{:,}*人選擇不接收通告。",
     "lang_stats": "*語言統計:*",
     "send_timeout": "上載唔到貼圖到Telegram 伺服器。你等陣再試過啦！",
     "doc_not_img": "我只接受圖片檔。",
@@ -651,9 +651,9 @@
     "forward": "轉寄",
     "your_sticker": "你的貼紙",
     "forward_desc": "點擊傳送已選擇的貼紙",
-    "cancel": "",
-    "icon_command_info": "",
-    "icon_command": "",
-    "icon_canceled": ""
+    "cancel": "取消",
+    "icon_command_info": "貼紙包的預設圖示為第一張貼紙。從現在起，你可以指定貼紙包的圖示(Icon)。圖示_必需_為100x100的正方形，若接收到的圖片並非正方形，將以上下透明邊界補上。愈接近正方形的圖片作為圖示愈好看。若你已指定圖示，\n但過一小時仍看不到，請更新你的(非官方)Telegram用戶端。\n\n*注意: 設定圖示後，你只可修改而不可把圖示刪除。當然你可以把第一張貼紙設為圖示，但這行為仍不可逆轉。*",
+    "icon_command": "先在 @Stickers 使用 /setpackicon 指令，然後再把希望轉換成圖示(icon)的圖片、貼紙或圖片網址傳送給我。",
+    "icon_canceled": "已返回到正常模式"
   }
 }
