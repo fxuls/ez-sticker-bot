@@ -42,8 +42,6 @@ def main():
 
     global updater
     updater = Updater(config['token'], workers=10)
-    global uses
-    uses = config['uses']
     dispatcher = updater.dispatcher
 
     # register a handler to ignore all non-private updates
