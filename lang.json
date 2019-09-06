@@ -144,7 +144,7 @@
     "order": "3",
     "lang_name": "Nederlands 🇳🇱",
     "start": "Hallo! Ik ben *EZ Sticker Bot*. Ik kan je helpen met stickers maken! Typ /help om te beginnen of /info voor meer informatie.\n\n🌐 Om de taal te veranderen, typ /lang.",
-    "help": "Om een sticker aan een pack toe te voegen met @Stickers, moet jouw bestand opgeslagen zijn in png formaat, en één dimensie hebben van 512px, en kleiner zijn dan 512Kb.\n\n Je kan me elke sticker of foto sturen, en ik zal het omzetten om aan alle drie de vereisden te voldoen, en dan stuur ik je het bestand terug, klaar voor het stickerpack!",
+    "help": "Om een sticker aan een pack toe te voegen met @Stickers, moet jouw bestand opgeslagen zijn in png formaat, en één dimensie hebben van 512px, en kleiner zijn dan 512Kb.\n\n Je kan me elke sticker of foto sturen, en ik zal het omzetten om aan alle drie de vereisten te voldoen, en dan stuur ik je het bestand terug, klaar voor het stickerpack!",
     "forward_to_stickers": "Stuur dit door naar @Stickers\n@EzStickerBot",
     "cant_process": "Ik kan dit bestand niet verwerken.",
     "send_sticker_photo": "Stuur me een *foto* of een *sticker*.",
