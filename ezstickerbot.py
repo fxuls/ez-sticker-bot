@@ -82,7 +82,7 @@ def main():
     dispatcher.add_handler(ChosenInlineResultHandler(inline_result_chosen))
 
     # register variable dump loop
-    updater.job_queue.run_repeating(save_config, 300, 300)
+    updater.job_queue.run_repeating(save_config, config['save_interval'], config['save_interval'])
 
     # register error handler
     dispatcher.add_error_handler(handle_error)
@@ -633,8 +633,8 @@ def broadcast_thread(context: CallbackContext):
             pass
 
         index += 1
-        if index >= 10:
-            time.sleep(15)
+        if index >= config['broadcast_batch_size']:
+            time.sleep(config['broadcast_batch_interval'])
             index = 0
 
 

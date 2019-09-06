@@ -16,5 +16,8 @@
   "contact_dev_link": "DEV_LINK",
   "rate_link": "RATE_LINK",
   "source_link": "SOURCE_LINK",
-  "share_thumb_url": "http://oi65.tinypic.com/2nq8hz8.jpg"
+  "share_thumb_url": "http://oi65.tinypic.com/2nq8hz8.jpg",
+  "save_interval": 300,
+  "broadcast_batch_size": 25,
+  "broadcast_batch_interval": 15
 }
