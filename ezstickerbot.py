@@ -64,7 +64,8 @@ def main():
     dispatcher.add_handler(MessageHandler(Filters.command, invalid_command))
 
     # register media listener
-    dispatcher.add_handler(MessageHandler((Filters.photo | Filters.sticker | Filters.document), image_sticker_received))
+    dispatcher.add_handler(MessageHandler((Filters.photo | Filters.document), image_received))
+    dispatcher.add_handler(MessageHandler(Filters.sticker, sticker_received))
     dispatcher.add_handler(MessageHandler(Filters.text, url_received))
     dispatcher.add_handler(MessageHandler(Filters.all, invalid_content))
 
@@ -99,7 +100,7 @@ def main():
 
 
 @run_async
-def image_sticker_received(update: Update, context: CallbackContext):
+def image_received(update: Update, context: CallbackContext):
     message = update.message
     user_id = message.from_user.id
 
@@ -115,25 +116,14 @@ def image_sticker_received(update: Update, context: CallbackContext):
 
             message.reply_markdown(get_message(user_id, 'doc_not_img'))
             return
-    elif message.photo:
-        photo_id = message.photo[-1].file_id
     else:
-        photo_id = message.sticker.file_id
+        photo_id = message.photo[-1].file_id
 
     # feedback to show bot is processing
     bot.send_chat_action(user_id, 'upload_photo')
 
     try:
-        # download file
-        file = bot.get_file(file_id=photo_id, timeout=30)
-        temp = file.file_path.split('/')[-1].split('.')
-        if len(temp) > 1:
-            ext = '.' + file.file_path.split('/')[-1].split('.')[1]
-        else:
-            ext = '.webp'
-        download_path = os.path.join(dir, (photo_id + ext))
-        file.download(custom_path=download_path)
-
+        download_path = download_file(photo_id)
         image = Image.open(download_path)
 
         create_sticker_file(message, image)
@@ -141,6 +131,42 @@ def image_sticker_received(update: Update, context: CallbackContext):
         # delete local file
         os.remove(download_path)
     except TimedOut:
+        message.reply_text(get_message(user_id, "send_timeout"))
+
+
+@run_async
+def sticker_received(update: Update, context: CallbackContext):
+    message = update.message
+    user_id = message.from_user.id
+
+    sticker_id = message.sticker.file_id
+
+    # feedback to show bot is processing
+    bot.send_chat_action(user_id, 'upload_photo')
+
+    try:
+        download_path = download_file(sticker_id)
+
+        # check if user is making icon
+        if message.from_user.id in make_icon:
+            image = Image.open(download_path)
+            create_sticker_file(message, image)
+        # send them sticker as document
+        else:
+            document = open(download_path, 'rb')
+            sent_message = message.reply_document(document=document, filename="sticker.png",
+                                                  caption=get_message(message.chat_id, "forward_to_stickers"),
+                                                  quote=True,
+                                                  timeout=30)
+            # add a keyboard with a forward button to the document
+            file_id = sent_message.document.file_id
+            markup = InlineKeyboardMarkup(
+                [[InlineKeyboardButton(get_message(message.chat_id, "forward"), switch_inline_query=file_id)]])
+            sent_message.edit_reply_markup(reply_markup=markup)
+
+        # delete local file
+        os.remove(download_path)
+    except TelegramError:
         message.reply_text(get_message(user_id, "send_timeout"))
 
 
@@ -255,12 +281,28 @@ def create_sticker_file(message, image):
     config['users'][str(message.from_user.id)]['uses'] += 1
 
 
+def download_file(file_id):
+    try:
+        # download file
+        file = bot.get_file(file_id=file_id, timeout=30)
+        temp = file.file_path.split('/')[-1].split('.')
+        if len(temp) > 1:
+            ext = '.' + file.file_path.split('/')[-1].split('.')[1]
+        else:
+            ext = '.webp'
+        download_path = os.path.join(dir, (file_id + ext))
+        file.download(custom_path=download_path)
+
+        return download_path
+    except TimedOut:
+        raise TimedOut
+
+
 #  _____                          _       _   _                       _   _
 # | ____| __   __   ___   _ __   | |_    | | | |   __ _   _ __     __| | | |   ___   _ __   ___
 # |  _|   \ \ / /  / _ \ | '_ \  | __|   | |_| |  / _` | | '_ \   / _` | | |  / _ \ | '__| / __|
 # | |___   \ V /  |  __/ | | | | | |_    |  _  | | (_| | | | | | | (_| | | | |  __/ | |    \__ \
 # |_____|   \_/    \___| |_| |_|  \__|   |_| |_|  \__,_| |_| |_|  \__,_| |_|  \___| |_|    |___/
-
 
 @run_async
 def change_lang_callback(update: Update, context: CallbackContext):
