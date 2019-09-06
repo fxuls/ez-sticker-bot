@@ -375,7 +375,7 @@ def file_id_query_received(update: Update, context: CallbackContext):
         query.answer(results=results, cache_time=5, is_personal=True)
     # if file_id wasn't found show share option
     except TelegramError:
-        share_query_received(bot, update)
+        share_query_received(update, context)
 
 
 @run_async
