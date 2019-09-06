@@ -28,7 +28,6 @@ logger = logging.getLogger(__name__)
 
 dir = os.path.dirname(__file__)
 
-updater: Updater = None
 bot: Bot = None
 
 config = {}
@@ -41,7 +40,6 @@ def main():
     get_config()
     get_lang()
 
-    global updater
     updater = Updater(config['token'], use_context=True, workers=10)
     dispatcher = updater.dispatcher
     global bot
@@ -421,7 +419,7 @@ def broadcast_command(update: Update, context: CallbackContext):
         return
 
     message.reply_text(get_message(chat_id, "will_broadcast"))
-    updater.job_queue.run_once(broadcast_thread, 2, context=broadcast_message)
+    context.job_queue.run_once(broadcast_thread, 2, context=broadcast_message)
 
 
 @run_async
@@ -675,7 +673,7 @@ def get_user_config(user_id, key):
         config['users'][user_id] = config['default_user'].copy()
 
         # attempt to automatically set language
-        lang_code = updater.bot.get_chat(user_id).get_member(user_id).user.language_code.lower()
+        lang_code = bot.get_chat(user_id).get_member(user_id).user.language_code.lower()
         if lang_code is not None and lang_code[:2] in lang:
             config['users'][user_id]['lang'] = lang_code[:2]
             if lang_code[:2] != 'en':
