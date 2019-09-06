@@ -33,8 +33,6 @@ bot: Bot = None
 config = {}
 lang = {}
 
-make_icon = []
-
 
 def main():
     get_config()
@@ -92,12 +90,12 @@ def main():
 
     updater.idle()
 
+
 #   ____
 #  / ___|   ___    _ __    ___
 # | |      / _ \  | '__|  / _ \
 # | |___  | (_) | | |    |  __/
 #  \____|  \___/  |_|     \___|
-
 
 @run_async
 def image_received(update: Update, context: CallbackContext):
@@ -126,7 +124,7 @@ def image_received(update: Update, context: CallbackContext):
         download_path = download_file(photo_id)
         image = Image.open(download_path)
 
-        create_sticker_file(message, image)
+        create_sticker_file(message, image, context.user_data)
 
         # delete local file
         os.remove(download_path)
@@ -148,9 +146,10 @@ def sticker_received(update: Update, context: CallbackContext):
         download_path = download_file(sticker_id)
 
         # check if user is making icon
-        if message.from_user.id in make_icon:
+        if 'make_icon' in context.user_data and context.user_data['make_icon']:
             image = Image.open(download_path)
-            create_sticker_file(message, image)
+            create_sticker_file(message, image, context.user_data)
+
         # send them sticker as document
         else:
             document = open(download_path, 'rb')
@@ -213,16 +212,16 @@ def url_received(update: Update, context: CallbackContext):
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'upload_photo')
 
-    create_sticker_file(message, image)
+    create_sticker_file(message, image, context.user_data)
 
 
-def create_sticker_file(message, image):
-    # check if user is making icon
-    global make_icon
-    icon = message.from_user.id in make_icon
+def create_sticker_file(message, image, user_data):
+    # set make_icon if not already set
+    if 'make_icon' not in user_data:
+        user_data['make_icon'] = False
 
     # if user is making icon
-    if icon:
+    if user_data['make_icon']:
         image.thumbnail((100, 100), Image.ANTIALIAS)
         background = Image.new('RGBA', (100, 100), (255, 255, 255, 0))
         background.paste(image, (int(((100 - image.size[0]) / 2)), int(((100 - image.size[1]) / 2))))
@@ -254,7 +253,7 @@ def create_sticker_file(message, image):
     # send formatted image as a document
     document = open(temp_path, 'rb')
     try:
-        filename = 'icon.png' if icon else 'sticker.png'
+        filename = 'icon.png' if user_data['make_icon'] else 'sticker.png'
         sent_message = message.reply_document(document=document, filename=filename,
                                               caption=get_message(message.chat_id, "forward_to_stickers"), quote=True,
                                               timeout=30)
@@ -272,8 +271,8 @@ def create_sticker_file(message, image):
     os.remove(temp_path)
 
     # remove user from make_icon if icon was created
-    if icon:
-        make_icon.remove(message.from_user.id)
+    if user_data['make_icon']:
+        user_data['make_icon'] = False
 
     # increase total uses count by one
     global config
@@ -384,10 +383,8 @@ def icon_cancel_callback(update: Update, context: CallbackContext):
     query = update.callback_query
     user_id = str(query.from_user.id)
 
-    # if user is in make_icon remove them
-    global make_icon
-    if user_id in make_icon:
-        make_icon.remove(user_id)
+    # set make_icon in user_data to false
+    context.user_data['make_icon'] = False
 
     query.edit_message_text(text=get_message(user_id, "icon_canceled"), reply_markup=None)
     query.answer()
@@ -498,10 +495,8 @@ def icon_command(update: Update, context: CallbackContext):
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'typing')
 
-    # add user to make_icon if not already in it
-    global make_icon
-    if message.from_user.id not in make_icon:
-        make_icon.append(message.from_user.id)
+    # set make_icon to True in user_data
+    context.user_data['make_icon'] = True
 
     # create keyboard with cancel button
     keyboard = [[
