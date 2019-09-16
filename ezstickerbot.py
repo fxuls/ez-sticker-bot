@@ -118,7 +118,7 @@ def image_received(update: Update, context: CallbackContext):
         photo_id = message.photo[-1].file_id
 
     # feedback to show bot is processing
-    bot.send_chat_action(user_id, 'upload_photo')
+    bot.send_chat_action(user_id, 'upload_document')
 
     try:
         download_path = download_file(photo_id)
@@ -140,7 +140,7 @@ def sticker_received(update: Update, context: CallbackContext):
     sticker_id = message.sticker.file_id
 
     # feedback to show bot is processing
-    bot.send_chat_action(user_id, 'upload_photo')
+    bot.send_chat_action(user_id, 'upload_document')
 
     try:
         download_path = download_file(sticker_id)
@@ -210,7 +210,7 @@ def url_received(update: Update, context: CallbackContext):
         return
 
     # feedback to show bot is processing
-    bot.send_chat_action(message.chat_id, 'upload_photo')
+    bot.send_chat_action(message.chat_id, 'upload_document')
 
     create_sticker_file(message, image, context.user_data)
 
