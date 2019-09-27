@@ -23,7 +23,8 @@ from telegram.ext.dispatcher import run_async
 
 # setup logger
 logging.getLogger("urllib3.connection").setLevel(logging.CRITICAL)
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
+                    filename="logs.log", filemode="a+")
 logger = logging.getLogger(__name__)
 
 dir = os.path.dirname(__file__)
