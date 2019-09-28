@@ -54,6 +54,7 @@ def main():
     dispatcher.add_handler(CommandHandler('info', info_command))
     dispatcher.add_handler(CommandHandler('lang', change_lang_command))
     dispatcher.add_handler(CommandHandler('langstats', lang_stats_command))
+    dispatcher.add_handler(CommandHandler('log', log_command))
     dispatcher.add_handler(CommandHandler(['optin', 'optout'], opt_command))
     dispatcher.add_handler(CommandHandler('restart', restart_command))
     dispatcher.add_handler(CommandHandler('start', start_command))
@@ -563,6 +564,28 @@ def lang_stats_command(update: Update, context: CallbackContext):
 
     # send message
     message.reply_markdown(lang_stats_message)
+
+
+@run_async
+def log_command(update: Update, context: CallbackContext):
+    message = update.message
+
+    # check if user is admin
+    if message.from_user.id in config['admins']:
+        # feedback to show bot is processing
+        bot.send_chat_action(message.chat_id, 'upload_document')
+
+        # send log file as document
+        log_file_path = os.path.join(dir, 'logs.log')
+        with open(log_file_path, 'rb') as log_document:
+            message.reply_document(log_document)
+            log_document.close()
+
+    else:
+        # feedback to show bot is processing
+        bot.send_chat_action(message.chat_id, 'typing')
+
+        message.reply_text(get_message(message.chat_id, "no_permission"))
 
 
 @run_async
