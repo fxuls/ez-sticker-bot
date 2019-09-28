@@ -24,7 +24,7 @@ from telegram.ext.dispatcher import run_async
 # setup logger
 logging.getLogger("urllib3.connection").setLevel(logging.CRITICAL)
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
-                    filename="logs.log", filemode="a+")
+                    filename="ez-sticker-bot.log", filemode="a+")
 logger = logging.getLogger(__name__)
 
 dir = os.path.dirname(__file__)
@@ -576,7 +576,7 @@ def log_command(update: Update, context: CallbackContext):
         bot.send_chat_action(message.chat_id, 'upload_document')
 
         # send log file as document
-        log_file_path = os.path.join(dir, 'logs.log')
+        log_file_path = os.path.join(dir, 'ez-sticker-bot.log')
         with open(log_file_path, 'rb') as log_document:
             message.reply_document(log_document)
             log_document.close()
