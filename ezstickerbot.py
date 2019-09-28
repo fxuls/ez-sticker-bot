@@ -200,7 +200,7 @@ def url_received(update: Update, context: CallbackContext):
     except Timeout or ConnectTimeout:
         message.reply_markdown(get_message(message.chat_id, "url_timeout").format(url))
         return
-    except ConnectionError or RequestException:
+    except ConnectionError or RequestException or UnicodeError:
         message.reply_markdown(get_message(message.chat_id, "unable_to_connect").format(url))
         return
 
