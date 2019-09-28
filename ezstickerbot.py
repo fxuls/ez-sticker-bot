@@ -436,7 +436,7 @@ def do_fucking_nothing(update: Update, context: CallbackContext):
 @run_async
 def broadcast_command(update: Update, context: CallbackContext):
     message = update.message
-    chat_id = update.message.chat_id
+    chat_id = message.chat_id
 
     # feedback to show bot is processing
     bot.send_chat_action(chat_id, 'typing')
@@ -465,6 +465,7 @@ def broadcast_command(update: Update, context: CallbackContext):
 
 @run_async
 def change_lang_command(update: Update, context: CallbackContext):
+    message = update.message
     ordered_langs = [None] * len(lang)
     for lang_code in lang.keys():
         ordered_langs[int(lang[lang_code]['order'])] = lang_code
@@ -478,7 +479,7 @@ def change_lang_command(update: Update, context: CallbackContext):
         keyboard[row].append(
             InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
     markup = InlineKeyboardMarkup(keyboard)
-    update.message.reply_text(get_message(update.message.chat_id, "select_lang"), reply_markup=markup)
+    message.reply_text(get_message(message.chat_id, "select_lang"), reply_markup=markup)
 
 
 @run_async
@@ -620,12 +621,12 @@ def restart_command(update: Update, context: CallbackContext):
 
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'typing')
-    if update.message.from_user.id in config['admins']:
-        message.reply_text(get_message(update.message.chat_id, "restarting"))
+    if message.from_user.id in config['admins']:
+        message.reply_text(get_message(message.chat_id, "restarting"))
         save_config()
         os.execl(sys.executable, sys.executable, *sys.argv)
     else:
-        message.reply_text(get_message(update.message.chat_id, "no_permission"))
+        message.reply_text(get_message(message.chat_id, "no_permission"))
 
 
 @run_async
