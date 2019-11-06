@@ -16,7 +16,7 @@ from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
     InlineQueryResultCachedDocument, Update
-from telegram.error import TelegramError, TimedOut
+from telegram.error import TelegramError, TimedOut, BadRequest
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler, \
     ChosenInlineResultHandler, CallbackContext
 from telegram.ext.dispatcher import run_async
@@ -355,7 +355,11 @@ def share_query_received(update: Update, context: CallbackContext):
     # build response and answer query
     results = [InlineQueryResultArticle(id="share", title=title, description=description, thumb_url=thumb_url,
                                         reply_markup=markup, input_message_content=input_message_content)]
-    query.answer(results=results, cache_time=5, is_personal=True)
+    try:
+        query.answer(results=results, cache_time=5, is_personal=True)
+    # if user waited too long to click result BadRequest is thrown
+    except BadRequest:
+        return
 
 
 @run_async
