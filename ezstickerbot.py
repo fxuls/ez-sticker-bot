@@ -583,7 +583,11 @@ def log_command(update: Update, context: CallbackContext):
         # send log file as document
         log_file_path = os.path.join(dir, 'ez-sticker-bot.log')
         with open(log_file_path, 'rb') as log_document:
-            message.reply_document(log_document)
+            try:
+                message.reply_document(log_document)
+            # if log file is empty throws BadRequest exception
+            except BadRequest:
+                message.reply_markdown(get_message(message.chat_id, "empty_log"))
             log_document.close()
 
     else:
