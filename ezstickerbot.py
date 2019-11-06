@@ -358,8 +358,12 @@ def share_query_received(update: Update, context: CallbackContext):
     try:
         query.answer(results=results, cache_time=5, is_personal=True)
     # if user waited too long to click result BadRequest is thrown
-    except BadRequest:
-        return
+    except BadRequest as e:
+        # only ignore BadRequest errors caused by query being too old
+        if e.message == "Query is too old and response timeout expired or query id is invalid":
+            return
+        else:
+            raise e
 
 
 @run_async
