@@ -139,6 +139,12 @@ def sticker_received(update: Update, context: CallbackContext):
     message = update.message
     user_id = message.from_user.id
 
+    # check if sticker is animated
+    if message.sticker.is_animated:
+        bot.send_chat_action(user_id, 'typing')
+        message.reply_markdown(get_message(user_id, "no_animated"))
+        return
+
     sticker_id = message.sticker.file_id
 
     # feedback to show bot is processing
