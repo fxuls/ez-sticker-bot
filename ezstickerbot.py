@@ -147,23 +147,8 @@ def sticker_received(update: Update, context: CallbackContext):
     try:
         download_path = download_file(sticker_id)
 
-        # check if user is making icon
-        if 'make_icon' in context.user_data and context.user_data['make_icon']:
-            image = Image.open(download_path)
-            create_sticker_file(message, image, context.user_data)
-
-        # send them sticker as document
-        else:
-            document = open(download_path, 'rb')
-            sent_message = message.reply_document(document=document, filename="sticker.png",
-                                                  caption=get_message(message.chat_id, "forward_to_stickers"),
-                                                  quote=True,
-                                                  timeout=30)
-            # add a keyboard with a forward button to the document
-            file_id = sent_message.document.file_id
-            markup = InlineKeyboardMarkup(
-                [[InlineKeyboardButton(get_message(message.chat_id, "forward"), switch_inline_query=file_id)]])
-            sent_message.edit_reply_markup(reply_markup=markup)
+        image = Image.open(download_path)
+        create_sticker_file(message, image, context.user_data)
 
         # delete local file
         os.remove(download_path)
@@ -250,7 +235,7 @@ def create_sticker_file(message, image, user_data):
 
     # save image object to temporary file
     temp_path = os.path.join(dir, (uuid.uuid4().hex[:6].upper() + '.png'))
-    image.save(temp_path, optimize=True)
+    image.save(temp_path, format="PNG", optimize=True)
 
     # send formatted image as a document
     document = open(temp_path, 'rb')
