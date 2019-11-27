@@ -2,7 +2,7 @@
   "uses": 0,
   "users": {},
   "default_user": {
-    "icon_warned": false
+    "icon_warned": false,
     "lang": "en",
     "opt_in": true,
     "uses": 0

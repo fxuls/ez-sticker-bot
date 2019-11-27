@@ -27,7 +27,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     filename="ez-sticker-bot.log", filemode="a+")
 logger = logging.getLogger(__name__)
 
-dir = os.path.dirname(__file__)
+directory = os.path.dirname(__file__)
 
 bot: Bot = None
 
@@ -240,7 +240,7 @@ def create_sticker_file(message, image, user_data):
         image = image.resize((new_width, new_height), Image.ANTIALIAS)
 
     # save image object to temporary file
-    temp_path = os.path.join(dir, (uuid.uuid4().hex[:6].upper() + '.png'))
+    temp_path = os.path.join(directory, (uuid.uuid4().hex[:6].upper() + '.png'))
     image.save(temp_path, format="PNG", optimize=True)
 
     # send formatted image as a document
@@ -282,7 +282,7 @@ def download_file(file_id):
             ext = '.' + file.file_path.split('/')[-1].split('.')[1]
         else:
             ext = '.webp'
-        download_path = os.path.join(dir, (file_id + ext))
+        download_path = os.path.join(directory, (file_id + ext))
         file.download(custom_path=download_path)
 
         return download_path
@@ -311,9 +311,9 @@ def change_lang_callback(update: Update, context: CallbackContext):
         word = message[i]
         if word[0] == '$':
             try:
-                id = int(''.join(c for c in word if c.isdigit()))
-                user = bot.get_chat(id)
-                message[i] = '<a href="tg://user?id={}">{}{}</a>'.format(id, user.first_name,
+                _id = int(''.join(c for c in word if c.isdigit()))
+                user = bot.get_chat(_id)
+                message[i] = '<a href="tg://user?id={}">{}{}</a>'.format(_id, user.first_name,
                                                                          ' ' + user.last_name if user.last_name else '')
             except ValueError:
                 message[i] = 'UNKNOWN_USER_ID'
@@ -367,11 +367,11 @@ def file_id_query_received(update: Update, context: CallbackContext):
     try:
         file = bot.get_file(query.query)
 
-        id = uuid.uuid4()
+        _id = uuid.uuid4()
         title = get_message(user_id, "your_sticker")
         desc = get_message(user_id, "forward_desc")
         caption = "@EzStickerBot"
-        results = [InlineQueryResultCachedDocument(id, title, file.file_id, description=desc, caption=caption)]
+        results = [InlineQueryResultCachedDocument(_id, title, file.file_id, description=desc, caption=caption)]
 
         query.answer(results=results, cache_time=5, is_personal=True)
     # if file_id wasn't found show share option
@@ -576,7 +576,7 @@ def log_command(update: Update, context: CallbackContext):
         bot.send_chat_action(message.chat_id, 'upload_document')
 
         # send log file as document
-        log_file_path = os.path.join(dir, 'ez-sticker-bot.log')
+        log_file_path = os.path.join(directory, 'ez-sticker-bot.log')
         with open(log_file_path, 'rb') as log_document:
             try:
                 message.reply_document(log_document)
@@ -703,7 +703,7 @@ def broadcast_thread(context: CallbackContext):
 
 
 def get_config():
-    path = os.path.join(dir, 'config.json')
+    path = os.path.join(directory, 'config.json')
     with open(path) as config_file:
         global config
         config = json.load(config_file)
@@ -711,7 +711,7 @@ def get_config():
 
 
 def get_lang():
-    path = os.path.join(dir, 'lang.json')
+    path = os.path.join(directory, 'lang.json')
     data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
     for lang_code in data:
         for message in data[lang_code]:
@@ -766,7 +766,7 @@ def handle_error(update: Update, context: CallbackContext):
 
 def save_config(context: CallbackContext = None):
     data = json.dumps(config)
-    path = os.path.join(dir, 'config.json')
+    path = os.path.join(directory, 'config.json')
     with open(path, "w") as config_file:
         config_file.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
     config_file.close()
