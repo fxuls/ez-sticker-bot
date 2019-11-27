@@ -627,6 +627,7 @@ def restart_command(update: Update, context: CallbackContext):
     if message.from_user.id in config['admins']:
         message.reply_text(get_message(message.chat_id, "restarting"))
         save_config()
+        logger.info("Bot restarted by {} ({})".format(message.from_user.first_name, message.from_user.id))
         os.execl(sys.executable, sys.executable, *sys.argv)
     else:
         message.reply_text(get_message(message.chat_id, "no_permission"))
