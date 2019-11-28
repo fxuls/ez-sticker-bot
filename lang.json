@@ -672,7 +672,7 @@
     "rate": "Oyla ⭐⭐⭐⭐⭐",
     "restarting": "Bot yeniden başlatılıyor...",
     "select_lang": "Dil seçiniz.",
-    "lang_set": "Dil Türkçe olarak ayarlandı.",
+    "lang_set": "Dil Türkçe olarak ayarlandı.\n\nBotun Türkçeleştirilmesini sağlayan $448415364 'a Teşekkürler!",
     "invalid_command": "Üzgünüm, bu komutu tanımıyorum.",
     "no_permission": "Bunu yapmak için izniniz yok.",
     "broadcast_in_reply": "Gönderilecek mesaja cevap olarak `/broadcast` yazın.",
