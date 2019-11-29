@@ -660,7 +660,7 @@
   },
   "tr": {
     "order": "14",
-    "lang_name": "Türkçe TR",
+    "lang_name": "Türkçe \uD83C\uDDF9\uD83C\uDDF7",
     "start": "Merhaba! Ben *EZ Sticker Bot*. Sana çıkartma yapmanda yardımcı olabilirim! Hemen /help yazarak başla ya da /info ile hakkımda bilgi al.\n\n🌐 Botun dilini değiştirmek için /lang.",
     "help": "Bir çıkartma paketine, @Stickers botuyla çıkartma eklemek için dosyanız png formatında olmalıdır. En az 512px boyutunda ve 512Kb'dan az olmalıdır.\n\nBana herhangi bir çıkartma ya da fotoğraf gönder, ve ben de bu 3 gereksinimi karşılamanı sağlayarak, paketine eklemen için hazır hâle getirip sana göndereyim!",
     "forward_to_stickers": "@Stickers Botuna İlet\n@EzStickerBot",
