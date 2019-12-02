@@ -30,7 +30,7 @@ Thanks to all the following people for their translations:
 - Slovenian [![https://t.me/VulpixBropix](https://img.shields.io/badge/Telegram-VulpixBropix-blue.svg)](https://t.me/VulpixBropix)
 - Polish [![https://t.me/RafQBS](https://img.shields.io/badge/Telegram-RafQ-blue.svg)](https://t.me/RafQBS)
 - Ukrainian [![https://t.me/dzhmelyk](https://img.shields.io/badge/Telegram-dzhmelyk-blue.svg)](https://t.me/dzhmelyk)
-- Türkçe [![https://t.me/holytotem](https://img.shields.io/badge/Telegram-Kas%C4%B1m-blue.svg)](https://t.me/holytotem)
+- Turkish [![https://t.me/holytotem](https://img.shields.io/badge/Telegram-Kas%C4%B1m-blue.svg)](https://t.me/holytotem)
 - Farsi [![https://t.me/smm_h](https://img.shields.io/badge/Telegram-smm_h-blue.svg)](https://t.me/smm_h)
 - Arabic [![https://t.me/ehabatef559](https://img.shields.io/badge/Telegram-Ehab%20Atef-blue.svg)](https://t.me/ehabatef559)
 - Chinese (traditional) [![https://t.me/iristw](https://img.shields.io/badge/Telegram-iristw-blue.svg)](https://t.me/iristw)
