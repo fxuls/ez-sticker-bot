@@ -278,10 +278,7 @@ def download_file(file_id):
         # download file
         file = bot.get_file(file_id=file_id, timeout=30)
         temp = file.file_path.split('/')[-1].split('.')
-        if len(temp) > 1:
-            ext = '.' + file.file_path.split('/')[-1].split('.')[1]
-        else:
-            ext = '.webp'
+        ext = '.' + file.file_path.split('/')[-1].split('.')[1]
         download_path = os.path.join(directory, (file_id + ext))
         file.download(custom_path=download_path)
 
