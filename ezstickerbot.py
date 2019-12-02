@@ -37,14 +37,7 @@ lang = {}
 
 
 def main():
-    # todo add check that files exist
-    # load files
-    global config
-    config = load_json('config.json')
-    global users
-    users = load_json('users.json')
-    global lang
-    lang = load_lang()
+    load_files()
 
     updater = Updater(config['token'], use_context=True, workers=10)
     dispatcher = updater.dispatcher
@@ -774,6 +767,25 @@ def save_json(json_obj, file_name):
     with open(path, "w") as json_file:
         json_file.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
     json_file.close()
+
+
+def load_files():
+    try:
+        global config
+        config = load_json('config.json')
+    except FileNotFoundError:
+        sys.exit("config.json is missing; exiting")
+    try:
+        global lang
+        lang = load_lang()
+    except FileNotFoundError:
+        sys.exit("lang.json is missing; exiting")
+    try:
+        global users
+        users = load_json('users.json')
+    except FileNotFoundError:
+        # if users.json is missing create an empty file and continue
+        save_json(users, 'users.json')
 
 
 def save_files(context: CallbackContext = None):
