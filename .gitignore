@@ -1,5 +1,5 @@
 .idea
-/config.json
+config.json
 .DS_Store
 /venv/*
 *.log
