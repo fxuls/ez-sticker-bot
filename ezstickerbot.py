@@ -697,8 +697,9 @@ def broadcast_thread(context: CallbackContext):
                 # send opt out message
                 if config['send_opt_out_message']:
                     bot.send_message(chat_id=int(user_id), text=get_message(user_id, "opt_out_info"))
-        except TelegramError:
-            pass
+        except TelegramError as e:
+            if e.message != "Forbidden: bot was blocked by the user":
+                logger.warning("Error '{}' when broadcasting message to {}".format(e.message, user_id))
 
         index += 1
         if index >= config['broadcast_batch_size']:
