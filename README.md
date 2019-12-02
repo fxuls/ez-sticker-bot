@@ -9,6 +9,8 @@ EzStickerBot formats any image or file with an image extension sent to it to mee
 
 EzStickerBot will also format stickers sent to it so it can be used to get stickers as images to save to your device or to add to one of your packs.
 
+You can use the `/icon` command to turn an image or sticker into a 100px by 100px png file that you can set as the icon for any of your sticker packs. Just use `/setpackicon` in [@Stickers](https://t.me/Stickers) and when prompted forward it the `icon.png` file created by EzStickerBot.
+
 ## Dependencies
 The following dependencies are needed to run EzStickerBot:
 - python-telegram-bot
