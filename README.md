@@ -1,6 +1,6 @@
 ## EzStickerBot
 
-[@EzStickerBot](https://t.me/EzStickerBot) is a [Telegram](https://telegram.org) bot that can help users easily create their own stickers without ever needing to leave the app. EzStickerBot is also available in **__14 languages__**. See credits for all supported languages.
+[@EzStickerBot](https://t.me/EzStickerBot) is a [Telegram](https://telegram.org) bot that can help users easily create their own stickers without ever needing to leave the app. EzStickerBot is also available in **__15 languages__**. See credits for all supported languages.
 
 ## Features
 On Telegram stickers packs are created and managed through the official [@Stickers](https://t.me/Stickers) bot. After a user has created a pack [@Stickers](https://t.me/Stickers) prompts them to send stickers they want to add as file. The file must be no more than **512kb**, have one dimension equal to **512px** and the other of an equal or lower length, and be in **png** format.
