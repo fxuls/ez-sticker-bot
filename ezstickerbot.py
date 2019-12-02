@@ -36,8 +36,11 @@ lang = {}
 
 
 def main():
-    get_config()
-    get_lang()
+    # load files
+    global config
+    config = load_json('config.json')
+    global lang
+    lang = load_lang()
 
     updater = Updater(config['token'], use_context=True, workers=10)
     dispatcher = updater.dispatcher
@@ -81,7 +84,7 @@ def main():
     dispatcher.add_handler(ChosenInlineResultHandler(inline_result_chosen))
 
     # register variable dump loop
-    updater.job_queue.run_repeating(save_config, config['save_interval'], config['save_interval'])
+    updater.job_queue.run_repeating(save_files, config['save_interval'], config['save_interval'])
 
     # register error handler
     dispatcher.add_error_handler(handle_error)
@@ -623,7 +626,7 @@ def restart_command(update: Update, context: CallbackContext):
     bot.send_chat_action(message.chat_id, 'typing')
     if message.from_user.id in config['admins']:
         message.reply_text(get_message(message.chat_id, "restarting"))
-        save_config()
+        save_files()
         logger.info("Bot restarted by {} ({})".format(message.from_user.first_name, message.from_user.id))
         os.execl(sys.executable, sys.executable, *sys.argv)
     else:
@@ -699,24 +702,6 @@ def broadcast_thread(context: CallbackContext):
             index = 0
 
 
-def get_config():
-    path = os.path.join(directory, 'config.json')
-    with open(path) as config_file:
-        global config
-        config = json.load(config_file)
-    config_file.close()
-
-
-def get_lang():
-    path = os.path.join(directory, 'lang.json')
-    data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
-    for lang_code in data:
-        for message in data[lang_code]:
-            data[lang_code][message] = data[lang_code][message].replace('\\n', '\n')
-    global lang
-    lang = data
-
-
 def get_message(user_id, message):
     lang_pref = get_user_config(user_id, "lang")
 
@@ -761,12 +746,33 @@ def handle_error(update: Update, context: CallbackContext):
     logger.warning('Update "{}" caused error "{}"'.format(update, context.error))
 
 
-def save_config(context: CallbackContext = None):
-    data = json.dumps(config)
-    path = os.path.join(directory, 'config.json')
-    with open(path, "w") as config_file:
-        config_file.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
-    config_file.close()
+def load_lang():
+    path = os.path.join(directory, 'lang.json')
+    data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
+    for lang_code in data:
+        for message in data[lang_code]:
+            data[lang_code][message] = data[lang_code][message].replace('\\n', '\n')
+    return data
+
+
+def load_json(file_name):
+    path = os.path.join(directory, file_name if '.' in file_name else file_name + '.json')
+    with open(path) as json_file:
+        data = json.load(json_file)
+    json_file.close()
+    return data
+
+
+def save_json(json_obj, file_name):
+    data = json.dumps(json_obj)
+    path = os.path.join(directory, file_name if '.' in file_name else file_name + '.json')
+    with open(path, "w") as json_file:
+        json_file.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
+    json_file.close()
+
+
+def save_files(context: CallbackContext = None):
+    save_json(config, 'config.json')
 
 
 if __name__ == '__main__':
