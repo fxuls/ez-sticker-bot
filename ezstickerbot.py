@@ -32,13 +32,17 @@ directory = os.path.dirname(__file__)
 bot: Bot = None
 
 config = {}
+users = {}
 lang = {}
 
 
 def main():
+    # todo add check that files exist
     # load files
     global config
     config = load_json('config.json')
+    global users
+    users = load_json('users.json')
     global lang
     lang = load_lang()
 
@@ -273,7 +277,8 @@ def create_sticker_file(message, image, user_data):
     # increase total uses count by one
     global config
     config['uses'] += 1
-    config['users'][str(message.from_user.id)]['uses'] += 1
+    global users
+    users[str(message.from_user.id)]['uses'] += 1
 
 
 def download_file(file_id):
@@ -302,8 +307,8 @@ def change_lang_callback(update: Update, context: CallbackContext):
     lang_code = query.data.split(':')[-1]
     user_id = str(query.from_user.id)
 
-    global config
-    config['users'][user_id]['lang'] = lang_code
+    global users
+    users[user_id]['lang'] = lang_code
 
     # replace instances of $userid with username or name if no username
     message = get_message(user_id, "lang_set").split(' ')
@@ -324,7 +329,7 @@ def change_lang_callback(update: Update, context: CallbackContext):
     message = ' '.join(message)
 
     # set icon_warned to false
-    config['users'][user_id]['icon_warned'] = False
+    users[user_id]['icon_warned'] = False
 
     query.edit_message_text(text=message, reply_markup=None, parse_mode='HTML')
     query.answer()
@@ -474,7 +479,6 @@ def change_lang_command(update: Update, context: CallbackContext):
         if len(keyboard[row]) == 3:
             row += 1
             keyboard.append([])
-        # noinspection PyTypeChecker
         keyboard[row].append(
             InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
     markup = InlineKeyboardMarkup(keyboard)
@@ -510,8 +514,8 @@ def icon_command(update: Update, context: CallbackContext):
     if not get_user_config(message.chat_id, 'icon_warned'):
         message.reply_markdown(get_message(message.chat_id, "icon_command_info"))
 
-        global config
-        config['users'][str(message.chat_id)]['icon_warned'] = True
+        global users
+        users[str(message.chat_id)]['icon_warned'] = True
 
     message.reply_markdown(get_message(message.chat_id, "icon_command"), reply_markup=markup)
 
@@ -544,7 +548,7 @@ def lang_stats_command(update: Update, context: CallbackContext):
     lang_stats_message = get_message(message.chat_id, "lang_stats")
 
     # count lang usage
-    langs = [user['lang'] for user in config['users'].values()]
+    langs = [user['lang'] for user in users.values()]
     lang_usage = dict(Counter(langs))
 
     sorted_usage = [(code, lang_usage[code]) for code in sorted(lang_usage, key=lang_usage.get, reverse=True)]
@@ -600,7 +604,7 @@ def opt_command(update: Update, context: CallbackContext):
     bot.send_chat_action(message.chat_id, 'typing')
 
     # get user opt_in status
-    global config
+    global users
     user_id = str(message.from_user.id)
     opt_in = get_user_config(user_id, "opt_in")
 
@@ -609,13 +613,13 @@ def opt_command(update: Update, context: CallbackContext):
         if opt_in:
             message.reply_text(get_message(user_id, "already_opted_in"))
         else:
-            config['users'][user_id]['opt_in'] = True
+            users[user_id]['opt_in'] = True
             message.reply_text(get_message(user_id, "opted_in"))
     else:
         if not opt_in:
             message.reply_text(get_message(user_id, "already_opted_out"))
         else:
-            config['users'][user_id]['opt_in'] = False
+            users[user_id]['opt_in'] = False
             message.reply_text(get_message(user_id, "opted_out"))
 
 
@@ -652,14 +656,14 @@ def stats_command(update: Update, context: CallbackContext):
 
     opted_in = 0
     opted_out = 0
-    for user in config['users'].values():
+    for user in users.values():
         if user['opt_in']:
             opted_in += 1
         else:
             opted_out += 1
 
     personal_uses = get_user_config(user_id, "uses")
-    stats_message = get_message(user_id, "stats").format(config['uses'], len(config['users']), personal_uses,
+    stats_message = get_message(user_id, "stats").format(config['uses'], len(users), personal_uses,
                                                          config['langs_auto_set'], config['times_shared'],
                                                          opted_in + opted_out, opted_in, opted_out)
     message.reply_markdown(stats_message)
@@ -681,7 +685,7 @@ def broadcast_thread(context: CallbackContext):
 
     global config
     index = 0
-    for user_id in list(config['users']):
+    for user_id in list(users):
         # check if user is opted in
         opt_in = get_user_config(user_id, "opt_in")
 
@@ -713,29 +717,29 @@ def get_message(user_id, message):
 
 
 def get_user_config(user_id, key):
-    global config
+    global users
     user_id = str(user_id)
 
     # if user not registered register with default values
-    if user_id not in config['users']:
-        config['users'][user_id] = config['default_user'].copy()
+    if user_id not in users:
+        users[user_id] = config['default_user'].copy()
 
         # attempt to automatically set language
         lang_code = bot.get_chat(user_id).get_member(user_id).user.language_code.lower()
         if lang_code is not None and lang_code[:2] in lang:
-            config['users'][user_id]['lang'] = lang_code[:2]
+            users[user_id]['lang'] = lang_code[:2]
             if lang_code[:2] != 'en':
                 config['langs_auto_set'] += 1
     # if user is registered but does not have requested key set to default value from config
-    elif key not in config['users'][user_id]:
+    elif key not in users[user_id]:
         try:
-            config['users'][user_id][key] = config['default_user'][key].copy()
+            users[user_id][key] = config['default_user'][key].copy()
         # if value isn't a type with a copy function like a string or int
         except AttributeError:
-            config['users'][user_id][key] = config['default_user'][key]
+            users[user_id][key] = config['default_user'][key]
 
     # return value
-    return config['users'][user_id][key]
+    return users[user_id][key]
 
 
 # logs bot errors thrown
@@ -773,6 +777,7 @@ def save_json(json_obj, file_name):
 
 def save_files(context: CallbackContext = None):
     save_json(config, 'config.json')
+    save_json(users, 'users.json')
 
 
 if __name__ == '__main__':
