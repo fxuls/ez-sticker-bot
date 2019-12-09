@@ -161,8 +161,9 @@ def sticker_received(update: Update, context: CallbackContext):
 
         # delete local file
         os.remove(download_path)
-    except TelegramError:
-        message.reply_text(get_message(user_id, "send_timeout"))
+    except TelegramError as e:
+        if e.message != "Forbidden: bot was blocked by the user":
+            message.reply_text(get_message(user_id, "send_timeout"))
     except FileNotFoundError:
         # if file does not exist ignore
         pass
@@ -265,8 +266,9 @@ def create_sticker_file(message, image, user_data):
         markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton(get_message(message.chat_id, "forward"), switch_inline_query=file_id)]])
         sent_message.edit_reply_markup(reply_markup=markup)
-    except TelegramError:
-        message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
+    except TelegramError as e:
+        if e.message != "Forbidden: bot was blocked by the user":
+            message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
 
     # delete local files and close image object
     image.close()
