@@ -132,6 +132,9 @@ def image_received(update: Update, context: CallbackContext):
         os.remove(download_path)
     except TimedOut:
         message.reply_text(get_message(user_id, "send_timeout"))
+    except FileNotFoundError:
+        # if file does not exist ignore
+        pass
 
 
 @run_async
@@ -160,6 +163,9 @@ def sticker_received(update: Update, context: CallbackContext):
         os.remove(download_path)
     except TelegramError:
         message.reply_text(get_message(user_id, "send_timeout"))
+    except FileNotFoundError:
+        # if file does not exist ignore
+        pass
 
 
 @run_async
