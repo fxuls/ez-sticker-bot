@@ -16,7 +16,7 @@ from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
     InlineQueryResultCachedDocument, Update
-from telegram.error import TelegramError, TimedOut, BadRequest
+from telegram.error import TelegramError, TimedOut, BadRequest, Unauthorized
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler, \
     ChosenInlineResultHandler, CallbackContext
 from telegram.ext.dispatcher import run_async
@@ -161,9 +161,10 @@ def sticker_received(update: Update, context: CallbackContext):
 
         # delete local file
         os.remove(download_path)
+    except Unauthorized:
+        pass
     except TelegramError as e:
-        if e.message != "Forbidden: bot was blocked by the user":
-            message.reply_text(get_message(user_id, "send_timeout"))
+        message.reply_text(get_message(user_id, "send_timeout"))
     except FileNotFoundError:
         # if file does not exist ignore
         pass
@@ -266,9 +267,10 @@ def create_sticker_file(message, image, user_data):
         markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton(get_message(message.chat_id, "forward"), switch_inline_query=file_id)]])
         sent_message.edit_reply_markup(reply_markup=markup)
-    except TelegramError as e:
-        if e.message != "Forbidden: bot was blocked by the user":
-            message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
+    except Unauthorized:
+        pass
+    except TelegramError:
+        message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
 
     # delete local files and close image object
     image.close()
@@ -702,9 +704,10 @@ def broadcast_thread(context: CallbackContext):
                 # send opt out message
                 if config['send_opt_out_message']:
                     bot.send_message(chat_id=int(user_id), text=get_message(user_id, "opt_out_info"))
+        except Unauthorized:
+            pass
         except TelegramError as e:
-            if e.message != "Forbidden: bot was blocked by the user":
-                logger.warning("Error '{}' when broadcasting message to {}".format(e.message, user_id))
+            logger.warning("Error '{}' when broadcasting message to {}".format(e.message, user_id))
 
         index += 1
         if index >= config['broadcast_batch_size']:
