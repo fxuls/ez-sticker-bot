@@ -14,8 +14,8 @@ import requests
 import simplejson
 from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
-from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, \
-    InlineQueryResultCachedDocument, Update
+from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, \
+    InputTextMessageContent, InlineQueryResultCachedDocument
 from telegram.error import TelegramError, TimedOut, BadRequest, Unauthorized
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler, \
     ChosenInlineResultHandler, CallbackContext
