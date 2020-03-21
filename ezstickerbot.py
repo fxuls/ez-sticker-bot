@@ -163,7 +163,7 @@ def sticker_received(update: Update, context: CallbackContext):
         os.remove(download_path)
     except Unauthorized:
         pass
-    except TelegramError as e:
+    except TelegramError:
         message.reply_text(get_message(user_id, "send_timeout"))
     except FileNotFoundError:
         # if file does not exist ignore
@@ -202,7 +202,7 @@ def url_received(update: Update, context: CallbackContext):
     except ConnectionError or RequestException or UnicodeError:
         message.reply_markdown(get_message(message.chat_id, "unable_to_connect").format(url))
         return
-    except UnicodeError as e:
+    except UnicodeError:
         message.reply_markdown(get_message(message.chat_id, "unable_to_connect").format(url))
         return
 
@@ -291,7 +291,6 @@ def download_file(file_id):
     try:
         # download file
         file = bot.get_file(file_id=file_id, timeout=30)
-        temp = file.file_path.split('/')[-1].split('.')
         ext = '.' + file.file_path.split('/')[-1].split('.')[1]
         download_path = os.path.join(directory, (file_id + ext))
         file.download(custom_path=download_path)
