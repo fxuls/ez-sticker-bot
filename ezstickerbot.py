@@ -251,7 +251,7 @@ def create_sticker_file(message, image, user_data):
         image = image.resize((new_width, new_height), Image.ANTIALIAS)
 
     # save image object to temporary file
-    temp_path = os.path.join(directory, (uuid.uuid4().hex[:6].upper() + '.png'))
+    temp_path = os.path.join(temp_dir(), (uuid.uuid4().hex[:6].upper() + '.png'))
     image.save(temp_path, format="PNG", optimize=True)
 
     # send formatted image as a document
@@ -292,7 +292,7 @@ def download_file(file_id):
         # download file
         file = bot.get_file(file_id=file_id, timeout=30)
         ext = '.' + file.file_path.split('/')[-1].split('.')[1]
-        download_path = os.path.join(directory, (file_id + ext))
+        download_path = os.path.join(temp_dir(), (file_id + ext))
         file.download(custom_path=download_path)
 
         return download_path
@@ -804,6 +804,13 @@ def load_files():
 def save_files(context: CallbackContext = None):
     save_json(config, 'config.json')
     save_json(users, 'users.json')
+
+
+def temp_dir():
+    temp_path = os.path.join(directory, 'temp')
+    if not os.path.exists(temp_path):
+        os.mkdir(temp_path)
+    return temp_path
 
 
 if __name__ == '__main__':
