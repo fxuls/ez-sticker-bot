@@ -204,7 +204,6 @@ def url_received(update: Update, context: CallbackContext):
         return
     except UnicodeError as e:
         message.reply_markdown(get_message(message.chat_id, "unable_to_connect").format(url))
-        logger.warning("UnicodeError: '{}'; text='{}' url='{}'".format(str(e), text, url))
         return
 
     # read image from url
