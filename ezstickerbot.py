@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 
 import requests
 import simplejson
+from datetime import datetime
 from PIL import Image
 from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
 from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, \
@@ -34,6 +35,8 @@ bot: Bot = None
 config = {}
 users = {}
 lang = {}
+
+recent_uses = {}
 
 
 def main():
@@ -104,6 +107,15 @@ def image_received(update: Update, context: CallbackContext):
     message = update.message
     user_id = message.from_user.id
 
+    # check spam filter
+    cooldown_info = user_on_cooldown(user_id)
+    if cooldown_info[0]:
+        minutes = int(config['spam_interval'] / 60)
+        message_text = get_message(user_id, 'spam_limit_reached').format(config['spam_max'], minutes, cooldown_info[1],
+                                                                         cooldown_info[2])
+        message.reply_markdown(message_text)
+        return
+
     # get file id
     if message.document:
         # check that document is image
@@ -126,7 +138,7 @@ def image_received(update: Update, context: CallbackContext):
         download_path = download_file(photo_id)
         image = Image.open(download_path)
 
-        create_sticker_file(message, image, context.user_data)
+        create_sticker_file(message, image, context)
 
         # delete local file
         os.remove(download_path)
@@ -141,6 +153,15 @@ def image_received(update: Update, context: CallbackContext):
 def sticker_received(update: Update, context: CallbackContext):
     message = update.message
     user_id = message.from_user.id
+
+    # check spam filter
+    cooldown_info = user_on_cooldown(user_id)
+    if cooldown_info[0]:
+        minutes = int(config['spam_interval'] / 60)
+        message_text = get_message(user_id, 'spam_limit_reached').format(config['spam_max'], minutes, cooldown_info[1],
+                                                                         cooldown_info[2])
+        message.reply_markdown(message_text)
+        return
 
     # check if sticker is animated
     if message.sticker.is_animated:
@@ -157,7 +178,7 @@ def sticker_received(update: Update, context: CallbackContext):
         download_path = download_file(sticker_id)
 
         image = Image.open(download_path)
-        create_sticker_file(message, image, context.user_data)
+        create_sticker_file(message, image, context)
 
         # delete local file
         os.remove(download_path)
@@ -173,7 +194,14 @@ def sticker_received(update: Update, context: CallbackContext):
 @run_async
 def url_received(update: Update, context: CallbackContext):
     message = update.message
+    user_id = message.from_user.id
     text = message.text.split(' ')
+
+    # check spam filter
+    cooldown_info = user_on_cooldown(user_id)
+    if cooldown_info[0]:
+        message.reply_markdown(get_message(user_id, 'spam_limit_reached').format(cooldown_info[1], cooldown_info[2]))
+        return
 
     if len(text) > 1:
         message.reply_text(get_message(message.chat_id, "too_many_urls"))
@@ -216,10 +244,13 @@ def url_received(update: Update, context: CallbackContext):
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'upload_document')
 
-    create_sticker_file(message, image, context.user_data)
+    create_sticker_file(message, image, context)
 
 
-def create_sticker_file(message, image, user_data):
+def create_sticker_file(message, image, context: CallbackContext):
+    user_id = message.from_user.id
+    user_data = context.user_data
+
     # set make_icon if not already set
     if 'make_icon' not in user_data:
         user_data['make_icon'] = False
@@ -280,11 +311,14 @@ def create_sticker_file(message, image, user_data):
     if user_data['make_icon']:
         user_data['make_icon'] = False
 
+    # record use in spam filter
+    record_use(user_id, context)
+
     # increase total uses count by one
     global config
     config['uses'] += 1
     global users
-    users[str(message.from_user.id)]['uses'] += 1
+    users[str(user_id)]['uses'] += 1
 
 
 def download_file(file_id):
@@ -674,12 +708,59 @@ def stats_command(update: Update, context: CallbackContext):
     message.reply_markdown(stats_message)
 
 
+#  ____                                  _____   _   _   _
+# / ___|   _ __     __ _   _ __ ___     |  ___| (_) | | | |_    ___   _ __
+# \___ \  | '_ \   / _` | | '_ ` _ \    | |_    | | | | | __|  / _ \ | '__|
+#  ___) | | |_) | | (_| | | | | | | |   |  _|   | | | | | |_  |  __/ | |
+# |____/  | .__/   \__,_| |_| |_| |_|   |_|     |_| |_|  \__|  \___| |_|
+#         |_|
+
+def record_use(user_id, context: CallbackContext):
+    # ensure user_id is string
+    user_id = str(user_id)
+
+    # ensure user_id has list in recent_uses
+    global recent_uses
+    if user_id not in recent_uses:
+        recent_uses[user_id] = []
+
+    job = context.job_queue.run_once(remove_use, config['spam_interval'], context=(user_id, datetime.now()))
+    recent_uses[user_id].append(job)
+
+
+def remove_use(context: CallbackContext):
+    job = context.job
+    user_id = job.context[0]
+    global recent_uses
+    recent_uses[user_id].remove(job)
+
+
+def user_on_cooldown(user_id):
+    # ensure user_id is string
+    user_id = str(user_id)
+
+    recent_uses_count = len(recent_uses[user_id]) if user_id in recent_uses else 0
+    on_cooldown = recent_uses_count >= config['spam_max']
+
+    if on_cooldown:
+        oldest_job_time = recent_uses[user_id][0].context[1]
+        seconds_left = int(config['spam_interval'] - (datetime.now() - oldest_job_time).total_seconds())
+        time_left = divmod(seconds_left, 60)
+    else:
+        time_left = 0, 0
+
+    # check to make sure on_cooldown is true while time_left evaluated to 0, 0
+    if time_left[0] == 0 and time_left[1] == 0:
+        on_cooldown = False
+
+    return on_cooldown, time_left[0], time_left[1]
+
+
 #  _   _   _     _   _
 # | | | | | |_  (_) | |  ___
 # | | | | | __| | | | | / __|
 # | |_| | | |_  | | | | \__ \
 #  \___/   \__| |_| |_| |___/
-
 
 @run_async
 def broadcast_thread(context: CallbackContext):
