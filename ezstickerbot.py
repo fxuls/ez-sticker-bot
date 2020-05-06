@@ -231,6 +231,8 @@ def animated_sticker_received(update: Update, context: CallbackContext):
     global users
     users[str(user_id)]['uses'] += 1
 
+    donate_suggest(user_id)
+
 
 @run_async
 def url_received(update: Update, context: CallbackContext):
@@ -360,6 +362,8 @@ def create_sticker_file(message, image, context: CallbackContext):
     config['uses'] += 1
     global users
     users[str(user_id)]['uses'] += 1
+
+    donate_suggest(user_id)
 
 
 def download_file(file_id):
@@ -841,6 +845,12 @@ def broadcast_thread(context: CallbackContext):
         if index >= config['broadcast_batch_size']:
             time.sleep(config['broadcast_batch_interval'])
             index = 0
+
+
+def donate_suggest(user_id):
+    user_uses = users[str(user_id)]['uses']
+    if user_uses % config['donate_suggest_interval'] == 0:
+        bot.send_message(user_id, get_message(user_id, "donate_suggest").format(user_uses), parse_mode='Markdown')
 
 
 def get_message(user_id, message):
