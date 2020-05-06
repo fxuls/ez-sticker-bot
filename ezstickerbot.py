@@ -678,7 +678,7 @@ def log_command(update: Update, context: CallbackContext):
                 message.reply_document(log_document)
             # if log file is empty throws BadRequest exception
             except BadRequest:
-                message.reply_markdown(get_message(message.chat_id, "empty_log"))
+                message.reply_text(get_message(message.chat_id, "empty_log"))
             log_document.close()
 
     else:
