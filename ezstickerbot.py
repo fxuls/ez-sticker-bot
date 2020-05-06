@@ -562,8 +562,8 @@ def change_lang_command(update: Update, context: CallbackContext):
 @run_async
 def donate_command(update: Update, context: CallbackContext):
     message = update.message
-    message_text = get_message(message.chat_id, "donate").format(config['donate_paypal'], config['donate_btc'],
-                                                                 config['donate_eth'])
+    message_text = get_message(message.chat_id, "donate") + "\n\n*Paypal:* {}\n*BTC:* `{}`\n*ETH:* `{}`"\
+        .format(config['donate_paypal'], config['donate_btc'], config['donate_eth'])
     message.reply_markdown(message_text, disable_web_page_preview=True)
 
 
