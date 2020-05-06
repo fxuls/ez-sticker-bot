@@ -166,8 +166,7 @@ def sticker_received(update: Update, context: CallbackContext):
 
     # check if sticker is animated
     if message.sticker.is_animated:
-        bot.send_chat_action(user_id, 'typing')
-        message.reply_markdown(get_message(user_id, "no_animated"))
+        animated_sticker_received(update, context)
         return
 
     sticker_id = message.sticker.file_id
@@ -190,6 +189,41 @@ def sticker_received(update: Update, context: CallbackContext):
     except FileNotFoundError:
         # if file does not exist ignore
         pass
+
+
+def animated_sticker_received(update: Update, context: CallbackContext):
+    message = update.message
+    user_id = message.from_user.id
+
+    # feedback to show bot is processing
+    bot.send_chat_action(user_id, 'upload_document')
+
+    sticker_id = message.sticker.file_id
+
+    # download sticker and send as document
+    try:
+        download_path = download_file(sticker_id)
+
+        document = open(download_path, 'rb')
+        sent_message = message.reply_document(document=document)
+        sent_message.reply_markdown(get_message(user_id, "forward_animated_sticker"), quote=True)
+
+        # delete local file
+        os.remove(download_path)
+    except TelegramError:
+        message.reply_text(get_message(user_id, "send_timeout"))
+    except FileNotFoundError:
+        # if file does not exist ignore
+        pass
+
+    # record use in spam filter
+    record_use(user_id, context)
+
+    # increase total uses count by one
+    global config
+    config['uses'] += 1
+    global users
+    users[str(user_id)]['uses'] += 1
 
 
 @run_async
