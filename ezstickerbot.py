@@ -291,17 +291,17 @@ def create_sticker_file(message, image, context: CallbackContext):
     try:
         filename = 'icon.png' if user_data['make_icon'] else 'sticker.png'
         sent_message = message.reply_document(document=document, filename=filename,
-                                              caption=get_message(message.chat_id, "forward_to_stickers"), quote=True,
+                                              caption=get_message(user_id, "forward_to_stickers"), quote=True,
                                               timeout=30)
         # add a keyboard with a forward button to the document
         file_id = sent_message.document.file_id
         markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton(get_message(message.chat_id, "forward"), switch_inline_query=file_id)]])
+            [[InlineKeyboardButton(get_message(user_id, "forward"), switch_inline_query=file_id)]])
         sent_message.edit_reply_markup(reply_markup=markup)
     except Unauthorized:
         pass
     except TelegramError:
-        message.reply_text(get_message(user_id=message.chat_id, message="send_timeout"))
+        message.reply_text(get_message(user_id, "send_timeout"))
 
     # delete local files and close image object
     image.close()
