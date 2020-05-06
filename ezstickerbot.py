@@ -52,6 +52,7 @@ def main():
 
     # register commands
     dispatcher.add_handler(CommandHandler('broadcast', broadcast_command))
+    dispatcher.add_handler(CommandHandler('donate', donate_command))
     dispatcher.add_handler(CommandHandler('help', help_command))
     dispatcher.add_handler(CommandHandler('icon', icon_command))
     dispatcher.add_handler(CommandHandler('info', info_command))
@@ -522,6 +523,14 @@ def change_lang_command(update: Update, context: CallbackContext):
             InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
     markup = InlineKeyboardMarkup(keyboard)
     message.reply_text(get_message(message.chat_id, "select_lang"), reply_markup=markup)
+
+
+@run_async
+def donate_command(update: Update, context: CallbackContext):
+    message = update.message
+    message_text = get_message(message.chat_id, "donate").format(config['donate_paypal'], config['donate_btc'],
+                                                                 config['donate_eth'])
+    message.reply_markdown(message_text, disable_web_page_preview=True)
 
 
 @run_async
