@@ -1,0 +1,15 @@
+certifi==2020.4.5.1
+cffi==1.14.0
+chardet==3.0.4
+cryptography==2.9.2
+decorator==4.4.2
+future==0.18.2
+idna==2.9
+Pillow==7.1.2
+pycparser==2.20
+python-telegram-bot==12.7
+requests==2.23.0
+simplejson==3.17.0
+six==1.14.0
+tornado==6.0.4
+urllib3==1.25.9
