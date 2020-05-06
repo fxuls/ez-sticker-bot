@@ -888,7 +888,7 @@ def load_files():
         users = load_json('users.json')
     except FileNotFoundError:
         # if users.json is missing create an empty file and continue
-        save_json(users, 'users.json')
+        save_json({}, 'users.json')
 
 
 def save_files(context: CallbackContext = None):
