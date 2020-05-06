@@ -205,8 +205,14 @@ def animated_sticker_received(update: Update, context: CallbackContext):
         download_path = download_file(sticker_id)
 
         document = open(download_path, 'rb')
-        sent_message = message.reply_document(document=document)
-        sent_message.reply_markdown(get_message(user_id, "forward_animated_sticker"), quote=True)
+        sticker_message = message.reply_document(document=document)
+        sent_message = sticker_message.reply_markdown(get_message(user_id, "forward_animated_sticker"), quote=True)
+
+        # add a keyboard with a forward button to the document
+        file_id = sticker_message.sticker.file_id
+        markup = InlineKeyboardMarkup(
+            [[InlineKeyboardButton(get_message(user_id, "forward"), switch_inline_query=file_id)]])
+        sent_message.edit_reply_markup(reply_markup=markup)
 
         # delete local file
         os.remove(download_path)
