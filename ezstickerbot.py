@@ -347,7 +347,6 @@ def create_sticker_file(message, image, context: CallbackContext):
 
     # delete local files and close image object
     image.close()
-    time.sleep(0.2)
     os.remove(temp_path)
 
     # remove user from make_icon if icon was created
