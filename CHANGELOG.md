@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 
 * * *
 
+## [v2.3](https://github.com/fxuls/ez-sticker-bot/releases/tag/v2.3) [2019-6-6]
+
+**Added:**
+- Add language support for Polish 🇵🇱
+- Add language support for Dutch 🇳🇱
+- Add creating pack icons with /icon
+- Add personal uses and times shared to /stats
+
+**Changed:**
+- Combine all stats to single /stats command
+- Change most functions to run in parallel to speed up response times
+- Reformat entire file to be more logically organized
+- Move links to config file
+
+**Fixed:**
+- Remove unused strings
+
 ## [v2.2](https://github.com/fxuls/ez-sticker-bot/releases/tag/v2.2) [2018-12-19]
 
 **Added:**
