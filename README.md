@@ -36,7 +36,9 @@ Thanks to all the following people for their translations:
 - Chinese [![https://t.me/iristw](https://img.shields.io/badge/Telegram-iristw-blue)](https://t.me/iristw) [![https://t.me/zh_Hant_TW](https://img.shields.io/badge/Telegram-zh__Hant__TW-blue)](https://t.me/zh_Hant_TW)
 
 ## Contribute
-Feedback and suggestions are welcome for both the user experience and the source itself. If you speak English and another language fluently and want to contribute to the project contact [@fxuls](https://t.me/fxuls) on Telegram. If you want to make monetary donation to help pay for the server costs that would also be extremely appreciated because EzStickerBot is currently running on a very shitty VPS because I can't afford better plans while I'm a student full time without a source of income.
+Feedback and suggestions are welcome for both the user experience and the source itself. If you speak English and another language fluently and want to contribute to the project contact [@fxuls](https://t.me/fxuls) on Telegram.
+
+If you want to make monetary donation to help pay for the server costs that would also be extremely appreciated because EzStickerBot is currently running on a very shitty VPS because I can't afford better plans while I'm a student full time without a source of income. You can find information on how to donate by contacting [@fxuls](https://t.me/fxuls) on Telegram or sending `/donate` to [@EzStickerBot](https://t.me/EzStickerBot).
 
 
 ## License
