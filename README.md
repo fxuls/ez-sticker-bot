@@ -11,6 +11,8 @@ EzStickerBot will also format stickers sent to it so it can be used to get stick
 
 You can use the `/icon` command to turn an image or sticker into a 100px by 100px png file that you can set as the icon for any of your sticker packs. Just use `/setpackicon` in [@Stickers](https://t.me/Stickers) and when prompted forward it the `icon.png` file created by EzStickerBot.
 
+Animated stickers are supported! Send an animated sticker to the bot and it will send back a .TGS file that you can add to an animated sticker pack using [@Stickers](https://t.me/Stickers).
+
 ## Dependencies
 The following dependencies are needed to run EzStickerBot:
 - python-telegram-bot
