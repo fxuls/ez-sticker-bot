@@ -96,7 +96,12 @@
     "cancel": "Cancelar",
     "icon_command_info": "Ahora puede configurar un icono para que se muestre en la lista de paquetes de stickers de un usuario en lugar de sólo el primer sticker del paquete. Los iconos son de 100x100 y deben ser cuadrados. Si me envías una imagen que no es cuadrada, añadiré un fondo transparente por encima y por debajo para hacerla cuadrada, pero cuanto más cerca estén las dimensiones originales de ser cuadrada, mejor se verá. Si no estás viendo tu nuevo icono de paquete de stickers en una hora después de añadirlo, es posible que estés usando un cliente no oficial que aún no ha sido actualizado para soportar iconos.\n\n*Advertencia: Una vez que hayas añadido un icono a tu paquete de stickers, podrás cambiarlo pero no eliminarlo. Puedes crear un icono de tu primer sticker y configurarlo como tal, pero no puedes revertir esta acción una vez que hayas utilizado la creación de icono por default usando el primer sticker como icono automáticamente.*",
     "icon_command": "Usa el comando /setpackicon en @Stickers y luego envíame la foto, sticker o URL de la imagen que quieras convertir en un icono.",
-    "icon_canceled": "Ok, he cancelado la creación de un icono. Ahora está de nuevo en el modo normal de creación de stickers."
+    "icon_canceled": "Ok, he cancelado la creación de un icono. Ahora está de nuevo en el modo normal de creación de stickers.",
+    "empty_log": "¡El archivo de registro está vacío!",
+    "spam_limit_reached": "¡Vaya, vas muy rápido!\n\nDebido a la capacidad limitada del servidor y a la popularidad de este bot, los usuarios están limitados a no más de *{} solicitudes* en *{} minutos*. Este límite ayuda a asegurar que el bot esté disponible para todos.\n\nPuedes crear otro sticker en *{} minutos* y *{} segundos*.",
+    "donate": "¡Gracias por apoyar a EzStickerBot! Su donación ayudará a pagar los costos del servidor y a mantener este bot rápido y sin publicidad.",
+    "forward_animated_sticker": "Utiliza @Stickers para crear un pack de stickers animados y luego haz clic en el botón *regresar* cuando se te pida que envíes un archivo de stickers animados en formato *.TGS*.",
+    "donate_suggest": "¡Genial! ¡Ya has hecho *{}* stickers!\n\nSi estás disfrutando usando este bot, por favor considera donar con /donate para ayudar a mantenerlo ¡rápido y sin publicidad!"
   },
   "de": {
     "order": "2",
@@ -143,7 +148,12 @@
     "cancel": "Abbrechen",
     "icon_command_info": "Du kannst jetzt Icons für deine Stickerpacks festlegen, welche anstatt des ersten Stickers in der Stickerliste des Benutzers angezeigt werden. Diese Icons müssen die Größe 100x100 einhalten und quadratisch sein. Wenn du mir kein quadratisches Bild sendest, werde ich einen transparenten Hintergrund von oben und unten an das Bild setzen um es quadratisch zu machen. Je näher die originalen Dimensionen jedoch an ein Quadrat herankommen, desto besser wird es am Ende aussehen. Falls deine neuen Stickerpack Icons nicht nach einer Stunde angezeigt werden, benutzt du vielleicht einen inoffiziellen Clienten, welchen noch nicht für die Verwendung von Icons aktualisiert wurde.\n\n*Achtung: Nach dem Hinzufügen eines Icons zu deinem Stickerpack kann dieses beliebig geändert, aber nicht mehr gelöscht werden. Du kannst jedoch ein Icon aus dem ersten Sticker erstellen; allerdings wird es das automatische Festlegen des ersten Stickers als Icon nicht wiederherstellen.",
     "icon_command": "Benutze den /setpackicon Befehl in @Stickers und sende dann das Foto, den Sticker oder die Bild-URL welche ich zum Icon verwandeln soll.",
-    "icon_canceled": "Ok, die Icon Erstellung ist abgebrochen. Du bist jetzt wieder im normalen Modus zur Sticker Erstellung."
+    "icon_canceled": "Ok, die Icon Erstellung ist abgebrochen. Du bist jetzt wieder im normalen Modus zur Sticker Erstellung.",
+    "empty_log": "Die Logdatei ist leer!",
+    "spam_limit_reached": "Whoa, du bist aber schnell!\n\nAufgrund der limitierten Kapazitäten des Servers und der Popularität des Bots, sind Benutzer auf *{} Anfragen* alle *{} Minuten* beschränkt. Diese Limitierung sorgt dafür, den Bot für jeden allseits verfügbar zu halten.\n\nDu kannst in *{} Minuten* und *{} Sekunden* einen neuen Sticker erstellen.",
+    "donate": "Vielen Dank für die Unterstützung des EzStickerBot! Deine Spende hilft dabei den Server zu unterhalten, sowie schnell und werbefrei zu bleiben.",
+    "forward_animated_sticker": "Benutze @Stickers um ein animiertes Stickerpack zu erstellen und klicke dann den *forward* Button wenn du nach einem animierten Sticker im *TGS* Format gefragt wirst.",
+    "donate_suggest": "Wow! Du hast bereits *{}* Sticker erstellt!\n\nWenn dir der Bot gefällt, würde ich mich über eine Spende über /donate freuen. Es würde helfen, den Bot weiterhin flott und Werbefrei zu halten!"
   },
   "nl": {
     "order": "3",
@@ -190,7 +200,12 @@
     "cancel": "Annuleren",
     "icon_command_info": "Je kan nu een icoon kiezen voor je stickerpak dat andere gebruikers kunnen zien, in plaats van de eerste sticker in het pakket. Een icoon is 100x100 pixels en _moet_ vierkant zijn. Als je mij een plaatje stuurt dat niet vierkant is zal ik een transparante achtergrond aan de boven- en onderkant toevoegen om het vierkant te maken, des te dichter bij het een vierkant is, des te beter het er uit ziet. Als je nieuwe pakketicoon niet na een uur nog niet ziet, dan is het mogelijk dat jij een onofficiële client nog niet is geüpdate om deze functie te ondersteunen.\n\n*Waarschuwing: Zodra je een icoon aan je stickerpak hebt toegovoegd kan je dit niet meer verwijderen, wel kan je het veranderen. Je kan een icoon maken van je eerste sticker in het pakket, maar het kan niet terugkeren naar het standaard gedrag om de eerste sticker automatisch te selecteren.*",
     "icon_command": "Gebruik het /setpackicon commando in @Stickers en stuur mij dan de foto, sticker of URL van het plaatje dat je in een icoon wilt veranderen.",
-    "icon_canceled": "Ok, ik heb het maken van een icoon geannuleerd. Je bent nu terug in normale sticker creatie modus."
+    "icon_canceled": "Ok, ik heb het maken van een icoon geannuleerd. Je bent nu terug in normale sticker creatie modus.",
+    "empty_log": "Logbestand is leeg!",
+    "spam_limit_reached": "Whoa, je gaat aardig snel!\n\nDoor de gelimiteerde capaciteit van de server en de populariteit van deze bot, kunnen gebruikers niet meer dan *{} aanvragen* in *{} minuten* maken. Deze limiet zorgt ervoor dat iedereen van deze bot gebruik kan maken.\n\nJe kan een nieuwe sticker maken in *{} minuten* en *{} seconden*.",
+    "donate": "Bedankt voor het steunen van EzStickerBot! Jouw donatie helpt met het betalen van de serverkosten en deze bot snel en advertentievrij te houden.",
+    "forward_animated_sticker": "Gebruik @Stickers om een geanimeerd stickerpak te maken en klik dan op de *doorsturen* knop wanneer er wordt gevraagd om een geanimeerd sticker bestand te sturen in *.TGS* formaat.",
+    "donate_suggest": "Wow! Je hebt al *{}* stickers!\n\nAls je deze bot leuk vindt, denk er dan alsjeblieft over om te doneren met /donate om deze bot snel en advertentievrij te houden!"
   },
   "it": {
     "order": "4",
@@ -237,7 +252,12 @@
     "cancel": "Annulla",
     "icon_command_info": "Puoi ora impostare un'icona per i tuoi pacchetti, da mostrare nella lista di questi ultimi degli utenti, invece che il primo sticker in esso. Le icone sono 100*100 e _devono_ essere quadrate. Se invii un'immagine non quadrata, aggiungerò uno sfondo trasparente al di sopra e al di sotto di essa per renderla quadrata, ma più le dimensioni originali saranno simili ad un quadrato, più sarà meglio a vedersi. Se non vedi la tua nuova icona del pacchetto dopo un'ora all'aggiunta, potresti star utilizzando un client non ufficiale che non è stato ancora aggiornato per supportare le icone.\n\n*Attenzione: Una volta aggiunta un'icona al tuo pacchetto, puoi cambiarla ma non rimuoverla. Puoi creare un'icona del tuo primo sticker e impostarla, ma non puoi ripristinare il sistema precedente che utilizzava automaticamente il primo sticker.*",
     "icon_command": "Usa il comando /setpackicon in @Stickers e poi inviami la foto, sticker, o URL dell'immagine che vuoi rendere un'icona.",
-    "icon_canceled": "Ok, ho cancellato la creazione di un'icona. Sei ritornato alla creazione standard degli sticker."
+    "icon_canceled": "Ok, ho cancellato la creazione di un'icona. Sei ritornato alla creazione standard degli sticker.",
+    "empty_log": "Il log file è vuoto!",
+    "spam_limit_reached": "Whoa, stai andando parecchio veloce!\n\nData la capacità limitata dei server e la popolarità di questo bot, gli utenti sono limitati a non più di *{} richieste* in *{} minuti*. Questo limite fa sì che il bot sia disponibile per tutti.\n\nPuoi creare un nuovo sticker in *{}minuti* e *{} secondi*.",
+    "donate": "EzStickerBot ti ringrazia per il supporto ricevuto! La tua donazione aiuterà a pagare i costi del server e manterrà il bot veloce e senza pubblicità.",
+    "forward_animated_sticker": "Usa @Stickers per creare uno sticker pack animato, poi clicca il bottone *invia* quando ti viene chiesto di inviare uno sticker animato nel formato *.TGS*.",
+    "donate_suggest": "Wow! Hai creato *{}* sticker!\n\nSe il bot ti sta piacendo, puoi contribuire a mantenerlo veloce e senza pubblicità donando con /donate."
   },
   "id": {
     "order": "5",
@@ -284,7 +304,12 @@
     "cancel": "Batal",
     "icon_command_info": "Kamu sekarang bisa mengatur ikon untuk paket stikermu untuk ditampilkan di daftar stiker daripada stiker pertama dalam paket. Ikon berukuran 100x100 dan _harus_ berbentuk persegi. Jika kamu mengirimku sebuah gambar yang tidak berbentuk persegi saya akan membuat latar belakang transparan di atas dan bawahnya untuk membuatnya berbentuk persegi, tetapi semakin dekat dimensi asli ke bentuk persegi, akan terlihat semakin baik. Jika kamu tidak melihat ikon paketmu setelah satu jam setelah membuatnya, kamu mungkin menggunakan klien tidak resmi yang belum di update untuk mendukung ikon.\n\n*Peringatan: sekali kamu menambahkan ikon ke paket stikermu kamu bisa menggantinya tetapi tidak bisa menghilangkanya. Kamu bisa membuat ikon dari stiker pertamamu tetapi kamu tidak bisa mengubahnya kembali untuk menggunakan stiker pertama secara otomatis.*",
     "icon_command": "Gunakan perintah /setpackicon di @Stickers lalu kirimkan foto pilihan, stiker, atau URL gambar yang kamu ingin jadikan ikon padaku.",
-    "icon_canceled": "Ok, aku telah membatalkan pembuatan sebuah ikon. Kamu sekarang kembali ke mode pembuatan stiker biasa."
+    "icon_canceled": "Ok, aku telah membatalkan pembuatan sebuah ikon. Kamu sekarang kembali ke mode pembuatan stiker biasa.",
+    "empty_log": "Data log kosong!",
+    "spam_limit_reached": "Wah, anda terlalu cepat!\n\nKarena terbatasnya kapasitas server dan kepopuleran bot ini, saat ini, pengguna hanya dibatasi sampai *{} permintaan* dalam *{} menit*. Pembatasan ini membantu memastikan bahwa bot ini tersedia untuk semua.\n\nAnda dapat membuat stiker lagi dalam *{} menit* dan *{} detik*.",
+    "donate": "Terima kasih atas dukungan anda kepada EzStickerBot! Donasi anda akan membantu biaya server dan menjaga bot ini tetap cepat dan bebas iklan.",
+    "forward_animated_sticker": "Gunakan @Stickers untuk membuat paket stiker beranimasi lalu klik tombol *teruskan* ketika anda diminta untuk mengirim berkas stiker beranimasi dalam format *.TGS*",
+    "donate_suggest": "Wow! Anda telah membuat *{}* stiker!\n\nJika anda menikmati penggunaan bot ini, anda dapat berdonasi dengan /donate untuk menjaga bot ini tetap cepat dan bebas iklan!"
   },
   "pt": {
     "order": "6",
@@ -331,7 +356,12 @@
     "cancel": "Cancelar",
     "icon_command_info": "Agora você pode colocar um ícone para seu pacote de stickers para exibição na lista de pacotes de um usuário ao invés do primeiro sticker do pacote. Ícones são 100x100 e _devem_ ser quadrados. Se você me enviar uma imagem que não é quadrada eu irei adicionar um fundo transparente acima ou abaixo dele para gerar o quadrado, mas quanto mais próximas as dimensões originais forem de um quadrado melhor ficará o resultado. Se você não ver o novo ícone do pacote uma hora após adicionar ele você provavelmente está usando um cliente não oficial que ainda não adicionou suporte a ícones ainda.\n\n*Aviso: Assim que você adiciona um ícone ao seu pacote de stickers você pode alterá-lo, mas não removê-lo. Você pode criar um ícone do seu primeiro sticker e colocar ele como isto mas não pode reverter ao comportamento original do pacote de usar o primeiro sticker automaticamente.*",
     "icon_command": "Use o comando /setpackicon em @Stickers e então envie a foto, sticker ou URL de imagem que você quer transformar em ícone para mim.",
-    "icon_canceled": "Ok, eu cancelei a criação do ícone. Você voltou ao modo normal de criação de stickers."
+    "icon_canceled": "Ok, eu cancelei a criação do ícone. Você voltou ao modo normal de criação de stickers.",
+    "empty_log": "Arquivo de log está vazio!",
+    "spam_limit_reached": "Whoa, você está sendo muito rápido!\n\nDevido ao limite de capacidade do nosso servidor e a popularidade do bot, usuários estão limitados a não mais que *{} requisições* em *{} minutos*. Este limite garante que o bot esteja disponível para todos.\n\nVocê pode criar outro sticker em *{} minutos* e *{} segundos*.",
+    "donate": "Obrigado por dar suporte ao EzStickerBot! Sua doação ajudará a pagar pelos custos do servidor e manter este bot rápido e sem propagandas.",
+    "forward_animated_sticker": "Use @Stickers para criar um pacote de stickers animados então clique no botão *encaminhar* quando for pedido para enviar um arquivo de sticker animado no formato *.TGS*.",
+    "donate_suggest": "Wow! Você já fez *{}* stickers!\n\nSe você está gostando tanto deste bot, por favor considere doar com o comando /donate para ajudar a manter ele rápido e sem propagandas!"
   },
   "sl": {
     "order": "7",
@@ -378,7 +408,12 @@
     "cancel": "Prekliči",
     "icon_command_info": "Zdaj lahko nastaviš ikono za tvojo zbirko nalepk, ki bo prikazovala glavno nalepko zbirke namesto samo prvo nalepko. Ikona je 100x100 velikosti in __mora__ biti kvadratna. Če pošlješ sliko, ki ni kvadratna, se bo dodalo transparentno ozadje nad in pod ikono, da izgleda kvadratno. Če ne vidiš svoje nove ikone po eni uri, je možno da uporabljaš ne-uradno verzijo aplikacije, ki ne podpira te funkcije.\n\n*Opozorilo: Enkrat, ko dodaš ikono svoji zbirki, lahko to spremeniš, vendar izgubiš opcijo da bi zbirka izbrala prvo nalepko za svojo ikono.*",
     "icon_command": "Uporabi /setpackicon ukaz v @Stickers in potem pošlji sliko, nalepko ali URL slike katero hočeš spremeniti v ikono.",
-    "icon_canceled": "Ok, proces ustvarjanja ikone ustavljen. Si nazaj v navadnih nastavitvah."
+    "icon_canceled": "Ok, proces ustvarjanja ikone ustavljen. Si nazaj v navadnih nastavitvah.",
+    "empty_log": "Zapisnik je prazen!",
+    "spam_limit_reached": "Uf, greste zelo hitro!\n\nZaradi omejene moči in popularnosti strežnika, so uporabniki trenuitno omejeni na *{} zahtev* v *{} minutah*. Ta omejitev pomaga botu biti vsem na voljo ob vseh časih.\n\nLahko ustvarite novo nalepko v *{} minutah* in *{} sekundah*.",
+    "donate": "Hvala ker podpirate EzStickerBot! Vaša donacija bo pomagala plačati vzdrževanje strežnika in omogočiti botu, da ostane brez reklam.",
+    "forward_animated_sticker": "Uporabite @nalepke da ustvarite paket animiranih nalepk in potem pritisnite gumb *posreduj*, ko vas bot vpraša da pošljete animirano nalepko v *.TGS* formatu.",
+    "donate_suggest": "Wow! Ste že naredili *{}* nalepk!\n\nČe vam je ta bot všeč, prosimo premislite o podpiranju bota z donacijami z ukazom /doniraj, da bot lahko ostane hiter in brez reklam!"
   },
   "pl": {
     "order": "8",
@@ -425,7 +460,12 @@
     "cancel": "Anuluj",
     "icon_command_info": "Możesz teraz ustawić ikonę twojej paczki naklejek by wyświetlała się na liście paczek użytkownika zamiast pierwszej naklejki w paczce. Ikony są 100x100 i _muszą_ być kwadratowe. Jeśli wyślesz mi obraz który nie jest kwadratowy to ja dodam przezroczyste tło powyżej lub poniżej tego w celu uczynienia go kwadratowym, ale im bliżej kwadratu są oryginalne wymiary tym lepiej będzie to wyglądać. Jeśli nie będziesz widział ikony twojej nowej paczki po kilku godzinach po dodaniu jej, możliwe że korzystasz z nieoficjalnego klienta który jeszcze nie jest zaktualizowany by wspierać ikony.\n\n*Ostrzeżenie: Kiedy dodasz ikonę do twojej paczki będziesz mógł ją zmienić ale nie usunąć. Możesz stworzyć ikonę z pierwszej naklejki i ustawić ją tak, ale nie możesz przywrócić paczki do domyślnego zachowania używającej automatycznie pierwszej naklejki.*",
     "icon_command": "Użyj komendy /setpackicon w @Stickers, a następnie wyślij do mnie zdjęcie, naklejkę lub URL obrazu którego chcesz zamienić w ikonę.",
-    "icon_canceled": "Ok, anulowałem tworzenie ikon. Jesteś teraz znowu w trybie normalnego tworzenia naklejek."
+    "icon_canceled": "Ok, anulowałem tworzenie ikon. Jesteś teraz znowu w trybie normalnego tworzenia naklejek.",
+    "empty_log": "Plik dziennika zdarzeń jest pusty!",
+    "spam_limit_reached": "Hola! Pędzisz za szybko!\n\nZ powodu ograniczonej pojemności serwera i popularności tego bota, użytkownicy są obecnie ograniczeni do nie więcej niż *{} żądań* w *{} minut*. To ograniczenie pomaga upewnić się że bot jest dostępny dla wszystkich.\n\nMożesz stworzyć kolejną naklejkę za *{} minut* i *{} sekund*.",
+    "donate": "Dziękujemy za wspieranie EzStickerBot! Twoja darowizna pomoże pokryć koszty serwera i utrzyma tego bota szybkiego i wolnego od reklam.",
+    "forward_animated_sticker": "Użyj @Stickers aby stworzyć paczkę animowanych naklejek, następnie kliknij przycisk *przekaż* kiedy będziesz poproszony aby wysłać plik animowanej naklejki w formacie *.TGS*.",
+    "donate_suggest": "Wow! Dotychczas zrobiłeś/aś *{}* naklejek!\n\nJeśli podoba ci się korzystanie z tego bota, proszę rozważ darowiznę za pomocą /donate by utrzymać prędkość i wolność od reklam!"
   },
   "ru": {
     "order": "9",
@@ -472,7 +512,12 @@
     "cancel": "Отмена",
     "icon_command_info": "Теперь вы можете добавить свою иконку, вместо использования первого стикера, своему набору стикеров для его отображения в списке ваших наборов. Иконки _должны_ быть квадратные и иметь разрешение 100х100. Если вы отправите мне неквадратное изображение, я добавлю к нему прозрачный фон под ним и на него для превращения его в квадрат. Учтите, что чем ближе ваше изображение к квадрату, тем лучше оно будет выглядеть. Если вы не видите иконку вашего набора более чем через час после добавления, то вероятно вы используете неофициальный клиент, который не поддерживает иконки стикер-паков.\n\n*Внимание: если вы добавили иконку, то удалить ее будет невозможно.*",
     "icon_command": "Используйте команду /setpackicon в @Stickers и отправьте изображение, стикер, или ссылку, которую вы хотите установить в качестве иконки, мне.",
-    "icon_canceled": "Выход из режима создания иконки. Возврат в режим создания стикеров."
+    "icon_canceled": "Выход из режима создания иконки. Возврат в режим создания стикеров.",
+    "empty_log": "Файл журнала пустой!",
+    "spam_limit_reached": "Эй, ты куда-то торопишься!\n\nВ связи с ограниченными возможностями сервера и популярности бота, пользователям запрещено делать больше чем *{} запросов* за *{} минут*. Это ограничение введено для того, чтобы ботом могли пользоваться все.\n\nТы сможешь создать новый стикер через *{} минут* и *{} секунд*.",
+    "donate": "Спасибо, что поддерживаете EzStickerBot. Ваши пожертвования используются для аренды сервера и позволяют не вводить рекламу в бота.",
+    "forward_animated_sticker": "Используйте @Stickers для создания набора анимированных стикеров, а затем нажмите кнопку *\"Переслать\"*, когда бот попросить отправить анимированный стикер в формате *.TGS*.",
+    "donate_suggest": "Ух ты! Ты уже создал *{}* стикеров!\n\nЕсли тебе нравится бот, то ты можешь отправить пожертвование с помощью команды /donate."
   },
   "uk": {
     "order": "10",
@@ -488,7 +533,7 @@
     "rate": "Оцінить ⭐⭐⭐⭐⭐",
     "restarting": "Перезапуск бота...",
     "select_lang": "Виберіть мову.",
-    "lang_set": "Мова налаштована на українську. Дякую $398083080 і $80524354, які навчили мене української.",
+    "lang_set": "Мова налаштована на українську.\n\nДякую $398083080 і $80524354, які навчили мене української.",
     "invalid_command": "Вибачте, я не визнаю цю команду.",
     "no_permission": "Ви не маєте дозволу на це.",
     "broadcast_in_reply": "Використовуйте `/broadcast` у відповідь на повідомлення, яке потрібно надіслати.",
@@ -518,7 +563,12 @@
     "cancel": "Скасувати",
     "icon_command_info": "Тепер ви можете встановити значок для ваших пакетів стікерів для відображення в списку пакетів користувача, а не тільки у перший стікер в пакеті. Іконки 100х100 і _мусять_ бути квадратної. Якщо ви надішлете мені зображення, яке не є квадратним, я додам прозорий фон вище та нижче нього, щоб зробити його квадратним, але чим ближче вихідні розміри до квадрату, тим краще він виглядатиме. Якщо ви не бачите значок нового пакету через годину після його додавання, ви можете використовувати неофіційний клієнт, який ще не оновлено для підтримки значків.\n\n*Попередження: після додавання значка в стікер ви можете змінити його, але не видалити. Ви можете створити значок своєї першого стікера і встановити його так, але ви не можете повернутися до поведінки за замовчуванням пакету, використовуючи перший стікер автоматично.*",
     "icon_command": "Використовуйте команду /setpackicon в @Stickers, а потім надішліть мені фотографію, стікер або URL-адресу зображення, яку ви хочете перетворити на значок.",
-    "icon_canceled": "Гаразд, я скасував створення значка. Тепер ви повернулися в звичайний режим створення стікерів."
+    "icon_canceled": "Гаразд, я скасував створення значка. Тепер ви повернулися в звичайний режим створення стікерів.",
+    "empty_log": "Файл журнала порожній!",
+    "spam_limit_reached": "Агов, ти куди поспішаєш! \n\nВ зв'язку з обмеженими можливостями сервера і популярністю бота, користувачам забороняється робити більше ніж *{} запитів* за *{} хвилин*. Це обмеження було введено для того, щоб ботом могли користуватися усі.\n\nТи зможеш створити нову наліпку через *{} хвилин* і *{} секунд*.",
+    "donate": "Дякую, тобі, за те, що підтримуєте EzStickerBot. Ваші пожертвування використовуються для оренди сервера і не дають вводити гадську рекламу в бота.",
+    "forward_animated_sticker": "Використовуйте @Stickers для створення набору анімованих наліпок, а потім натисніть на кнопку *\"Надіслати\"*, коли бот запитає відправити анімовану наліпку в форматі *.TGS*.",
+    "donate_suggest": "Ого! Ти вже зробив *{}* наліпок!\n\nЯкщо тобі подобається бот, тоді ти можеш надіслати пожертвування за допомогою команди /donate."
   },
    "tr": {
     "order": "11",
@@ -566,8 +616,7 @@
     "icon_command_info": "Artık çıkartma paketlerinizin simgesini, paketin içindeki ilk çıkartma yerine belirlediğiniz bir simgeyi ayarlayabilirsiniz. Simgeler 100x100 boyutunda ve kare _olmalıdır_. Bana kare olmayan bir görsel gönderirseniz kare yapmak için üstüne ve altına şeffaf arka, ancak orijinal boyutlar ne kadar yakınsa o kadar iyi görünecektir. Yeni paket simgenizi ekledikten bir saat sonra göremiyorsanız, simgeleri desteklemek için henüz güncellenmemiş resmi olmayan bir istemci kullanıyor olabilirsiniz.\n\n*Uyarı: Çıkartma paketinize bir simge ekledikten sonra onu değiştirebilir ancak kaldıramazsınız. İlk çıkartmanızın bir simgesini oluşturabilir ve bu şekilde ayarlayabilirsiniz, ancak ilk çıkartmayı otomatik olarak kullanarak paketin varsayılan simgesine geri dönemezsiniz.*",
     "icon_command": "@Stickers botuna /setpackicon komutunu gönderin ve daha sonra bana, bir simgeye dönüştürmek istediğiniz fotoğrafı, çıkartmayı veya resim URL'sini gönderin.",
     "icon_canceled": "Tamam, bir simge oluşturmayı iptal ettim. Normal çıkartma oluşturma moduna geri döndünüz.",
-    "empty_log": "_Günlük dosyası boş!_",
-    "no_animated": "_Animasyon çıkartmaları kesinlikle desteklemiyorum!_\n\nAncak gelecekte eklenecek bir özellik."
+    "empty_log": "Günlük dosyası boş!"
   },
   "fa": {
     "order": "12",
@@ -583,13 +632,13 @@
     "rate": "به من امتیاز بدین ⭐️⭐️⭐️⭐️⭐️",
     "restarting": "در حال شروع مجدد ربات...",
     "select_lang": "زبان خود را انتخاب کنید.",
-    "lang_set": "زبان شما فارسی شد.\n\n با سپاس و قدردانی از $126873946 و $133066667 که بات را برای فارسی زبانان در دسترس قرار دادند!",
+    "lang_set": "زبان شما فارسی شد.\n\nبا سپاس و قدردانی از $126873946 و $133066667 که بات را برای فارسی زبانان در دسترس قرار دادند!",
     "invalid_command": "این دستور را نمیشناسم.",
     "no_permission": "شما اجازه این کار را ندارید.",
     "broadcast_in_reply": "از `/broadcast` برای پاسخ دادن به پیام استفاده کنید.",
     "will_broadcast": "پیام شما ارسال شد.",
     "broadcast_only_text": "در حال حاضر فقط پیام های متنی قابل قبول هستند.",
-    "stats": "من، از تاریخ *10.23.2017* تا به حال *{:,}* استیکر برای *{:,}* کاربر مختلف ساخته\u200cام. \n\n شما از تاریخ *3.17.2019* تا کنون *{:,}* ساخته\u200cاید. \n\n من برای *{:,}* کاربر غیر-انگلیسی زبان، زبان مناسب را به صورت خودکار، تشخیص و زبان بات را تغییر داده\u200cام. \n\n من به وسیله\u200cی دستور اینلاین (inline) *{:,}* بار، به اشتراک گذاشته شده\u200cام. \n\n از *{:,}* کاربر، *{:,}* نفر اعلانات را دریافت می\u200cکنند و *{:,}* نفر تمایلی به درفت اعلانات ندارند.",
+    "stats": "من، از تاریخ *10.23.2017* تا به حال *{:,}* استیکر برای *{:,}* کاربر مختلف ساخته‌ام.\n\n شما از تاریخ *3.17.2019* تا کنون *{:,}* ساخته‌اید.\n\nمن برای *{:,}* کاربر غیر-انگلیسی زبان، زبان مناسب را به صورت خودکار، تشخیص و زبان بات را تغییر داده‌ام.\n\nمن به وسیله‌ی دستور اینلاین (inline) *{:,}* بار، به اشتراک گذاشته شده‌ام.\n\nاز *{:,}* کاربر، *{:,}* نفر اعلانات را دریافت می‌کنند و *{:,}* نفر تمایلی به درفت اعلانات ندارند.",
     "lang_stats": "*آمار زبان:*",
     "send_timeout": "خطای طولانی بودن زمان هنگام آپلود استیکر به سرور های تلگرام رخ داد. لطفا یک دقیقه صبر کنید و دوباره امتحان کنید.",
     "doc_not_img": "باید عکس باشد.",
@@ -599,52 +648,57 @@
     "make_sticker_button": "شروع 👉",
     "too_many_urls": "لطفاً فقط یک آدرس بفرستید.",
     "invalid_url": "`{}` غیر قابل قبول است.",
-    "url_does_not_exist": "آدرس `{}` وجود ندارد\u200c.",
+    "url_does_not_exist": "آدرس `{}` وجود ندارد‌.",
     "url_timeout": "انتظار برای اتصال به آدرس `{}` بیش از حد طول کشید.",
     "unable_to_connect": "سیستم قادر به اتصال به `{}` نیست.",
     "url_not_img": "`{}` آدرس یک تصویر نیست.",
-    "opt_out_info": "شما می\u200cتوانید با دستور /optout از دریافت اطلاعیه های دیگر مانند این صرف نظر کنید.",
-    "opted_out": "شما از دریافت اطلاعیه های بات صرف نظر کردید.\n\nشما می\u200cتوانید با دستور /optin دوباره دریافت این اطلاعیه ها را آغاز کنید.",
-    "opted_in": "شما انتخاب کردید که اطلاعیه هارا دریافت کنید.\n\nشما می\u200cتوانید با دستور /optout از دریافت این اطلاعیه ها صرف نظر کنید.",
-    "already_opted_out": "شما هم\u200cاکنون اطلاعیه هارا دریافت نمی\u200cکنید!",
-    "already_opted_in": "شما هم\u200cاکنون دریافت اطلاعیه ها را انتخاب کرده\u200cاید و آن ها را دریافت خواهید کرد!",
+    "opt_out_info": "شما می‌توانید با دستور /optout از دریافت اطلاعیه های دیگر مانند این صرف نظر کنید.",
+    "opted_out": "شما از دریافت اطلاعیه های بات صرف نظر کردید.\n\nشما می‌توانید با دستور /optin دوباره دریافت این اطلاعیه ها را آغاز کنید.",
+    "opted_in": "شما انتخاب کردید که اطلاعیه هارا دریافت کنید.\n\nشما می‌توانید با دستور /optout از دریافت این اطلاعیه ها صرف نظر کنید.",
+    "already_opted_out": "شما هم‌اکنون اطلاعیه هارا دریافت نمی‌کنید!",
+    "already_opted_in": "شما هم‌اکنون دریافت اطلاعیه ها را انتخاب کرده‌اید و آن ها را دریافت خواهید کرد!",
     "forward": "ارسال",
     "your_sticker": "استیکر شما",
     "forward_desc": "برای ارسال استیکر انتخاب شده اینجا کلیک کنید",
     "cancel": "لغو",
-    "icon_command_info": "اکنون شما می\u200cتوانید برای پک\u200cهای استیکرتان، آیکون تعیین کنید تا به جای اولین استیکر موجود در پک، در لیست پک\u200cهای کاربران نمایش داده شود.\nآیکون\u200cها باید در ابعاد 100x100 و _حتماً_ به شکل مربع باشند. اگر عکسی بفرستید که مربعی شکل نباشد، من پس\u200cزمینه\u200cی شفافی (transparent) را به اطراف عکس اضافه خواهم کرد تا به شکل مربع در بیاید. با این حال، هرچقدر که ابعاد عکس به مربع نزدیک\u200cتر باشد؛ ظاهر بهتری به خود می\u200cگیرد.\nپس از یک ساعت اگر آیکون جدید پک\u200cتان را نمی\u200cبینید؛ احتمالاً به این خاطر است که شما دارید از برنامه\u200cای غیررسمی استفاده می\u200cکنید که برای افزودن آیکون به پک\u200cها آپدیت نشده است.*هشدار: زمانی که آیکون پک را تعیین کنید؛ می\u200cتوانید آن را تغییر دهید ولی نمی\u200cتوانید آن را حذف کنید. \nمی\u200cتوانید آیکونی را از استیکر اول پک\u200cتان تعیین کنید ولی نمی\u200cتوانید پک استیکر را به حالت اولیه\u200cی خودش بازگردانید. یعنی پک استیکر شما دیگر به صورت خودکار، اولین استیکر را به عنوان آیکون پک در نظر نمی\u200cگیرد.*",
+    "icon_command_info": "اکنون شما می‌توانید برای پک‌های استیکرتان، آیکون تعیین کنید تا به جای اولین استیکر موجود در پک، در لیست پک‌های کاربران نمایش داده شود.\nآیکون‌ها باید در ابعاد 100x100 و _حتماً_ به شکل مربع باشند. اگر عکسی بفرستید که مربعی شکل نباشد، من پس‌زمینه‌ی شفافی (transparent) را به اطراف عکس اضافه خواهم کرد تا به شکل مربع در بیاید. با این حال، هرچقدر که ابعاد عکس به مربع نزدیک‌تر باشد؛ ظاهر بهتری به خود می‌گیرد.\nپس از یک ساعت اگر آیکون جدید پک‌تان را نمی‌بینید؛ احتمالاً به این خاطر است که شما دارید از برنامه‌ای غیررسمی استفاده می‌کنید که برای افزودن آیکون به پک‌ها آپدیت نشده است.*هشدار: زمانی که آیکون پک را تعیین کنید؛ می‌توانید آن را تغییر دهید ولی نمی‌توانید آن را حذف کنید. \nمی‌توانید آیکونی را از استیکر اول پک‌تان تعیین کنید ولی نمی‌توانید پک استیکر را به حالت اولیه‌ی خودش بازگردانید. یعنی پک استیکر شما دیگر به صورت خودکار، اولین استیکر را به عنوان آیکون پک در نظر نمی‌گیرد.*",
     "icon_command": "از دستور /setpackicon در بات @Stickers برای تعیین کردن آیکون استفاده کنید. سپس عکس، استیکر و یا لینک عکس مورد نظرتان را برای من بفرستید.",
-    "icon_canceled": "خوب, من ایجاد یک نماد لغو کرده ام. شما در حال حاضر در حالت عادی ایجاد برچسب."
+    "icon_canceled": "خوب, من ایجاد یک نماد لغو کرده ام. شما در حال حاضر در حالت عادی ایجاد برچسب.",
+    "empty_log": "فایل سوابق خالی است!",
+    "spam_limit_reached": "وایسا! خیلی داری تند می‌ری!\n\nبه دلیل ظرفیت محدودیت سرور (server) و محبوبیت این بات، کاربران محدود به درخواست ایجاد *{}* استیکر در *{}* دقیقه هستند. این محدودیت، اطمینان حاصل می‌کند که بات برای همه در دسترس قرار می‌گیرد.\n\nشما می‌توانید استیکر بعدی خود را در *{}* دقیقه و *{}* ثانیه دیگر بسازید.",
+    "donate": "از حمایت EzStickerBot، بسیار از شما سپاس گزاریم! مبلغ اهدا شده‌ی شما در هزینه‌های سرور (server) کمک بزرگی می‌کند و موجب می‌شود که بات به فعالیت سریع و بدون تبلیغ خود ادامه دهد.",
+    "forward_animated_sticker": "از @Stickers استفاده کنید تا یک پک استیکر انیمیشنی (animated sticker pack) بسازید. سپس، زمانی که از شما خواسته شد که فایل استیکر انیمیشنی را در فرمت *.TGS* ارسال کنید؛ بر روی دکمه‌ی *forward* کلیک کنید.",
+    "donate_suggest": "اوه! تا حالا *{}* تا استیکر ساختی!\n\nاگر از این بات خوشتان می‌آید و از آن راضی هستید، لطفاً حمایت مالی را که به وسیله‌ی /donate انجام می‌شود در نظر بگیرید. اهدای این مبلغ کمک می‌کند که بات، سریع و بدون تبلیغ باشد و به فعالیت خود ادامه دهد!"
   },
   "ar": {
     "order": "13",
     "lang_name": "العربيه 🇸🇦",
-    "start": "مرحبا، انا*EZ Sticker Bot*. استطيع مسعادتك فى صنع ملصقات. اكتب/help للبدا، او  /info للحصول على معلومات عنى.\n\n🌐  ولتغيير اللغه استخدم  /lang.",
-    "help": "لاضافه ملصق الى حزمه مع @Stickers, يجب على ملفك ان يكون فى صيغه png ، والجوده اقل من  512، واقل من 512Kb.\n\n يمكنك ارسال اى صوره او ملصق ،وانا ساجعله ملام لك هذه المواصفات وسارسلهولك كملف جاهز للاضافه الى الحزمه.",
+    "start": "مرحبا!  أنا EZ Sticker Bot. يمكنني مساعدتك في صنع ملصقات!  اكتب /help للبدء أو /info للحصول على معلومات عني.\n\n 🌐 لتغيير اللغة استخدم /lang.",
+    "help": "لإضافة ملصق إلى حزمة باستخدامStickers ، يجب حفظ ملفك بتنسيق png ، وأن يكون به بُعد واحد على الأقل 512 بكسل ، وأقل من 512 كيلوبايت.\n\n يمكنك أن ترسل لي أي صورة أو ملصق ، وسأقوم بتهيئتها لتلبية جميع المتطلبات الثلاثة وإرسالها إليك كملف جاهز لإضافته إلى الحزمة الخاصة بك!",
     "forward_to_stickers": "ارسل الى @Stickers\n@EzStickerBot",
-    "cant_process": "لا يمكننى معالجه هذا الطلب",
+    "cant_process": "لا يمكننى معالجه هذا الطلب.",
     "send_sticker_photo": "ارسل الي*صوره* او *ملصق*.",
-    "info": "*EZ Sticker Bot* هو بوت انا طورته وجعلته  يستفيد من كل التجارب السابقه ومساعده مستخدمى تليجرام)Telegram( .\n\nانشر البوت فى مجموعتك/قناتك سيساعدهم فى صنع حزمه من الملصقات مننا والينا!\n\n لقد صنعت *{:,}* ملق للناس دائما!",
+    "info": "EZ Sticker Bot\nهو برنامج روبوت أقوم بتطويره واستضافته دون توقع الحصول على أي شيء منه بخلاف إرضاء ومساعدة مستخدمي تلغرام.\n\n مشاركة هذا الروبوت في مجموعاتك/قنواتك سيساعد الناس على إنشاء مجموعات ملصقات رائعة خاصة بهم لنستخدمها جميعًا!\n\n لقد أنشأت *{}* ملصقًا للأشخاص حتى الآن!",
     "contact_dev": "تواصل مع المطور",
     "source": "المصدر",
     "rate": "قيم ⭐⭐⭐⭐⭐",
     "restarting": "اعاده تشغيل البوت...",
     "select_lang": "اختر لغه.",
-    "lang_set": "اللغه عربى.\n\nشكرا لـ $388477193 لجعل البوت متوفر فى العربيه!",
+    "lang_set": "اللغة العربية.\n\nشكرا لـ $388477193 لجعل البوت متوفر باللغة العربية!",
     "invalid_command": "اسف، انا لا اتعرف على هذا الامر.",
-    "no_permission": " انت لا تمتلك الصلاحيات لهذا .",
+    "no_permission": "انت لا تمتلك الصلاحيات لهذا.",
     "broadcast_in_reply": "استخدم `/broadcast` فى reply للرساله للارسال.",
     "will_broadcast": "حسنا، سيتم ارسال الرساله.",
     "broadcast_only_text": "حاليا *text* فقط الرساله يمكن بثها.",
     "stats": "لقد صنعت *{:,}* ملصق ل *{:,}* مستخدم منذ *10.23.2017*.\n\nانت شخصيا صنعت *{:,}* ملصق من  *3.17.2019*.\n\nلقد قمت باكتشاف وتعيين اللغة تلقائيًا ل *{:,}* غير الناطقين باللغة الإنجليزية.\n\nتمت مشاركتي عبر الإنترنت *{:,}* مره.\n\nمن خلال *{:,}* مسخدم, *{:,}* مشتركين في تلقي الإعلانات و *{:,}* وغير مشاركين.",
-    "lang_stats": "*شعرات اللغه:*",
-    "send_timeout": "انتها الوفت عند محاولت رفع صيغه الملصق لخوادم التليجرام  . انتظر لحظات وحاول مره اخرى.",
+    "lang_stats": "*إحصائيات اللغة:*",
+    "send_timeout": "انتها الوفت عند محاولت رفع صيغه الملصق لخوادم التليجرام. انتظر لحظات وحاول مره اخرى.",
     "doc_not_img": "الملف يجب ان يكون صوره.",
     "share": "انشر",
     "share_desc": "انشر معلومات عن EzStickerBot مع هذا المحادثه",
     "share_text": "اهلا انا استخدم *EzStickerBot* لصنع ملصقات بدون مغادره التليجرا!\n\nارسل اى صوره او ملصق وانا ساجعلها مناسبه لك!",
     "make_sticker_button": "تحقق من ذلك👉",
-    "too_many_urls": "ارجوك ارسل رابط واحد فى المره الواحد .",
+    "too_many_urls": "ارجوك ارسل رابط واحد فى المره الواحد.",
     "invalid_url": "`{}` ليس رابط صحيح.",
     "url_does_not_exist": "الرابط `{}` ليس موجود.",
     "url_timeout": "الوقت انتها عند محاوله الوصول الى `{}`.",
@@ -661,7 +715,12 @@
     "cancel": "الغاء",
     "icon_command_info": "يمكنك الآن تعيين رمز لحزم الملصقات الخاصة بك لعرضها في قائمة حزم المستخدم بدلاً من الملصق الأول فقط في الحزمة. الصوره تكون ١٠٠×١٠٠و _يجب_ ان تكون مربعه. إذا قمت بإرسال صورة غير مربعة ، فسأضيف خلفية شفافة أعلاها وأسفلها لجعلها مربعة ، لكن كلما كانت الأبعاد الأصلية أقرب إلى المربع ، ستبدو أفضل. إذا كنت لا ترى أيقونة الحزمة الجديدة بعد ساعة من إضافتها ، فربما تستخدم عميلًا غير رسمي لم يتم تحديثه لدعم الرموز بعد.\n\n*تحذير: بمجرد إضافة رمز إلى حزمة الملصقات الخاصة بك ، يمكنك تغييره ولكن لا يمكنك إزالته.  يمكنك إنشاء أيقونة للملصق الأول وتعيينه على هذا النحو ولكن لا يمكنك الرجوع إلى السلوك الافتراضي للحزمة باستخدام الملصق الأول تلقائيًا.*",
     "icon_command": "استخدام /setpackicon فى @Stickers ثم أرسل الصورة أو الملصق أو عنوان URL للصورة الذي تريد تحويله إلى ملصق.",
-    "icon_canceled": "حسنًا ، لقد ألغيت إنشاء رمز.  لقد عدت الآن إلى وضع إنشاء الملصقات العادي."
+    "icon_canceled": "حسنًا ، لقد ألغيت إنشاء رمز.  لقد عدت الآن إلى وضع إنشاء الملصقات العادي.",
+    "empty_log": "ملف السجل فارغ!",
+    "spam_limit_reached": "عذرًا ، أنت تسير بسرعة كبيرة!\n\nنظرًا للسعة المحدودة للخادم وشعبية هذا الروبوت ، يقتصر المستخدمون حاليًا على ما لا يزيد عن *{} من الطلبات* في *{} دقيقة*.  يساعد هذا الحد على التأكد من أن البوت متاح للجميع.\n\n\nيمكنك إنشاء ملصق آخر في غضون *{} دقيقة* و *{} ثانية*.",
+    "donate": "شكرا لدعمك EzStickerBot! سيساعد تبرعك على دفع تكاليف الخادم والحفاظ على هذا الروبوت سريع وخالي من الإعلانات.",
+    "forward_animated_sticker": "استخدم @Stickers لإنشاء حزمة ملصقات متحركة ثم انقر فوق الزر *متابعه* عندما يُطلب منك إرسال ملف ملصقات متحركة بتنسيق *TGS. *.",
+    "donate_suggest": "رائع! لق قمت بالفعل بإنشاء *{}* ملصقات!\n\n إذا كنت تستمتع باستخدام هذا الروبوت ، فالرجاء التبرع بإستخدام /donate للمساعدة في إبقائه سريعًا وخاليًا من الإعلانات!"
   },
   "zh": {
     "order": "14",
