@@ -907,9 +907,6 @@ def handle_error(update: Update, context: CallbackContext):
 def load_lang():
     path = os.path.join(directory, 'lang.json')
     data = json.load(codecs.open(path, 'r', 'utf-8-sig'))
-    for lang_code in data:
-        for message in data[lang_code]:
-            data[lang_code][message] = data[lang_code][message].replace('\\n', '\n')
     return data
 
 
