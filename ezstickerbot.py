@@ -872,10 +872,14 @@ def get_user_config(user_id, key):
 
         # attempt to automatically set language
         lang_code = bot.get_chat(user_id).get_member(user_id).user.language_code.lower()
-        if lang_code is not None and lang_code[:2] in lang:
-            users[user_id]['lang'] = lang_code[:2]
-            if lang_code[:2] != 'en':
-                config['langs_auto_set'] += 1
+        if lang_code is not None:
+            print(lang_code)
+            for code in lang.keys():
+                if lang_code.startswith(code):
+                    print("User lang_code {} matches code {}".format(lang_code, code))
+                    users[user_id]['lang'] = code
+                    if code != 'en':
+                        config['langs_auto_set'] += 1
     # if user is registered but does not have requested key set to default value from config
     elif key not in users[user_id]:
         try:
