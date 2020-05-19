@@ -914,7 +914,7 @@ def load_lang():
 
 
 def load_json(file_name):
-    path = os.path.join(directory, file_name if '.' in file_name else file_name + '.json')
+    path = os.path.join(directory, file_name if file_name.endswith('.json') else file_name + '.json')
     with open(path) as json_file:
         data = json.load(json_file)
     json_file.close()
@@ -923,7 +923,7 @@ def load_json(file_name):
 
 def save_json(json_obj, file_name):
     data = json.dumps(json_obj)
-    path = os.path.join(directory, file_name if '.' in file_name else file_name + '.json')
+    path = os.path.join(directory, file_name if file_name.endswith('.json') else file_name + '.json')
     with open(path, "w") as json_file:
         json_file.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
     json_file.close()
