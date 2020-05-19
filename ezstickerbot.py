@@ -22,13 +22,20 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
     ChosenInlineResultHandler, CallbackContext
 from telegram.ext.dispatcher import run_async
 
-# setup logger
-logging.getLogger("urllib3.connection").setLevel(logging.CRITICAL)
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO,
-                    filename="ez-sticker-bot.log", filemode="a+")
-logger = logging.getLogger(__name__)
-
 directory = os.path.dirname(__file__)
+
+# set up logging
+log_formatter = logging.Formatter("\n%(asctime)s [%(name)s] [%(levelname)s]  %(message)s")
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+file_handler = logging.FileHandler(os.path.join(directory, "ez-sticker-bot.log"))
+file_handler.setFormatter(log_formatter)
+logger.addHandler(file_handler)
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(log_formatter)
+logger.addHandler(console_handler)
 
 bot: Bot = None
 
@@ -731,7 +738,6 @@ def restart_command(update: Update, context: CallbackContext):
 @run_async
 def start_command(update: Update, context: CallbackContext):
     message = update.message
-
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'typing')
     message.reply_markdown(get_message(message.chat_id, "start"))
