@@ -25,7 +25,7 @@ from telegram.ext.dispatcher import run_async
 directory = os.path.dirname(__file__)
 
 # set up logging
-log_formatter = logging.Formatter("\n%(asctime)s [%(name)s] [%(levelname)s]  %(message)s")
+log_formatter = logging.Formatter("\n%(asctime)s [%(name)s] [%(levelname)s] %(message)s")
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
