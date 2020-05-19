@@ -873,10 +873,8 @@ def get_user_config(user_id, key):
         # attempt to automatically set language
         lang_code = bot.get_chat(user_id).get_member(user_id).user.language_code.lower()
         if lang_code is not None:
-            print(lang_code)
             for code in lang.keys():
                 if lang_code.startswith(code):
-                    print("User lang_code {} matches code {}".format(lang_code, code))
                     users[user_id]['lang'] = code
                     if code != 'en':
                         config['langs_auto_set'] += 1
