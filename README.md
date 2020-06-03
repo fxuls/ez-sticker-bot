@@ -35,7 +35,8 @@ Thanks to all the following people for their translations:
 - Turkish [![https://t.me/HolyTotem](https://img.shields.io/badge/Telegram-HolyTotem-blue)](https://t.me/HolyTotem)
 - Farsi [![https://t.me/smm_h](https://img.shields.io/badge/Telegram-smm_h-blue)](https://t.me/smm_h) [![https://t.me/navitch](https://img.shields.io/badge/Telegram-navitch-blue)](https://t.me/navitch)
 - Arabic [![https://t.me/EhabAShahat](https://img.shields.io/badge/Telegram-EhabAShahat-blue)](https://t.me/EhabAShahat)
-- Chinese [![https://t.me/iristw](https://img.shields.io/badge/Telegram-iristw-blue)](https://t.me/iristw) [![https://t.me/zh_Hant_TW](https://img.shields.io/badge/Telegram-zh__Hant__TW-blue)](https://t.me/zh_Hant_TW) [![https://t.me/bingjiao](https://img.shields.io/badge/Telegram-bingjiao-blue)](https://t.me/bingjiao)
+- Chinese (Traditional) [![https://t.me/iristw](https://img.shields.io/badge/Telegram-iristw-blue)](https://t.me/iristw) [![https://t.me/zh_Hant_TW](https://img.shields.io/badge/Telegram-zh__Hant__TW-blue)](https://t.me/zh_Hant_TW)
+- Chinese (Simplified) [![https://t.me/bingjiao](https://img.shields.io/badge/Telegram-bingjiao-blue)](https://t.me/bingjiao)
 
 ## Contribute
 Feedback and suggestions are welcome for both the user experience and the source itself. If you speak English and another language fluently and want to contribute to the project contact [@fxuls](https://t.me/fxuls) on Telegram.
