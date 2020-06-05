@@ -4,6 +4,38 @@ All notable changes to this project will be documented in this file.
 
 * * *
 
+## [v3.0](https://github.com/fxuls/ez-sticker-bot/releases/tag/v3.0) [2020-6-5]
+
+**Added:**
+- Add language support for Turkish 🇹🇷
+- Add language support for Chinese Mandarin Traditional 🇹🇼
+- Add language support for Chinese Mandarin Simplified 🇨🇳
+- Add spam limit feature
+- Add `/donate` command
+- Add periodic suggestion to donate after using bot
+- Add support for getting animated stickers as .TGS files
+- Add a persistent log file and `/log` command (admin only) to access it
+- Add `requirements.txt` file
+- Add functions for loading and saving json files
+
+**Changed:**
+- Update bot to work with python-telegram-bot API 12.7 and Telegram Bot API 4.8
+- Move all persistent user data from config['users'] to users.json
+- Create temp directory to store temporarily downloaded files when manipulating photos
+- Change bot to send `uploading document` message when uploading stickers
+- Rename variables to be more semantically correct
+
+**Fixed:**
+- Fix mistakes in translations in multiple languages
+- Add better exception handling in multiple instances
+- Fixed bug that would not convert stickers sent to the bot to png
+- Make broadcast thread skip users who have blocked the bot
+- Fix automatic language detection to work with language codes of any length
+
+**Removed:**
+- Remove unnecessary sleeps when creating stickers to improve speed
+- Remove unnecessary checks for escaped new line characters when loading lang.json
+
 ## [v2.3](https://github.com/fxuls/ez-sticker-bot/releases/tag/v2.3) [2019-6-6]
 
 **Added:**
