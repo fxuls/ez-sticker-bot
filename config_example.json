@@ -22,8 +22,8 @@
   "source_link": "https://github.com/fxuls/ez-sticker-bot",
   "share_thumb_url": "https://i.imgur.com/7XCsMmu.jpg",
   "save_interval": 300,
-  "spam_interval": 900,
-  "spam_max": 50,
+  "spam_interval": 600,
+  "spam_max": 30,
   "broadcast_batch_size": 25,
   "broadcast_batch_interval": 15
 }
