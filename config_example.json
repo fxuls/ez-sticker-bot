@@ -10,7 +10,7 @@
   "donate_cashapp": "https://cash.app/$fxuls",
   "donate_btc": "1LRsDwsAD3h7fdnAi4BqmrJUMLaBTsdEuw",
   "donate_eth": "0x690e189d6602Ee082489866cEAb7433BbC0C3227",
-  "donate_suggest_interval": 50,
+  "donate_suggest_interval": 25,
   "times_shared": 0,
   "admins": [],
   "token": "TOKEN_FROM_BOTFATHER",
