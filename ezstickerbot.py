@@ -844,7 +844,9 @@ def broadcast_thread(context: CallbackContext):
         except Unauthorized:
             pass
         except TelegramError as e:
-            logger.warning("Error '{}' when broadcasting message to {}".format(e.message, user_id))
+            # ignore errors from bot trying to message user who has not messaged them first
+            if e.message != 'Chat not found':
+                logger.warning("Error '{}' when broadcasting message to {}".format(e.message, user_id))
 
         index += 1
         if index >= config['broadcast_batch_size']:
