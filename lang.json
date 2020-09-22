@@ -617,6 +617,10 @@
     "icon_command": "@Stickers botuna /setpackicon komutunu gönderin ve daha sonra bana, bir simgeye dönüştürmek istediğiniz fotoğrafı, çıkartmayı veya resim URL'sini gönderin.",
     "icon_canceled": "Tamam, bir simge oluşturmayı iptal ettim. Normal çıkartma oluşturma moduna geri döndünüz.",
     "empty_log": "Günlük dosyası boş!"
+    "spam_limit_reached": "Vay canına, oldukça hızlı gidiyorsun!\n\nSunucunun sınırlı kapasitesi ve bu botun popülaritesi nedeniyle, kullanıcılar şu anda *{} dakika* içinde *{} istek* ile sınırlıdır. Bu sınır botun herkes tarafından kullanılabilir olduğundan emin olmanıza yardımcı olur.\n\n*{} dakika* *{} saniye* içinde başka bir çıkartma oluşturabilirsiniz.",
+    "donate": "EzStickerBot'u desteklediğiniz için teşekkür ederiz! Bağışınız, sunucu maliyetlerinin ödenmesine ve bu botun hızlı ve reklamsız kalmasına yardımcı olacaktır.",
+    "forward_animated_sticker": "Animasyonlu bir çıkartma paketi oluşturmak için @Stickers botunu kullanın ve ardından *.TGS* formatında animasyonlu bir çıkartma dosyası göndermeniz istendiğinde *ileri* düğmesine tıklayın.",
+    "donate_suggest": "Vay canına! Zaten *{}* çıkartma yaptınız!\n\nBu botu kullanmaktan keyif alıyorsanız, hızlı ve reklamsız kalmasına yardımcı olmak için lütfen /donate ile bağış yapmayı tercih edin!"
   },
   "fa": {
     "order": "12",
