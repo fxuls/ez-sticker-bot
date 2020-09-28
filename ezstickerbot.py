@@ -33,7 +33,7 @@ file_handler = logging.FileHandler(os.path.join(directory, "ez-sticker-bot.log")
 file_handler.setFormatter(log_formatter)
 logger.addHandler(file_handler)
 
-console_handler = logging.StreamHandler()
+console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setFormatter(log_formatter)
 logger.addHandler(console_handler)
 
