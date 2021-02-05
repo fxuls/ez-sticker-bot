@@ -136,6 +136,13 @@ def image_received(update: Update, context: CallbackContext):
 
             message.reply_markdown(get_message(user_id, 'doc_not_img'))
             return
+        # check that document is not too large
+        if document.file_size > config['max_file_size']:
+            # feedback to show bot is processing
+            bot.send_chat_action(user_id, 'typing')
+
+            message.reply_text(get_message(user_id, 'file_too_large'))
+            return
     else:
         photo_id = message.photo[-1].file_id
 
@@ -266,6 +273,15 @@ def url_received(update: Update, context: CallbackContext):
 
     # get request
     try:
+        # check that file is not too big
+        head = requests.head(url, timeout=3)
+        if int(head.headers['Content-length']) > config['max_file_size']:
+            # feedback to show bot is processing
+            bot.send_chat_action(user_id, 'typing')
+
+            message.reply_text(get_message(user_id, 'file_too_large'))
+            return
+
         request = requests.get(url, timeout=3)
         request.raise_for_status()
     except InvalidURL:
