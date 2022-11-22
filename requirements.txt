@@ -5,7 +5,7 @@ cryptography==3.2
 decorator==4.4.2
 future==0.18.2
 idna==2.9
-Pillow==9.0.1
+Pillow==9.3.0
 pycparser==2.20
 python-telegram-bot==12.7
 requests==2.23.0
