@@ -26,5 +26,8 @@
   "spam_max": 30,
   "broadcast_batch_size": 25,
   "broadcast_batch_interval": 15,
-  "max_file_size": 26214400
+  "max_file_size": 26214400,
+  "allowed_chat_ids": [
+    5497397971
+  ]
 }

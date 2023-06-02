@@ -14,22 +14,27 @@ import requests
 import simplejson
 from datetime import datetime
 from PIL import Image
-from requests.exceptions import InvalidURL, HTTPError, RequestException, ConnectionError, Timeout, ConnectTimeout
-from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, \
-    InputTextMessageContent, InlineQueryResultCachedDocument
+from requests.exceptions import (InvalidURL, HTTPError, RequestException,
+                                 ConnectionError, Timeout, ConnectTimeout)
+from telegram import (Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup,
+                      InlineQueryResultArticle, InputTextMessageContent,
+                      InlineQueryResultCachedDocument)
 from telegram.error import TelegramError, TimedOut, BadRequest, Unauthorized
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, InlineQueryHandler, \
-    ChosenInlineResultHandler, CallbackContext
+from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
+                          CallbackQueryHandler, InlineQueryHandler,
+                          ChosenInlineResultHandler, CallbackContext)
 from telegram.ext.dispatcher import run_async
 
 directory = os.path.dirname(__file__)
 
 # set up logging
-log_formatter = logging.Formatter("\n%(asctime)s [%(name)s] [%(levelname)s] %(message)s")
+log_formatter = logging.Formatter(
+    "\n%(asctime)s [%(name)s] [%(levelname)s] %(message)s")
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-file_handler = logging.FileHandler(os.path.join(directory, "ez-sticker-bot.log"))
+file_handler = logging.FileHandler(
+    os.path.join(directory, "ez-sticker-bot.log"))
 file_handler.setFormatter(log_formatter)
 logger.addHandler(file_handler)
 
@@ -55,7 +60,8 @@ def main():
     bot = updater.bot
 
     # register a handler to ignore all non-private updates
-    dispatcher.add_handler(MessageHandler(~ Filters.private, do_fucking_nothing))
+    dispatcher.add_handler(MessageHandler(~Filters.private,
+                                          do_fucking_nothing))
 
     # register commands
     dispatcher.add_handler(CommandHandler('broadcast', broadcast_command))
@@ -75,24 +81,31 @@ def main():
     dispatcher.add_handler(MessageHandler(Filters.command, invalid_command))
 
     # register media listener
-    dispatcher.add_handler(MessageHandler((Filters.photo | Filters.document), image_received))
+    dispatcher.add_handler(
+        MessageHandler((Filters.photo | Filters.document), image_received))
     dispatcher.add_handler(MessageHandler(Filters.sticker, sticker_received))
     dispatcher.add_handler(MessageHandler(Filters.text, url_received))
     dispatcher.add_handler(MessageHandler(Filters.all, invalid_content))
 
     # register button handlers
-    dispatcher.add_handler(CallbackQueryHandler(change_lang_callback, pattern="lang"))
-    dispatcher.add_handler(CallbackQueryHandler(icon_cancel_callback, pattern="icon_cancel"))
+    dispatcher.add_handler(
+        CallbackQueryHandler(change_lang_callback, pattern="lang"))
+    dispatcher.add_handler(
+        CallbackQueryHandler(icon_cancel_callback, pattern="icon_cancel"))
 
     # register inline handlers
-    dispatcher.add_handler(InlineQueryHandler(share_query_received, pattern=re.compile("^share$", re.IGNORECASE)))
-    dispatcher.add_handler(InlineQueryHandler(file_id_query_received, pattern=re.compile("")))
+    dispatcher.add_handler(
+        InlineQueryHandler(share_query_received,
+                           pattern=re.compile("^share$", re.IGNORECASE)))
+    dispatcher.add_handler(
+        InlineQueryHandler(file_id_query_received, pattern=re.compile("")))
     dispatcher.add_handler(InlineQueryHandler(share_query_received))
 
     dispatcher.add_handler(ChosenInlineResultHandler(inline_result_chosen))
 
     # register variable dump loop
-    updater.job_queue.run_repeating(save_files, config['save_interval'], config['save_interval'])
+    updater.job_queue.run_repeating(save_files, config['save_interval'],
+                                    config['save_interval'])
 
     # register error handler
     dispatcher.add_error_handler(handle_error)
@@ -104,11 +117,34 @@ def main():
     updater.idle()
 
 
-#   ____
-#  / ___|   ___    _ __    ___
-# | |      / _ \  | '__|  / _ \
-# | |___  | (_) | | |    |  __/
-#  \____|  \___/  |_|     \___|
+#  core functions
+
+
+def validate_chat_id(chat_id):
+    chat_id = str(chat_id)
+    allowed_chat_ids = config['allowed_chat_ids']
+    if allowed_chat_ids:
+        # if user set allowed chat ids, return True if chat_id is in the list
+        return chat_id in allowed_chat_ids
+    else:
+        # if user didn't set allowed chat ids, return True (allow all)
+        return True
+
+
+def restricted(func):
+
+    def wrapper(update, context):
+        chat_id = update.message.chat_id
+        if validate_chat_id(chat_id):
+            func(update, context)
+        else:
+            # log unauthorized access
+            logger.warning(
+                f"Unauthorized access denied for {chat_id} ({update.message.from_user.name})"  # noqa: E501
+            )
+
+    return wrapper
+
 
 @run_async
 def image_received(update: Update, context: CallbackContext):
@@ -119,8 +155,8 @@ def image_received(update: Update, context: CallbackContext):
     cooldown_info = user_on_cooldown(user_id)
     if cooldown_info[0]:
         minutes = int(config['spam_interval'] / 60)
-        message_text = get_message(user_id, 'spam_limit_reached').format(config['spam_max'], minutes, cooldown_info[1],
-                                                                         cooldown_info[2])
+        message_text = get_message(user_id, 'spam_limit_reached').format(
+            config['spam_max'], minutes, cooldown_info[1], cooldown_info[2])
         message.reply_markdown(message_text)
         return
 
@@ -128,7 +164,8 @@ def image_received(update: Update, context: CallbackContext):
     if message.document:
         # check that document is image
         document = message.document
-        if document.mime_type.lower() in ('image/png', 'image/jpeg', 'image/webp'):
+        if document.mime_type.lower() in ('image/png', 'image/jpeg',
+                                          'image/webp'):
             photo_id = document.file_id
         else:
             # feedback to show bot is processing
@@ -173,8 +210,8 @@ def sticker_received(update: Update, context: CallbackContext):
     cooldown_info = user_on_cooldown(user_id)
     if cooldown_info[0]:
         minutes = int(config['spam_interval'] / 60)
-        message_text = get_message(user_id, 'spam_limit_reached').format(config['spam_max'], minutes, cooldown_info[1],
-                                                                         cooldown_info[2])
+        message_text = get_message(user_id, 'spam_limit_reached').format(
+            config['spam_max'], minutes, cooldown_info[1], cooldown_info[2])
         message.reply_markdown(message_text)
         return
 
@@ -220,12 +257,16 @@ def animated_sticker_received(update: Update, context: CallbackContext):
 
         document = open(download_path, 'rb')
         sticker_message = message.reply_document(document=document)
-        sent_message = sticker_message.reply_markdown(get_message(user_id, "forward_animated_sticker"), quote=True)
+        sent_message = sticker_message.reply_markdown(get_message(
+            user_id, "forward_animated_sticker"),
+                                                      quote=True)
 
         # add a keyboard with a forward button to the document
         file_id = sticker_message.sticker.file_id
-        markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton(get_message(user_id, "forward"), switch_inline_query=file_id)]])
+        markup = InlineKeyboardMarkup([[
+            InlineKeyboardButton(get_message(user_id, "forward"),
+                                 switch_inline_query=file_id)
+        ]])
         sent_message.edit_reply_markup(reply_markup=markup)
 
         # delete local file
@@ -257,7 +298,10 @@ def url_received(update: Update, context: CallbackContext):
     # check spam filter
     cooldown_info = user_on_cooldown(user_id)
     if cooldown_info[0]:
-        message.reply_markdown(get_message(user_id, 'spam_limit_reached').format(cooldown_info[1], cooldown_info[2]))
+        message.reply_markdown(
+            get_message(user_id,
+                        'spam_limit_reached').format(cooldown_info[1],
+                                                     cooldown_info[2]))
         return
 
     if len(text) > 1:
@@ -285,26 +329,32 @@ def url_received(update: Update, context: CallbackContext):
         request = requests.get(url, timeout=3)
         request.raise_for_status()
     except InvalidURL:
-        message.reply_markdown(get_message(message.chat_id, "invalid_url").format(url))
+        message.reply_markdown(
+            get_message(message.chat_id, "invalid_url").format(url))
         return
     except HTTPError:
-        message.reply_markdown(get_message(message.chat_id, "url_does_not_exist").format(url))
+        message.reply_markdown(
+            get_message(message.chat_id, "url_does_not_exist").format(url))
         return
     except Timeout or ConnectTimeout:
-        message.reply_markdown(get_message(message.chat_id, "url_timeout").format(url))
+        message.reply_markdown(
+            get_message(message.chat_id, "url_timeout").format(url))
         return
     except ConnectionError or RequestException or UnicodeError:
-        message.reply_markdown(get_message(message.chat_id, "unable_to_connect").format(url))
+        message.reply_markdown(
+            get_message(message.chat_id, "unable_to_connect").format(url))
         return
     except UnicodeError:
-        message.reply_markdown(get_message(message.chat_id, "unable_to_connect").format(url))
+        message.reply_markdown(
+            get_message(message.chat_id, "unable_to_connect").format(url))
         return
 
     # read image from url
     try:
         image = Image.open(BytesIO(request.content))
     except OSError:
-        message.reply_markdown(get_message(message.chat_id, "url_not_img").format(url))
+        message.reply_markdown(
+            get_message(message.chat_id, "url_not_img").format(url))
         return
 
     # feedback to show bot is processing
@@ -325,7 +375,8 @@ def create_sticker_file(message, image, context: CallbackContext):
     if user_data['make_icon']:
         image.thumbnail((100, 100), Image.ANTIALIAS)
         background = Image.new('RGBA', (100, 100), (255, 255, 255, 0))
-        background.paste(image, (int(((100 - image.size[0]) / 2)), int(((100 - image.size[1]) / 2))))
+        background.paste(image, (int(
+            ((100 - image.size[0]) / 2)), int(((100 - image.size[1]) / 2))))
         image = background
 
     # else format image to sticker
@@ -348,20 +399,27 @@ def create_sticker_file(message, image, context: CallbackContext):
         image = image.resize((new_width, new_height), Image.ANTIALIAS)
 
     # save image object to temporary file
-    temp_path = os.path.join(temp_dir(), (uuid.uuid4().hex[:6].upper() + '.png'))
+    temp_path = os.path.join(temp_dir(),
+                             (uuid.uuid4().hex[:6].upper() + '.png'))
     image.save(temp_path, format="PNG", optimize=True)
 
     # send formatted image as a document
     document = open(temp_path, 'rb')
     try:
         filename = 'icon.png' if user_data['make_icon'] else 'sticker.png'
-        sent_message = message.reply_document(document=document, filename=filename,
-                                              caption=get_message(user_id, "forward_to_stickers"), quote=True,
+        sent_message = message.reply_document(document=document,
+                                              filename=filename,
+                                              caption=get_message(
+                                                  user_id,
+                                                  "forward_to_stickers"),
+                                              quote=True,
                                               timeout=30)
         # add a keyboard with a forward button to the document
         file_id = sent_message.document.file_id
-        markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton(get_message(user_id, "forward"), switch_inline_query=file_id)]])
+        markup = InlineKeyboardMarkup([[
+            InlineKeyboardButton(get_message(user_id, "forward"),
+                                 switch_inline_query=file_id)
+        ]])
         sent_message.edit_reply_markup(reply_markup=markup)
     except Unauthorized:
         pass
@@ -401,11 +459,8 @@ def download_file(file_id):
         raise TimedOut
 
 
-#  _____                          _       _   _                       _   _
-# | ____| __   __   ___   _ __   | |_    | | | |   __ _   _ __     __| | | |   ___   _ __   ___
-# |  _|   \ \ / /  / _ \ | '_ \  | __|   | |_| |  / _` | | '_ \   / _` | | |  / _ \ | '__| / __|
-# | |___   \ V /  |  __/ | | | | | |_    |  _  | | (_| | | | | | | (_| | | | |  __/ | |    \__ \
-# |_____|   \_/    \___| |_| |_|  \__|   |_| |_|  \__,_| |_| |_|  \__,_| |_|  \___| |_|    |___/
+#  event handlers
+
 
 @run_async
 def change_lang_callback(update: Update, context: CallbackContext):
@@ -424,8 +479,9 @@ def change_lang_callback(update: Update, context: CallbackContext):
             try:
                 _id = int(''.join(c for c in word if c.isdigit()))
                 user = bot.get_chat(_id)
-                message[i] = '<a href="tg://user?id={}">{}{}</a>'.format(_id, user.first_name,
-                                                                         ' ' + user.last_name if user.last_name else '')
+                message[i] = '<a href="tg://user?id={}">{}{}</a>'.format(
+                    _id, user.first_name,
+                    ' ' + user.last_name if user.last_name else '')
             except ValueError:
                 message[i] = 'UNKNOWN_USER_ID'
                 continue
@@ -450,19 +506,29 @@ def share_query_received(update: Update, context: CallbackContext):
     title = get_message(user_id, "share")
     description = get_message(user_id, "share_desc")
     thumb_url = config['share_thumb_url']
-    markup = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(text=get_message(user_id, "make_sticker_button"), url="https://t.me/EzStickerBot")]])
-    input_message_content = InputTextMessageContent(get_message(user_id, "share_text"), parse_mode='Markdown')
+    markup = InlineKeyboardMarkup([[
+        InlineKeyboardButton(text=get_message(user_id, "make_sticker_button"),
+                             url="https://t.me/EzStickerBot")
+    ]])
+    input_message_content = InputTextMessageContent(get_message(
+        user_id, "share_text"),
+                                                    parse_mode='Markdown')
 
     # build response and answer query
-    results = [InlineQueryResultArticle(id="share", title=title, description=description, thumb_url=thumb_url,
-                                        reply_markup=markup, input_message_content=input_message_content)]
+    results = [
+        InlineQueryResultArticle(id="share",
+                                 title=title,
+                                 description=description,
+                                 thumb_url=thumb_url,
+                                 reply_markup=markup,
+                                 input_message_content=input_message_content)
+    ]
     try:
         query.answer(results=results, cache_time=5, is_personal=True)
     # if user waited too long to click result BadRequest is thrown
     except BadRequest as e:
         # only ignore BadRequest errors caused by query being too old
-        if e.message == "Query is too old and response timeout expired or query id is invalid":
+        if e.message == "Query is too old and response timeout expired or query id is invalid":  # noqa
             return
         else:
             raise e
@@ -482,7 +548,13 @@ def file_id_query_received(update: Update, context: CallbackContext):
         title = get_message(user_id, "your_sticker")
         desc = get_message(user_id, "forward_desc")
         caption = "@EzStickerBot"
-        results = [InlineQueryResultCachedDocument(_id, title, file.file_id, description=desc, caption=caption)]
+        results = [
+            InlineQueryResultCachedDocument(_id,
+                                            title,
+                                            file.file_id,
+                                            description=desc,
+                                            caption=caption)
+        ]
 
         query.answer(results=results, cache_time=5, is_personal=True)
     # if file_id wasn't found show share option
@@ -498,7 +570,8 @@ def icon_cancel_callback(update: Update, context: CallbackContext):
     # set make_icon in user_data to false
     context.user_data['make_icon'] = False
 
-    query.edit_message_text(text=get_message(user_id, "icon_canceled"), reply_markup=None)
+    query.edit_message_text(text=get_message(user_id, "icon_canceled"),
+                            reply_markup=None)
     query.answer()
 
 
@@ -513,6 +586,7 @@ def inline_result_chosen(update: Update, context: CallbackContext):
         config['times_shared'] += 1
 
 
+@restricted
 @run_async
 def invalid_command(update: Update, context: CallbackContext):
     message = update.message
@@ -537,12 +611,10 @@ def do_fucking_nothing(update: Update, context: CallbackContext):
     pass
 
 
-#   ____                                                       _
-#  / ___|   ___    _ __ ___    _ __ ___     __ _   _ __     __| |  ___
-# | |      / _ \  | '_ ` _ \  | '_ ` _ \   / _` | | '_ \   / _` | / __|
-# | |___  | (_) | | | | | | | | | | | | | | (_| | | | | | | (_| | \__ \
-#  \____|  \___/  |_| |_| |_| |_| |_| |_|  \__,_| |_| |_|  \__,_| |___/
+# commands
 
+
+@restricted
 @run_async
 def broadcast_command(update: Update, context: CallbackContext):
     message = update.message
@@ -573,6 +645,7 @@ def broadcast_command(update: Update, context: CallbackContext):
     context.job_queue.run_once(broadcast_thread, 2, context=broadcast_message)
 
 
+@restricted
 @run_async
 def change_lang_command(update: Update, context: CallbackContext):
     message = update.message
@@ -586,19 +659,26 @@ def change_lang_command(update: Update, context: CallbackContext):
             row += 1
             keyboard.append([])
         keyboard[row].append(
-            InlineKeyboardButton(lang[lang_code]['lang_name'], callback_data="lang:{}".format(lang_code)))
+            InlineKeyboardButton(lang[lang_code]['lang_name'],
+                                 callback_data="lang:{}".format(lang_code)))
     markup = InlineKeyboardMarkup(keyboard)
-    message.reply_text(get_message(message.chat_id, "select_lang"), reply_markup=markup)
+    message.reply_text(get_message(message.chat_id, "select_lang"),
+                       reply_markup=markup)
 
 
+@restricted
 @run_async
 def donate_command(update: Update, context: CallbackContext):
     message = update.message
-    message_text = get_message(message.chat_id, "donate") + "\n\n*Paypal:* {}\n*CashApp:* {}\n*BTC:* `{}`\n*ETH:* `{}`"\
-        .format(config['donate_paypal'], config['donate_cashapp'], config['donate_btc'], config['donate_eth'])
+    message_text = get_message(
+        message.chat_id, "donate"
+    ) + "\n\n*Paypal:* {}\n*CashApp:* {}\n*BTC:* `{}`\n*ETH:* `{}`".format(
+        config['donate_paypal'], config['donate_cashapp'],
+        config['donate_btc'], config['donate_eth'])
     message.reply_markdown(message_text, disable_web_page_preview=True)
 
 
+@restricted
 @run_async
 def help_command(update: Update, context: CallbackContext):
     message = update.message
@@ -608,6 +688,7 @@ def help_command(update: Update, context: CallbackContext):
     message.reply_text(get_message(message.chat_id, "help"))
 
 
+@restricted
 @run_async
 def icon_command(update: Update, context: CallbackContext):
     message = update.message
@@ -620,37 +701,49 @@ def icon_command(update: Update, context: CallbackContext):
 
     # create keyboard with cancel button
     keyboard = [[
-        InlineKeyboardButton(get_message(message.chat_id, "cancel"), callback_data="icon_cancel")
+        InlineKeyboardButton(get_message(message.chat_id, "cancel"),
+                             callback_data="icon_cancel")
     ]]
     markup = InlineKeyboardMarkup(keyboard)
 
     # if user has not been sent icon info message send it
     if not get_user_config(message.chat_id, 'icon_warned'):
-        message.reply_markdown(get_message(message.chat_id, "icon_command_info"))
+        message.reply_markdown(
+            get_message(message.chat_id, "icon_command_info"))
 
         global users
         users[str(message.chat_id)]['icon_warned'] = True
 
-    message.reply_markdown(get_message(message.chat_id, "icon_command"), reply_markup=markup)
+    message.reply_markdown(get_message(message.chat_id, "icon_command"),
+                           reply_markup=markup)
 
 
+@restricted
 @run_async
 def info_command(update: Update, context: CallbackContext):
     message = update.message
 
     # feedback to show bot is processing
     bot.send_chat_action(message.chat_id, 'typing')
-    keyboard = [
-        [InlineKeyboardButton(get_message(message.chat_id, "contact_dev"), url=config['contact_dev_link']),
-         InlineKeyboardButton(get_message(message.chat_id, "source"),
-                              url=config['source_link'])],
-        [InlineKeyboardButton(get_message(message.chat_id, "rate"),
-                              url=config['rate_link']),
-         InlineKeyboardButton(get_message(message.chat_id, "share"), switch_inline_query="share")]]
+    keyboard = [[
+        InlineKeyboardButton(get_message(message.chat_id, "contact_dev"),
+                             url=config['contact_dev_link']),
+        InlineKeyboardButton(get_message(message.chat_id, "source"),
+                             url=config['source_link'])
+    ],
+                [
+                    InlineKeyboardButton(get_message(message.chat_id, "rate"),
+                                         url=config['rate_link']),
+                    InlineKeyboardButton(get_message(message.chat_id, "share"),
+                                         switch_inline_query="share")
+                ]]
     markup = InlineKeyboardMarkup(keyboard)
-    message.reply_markdown(get_message(message.chat_id, "info").format(config['uses']), reply_markup=markup)
+    message.reply_markdown(get_message(message.chat_id,
+                                       "info").format(config['uses']),
+                           reply_markup=markup)
 
 
+@restricted
 @run_async
 def lang_stats_command(update: Update, context: CallbackContext):
     message = update.message
@@ -665,12 +758,16 @@ def lang_stats_command(update: Update, context: CallbackContext):
     langs = [user['lang'] for user in users.values()]
     lang_usage = dict(Counter(langs))
 
-    sorted_usage = [(code, lang_usage[code]) for code in sorted(lang_usage, key=lang_usage.get, reverse=True)]
+    sorted_usage = [
+        (code, lang_usage[code])
+        for code in sorted(lang_usage, key=lang_usage.get, reverse=True)
+    ]
 
     # create stats message entries
     message_lines = {}
     for code, count in sorted_usage:
-        lang_stats_message += "\n" + u"\u200E" + "{}: {:,}".format(lang[code]['lang_name'], count)
+        lang_stats_message += "\n" + u"\u200E" + "{}: {:,}".format(
+            lang[code]['lang_name'], count)
 
     # compile stats message in order
     for index in range(0, len(lang)):
@@ -684,6 +781,7 @@ def lang_stats_command(update: Update, context: CallbackContext):
     message.reply_markdown(lang_stats_message)
 
 
+@restricted
 @run_async
 def log_command(update: Update, context: CallbackContext):
     message = update.message
@@ -710,6 +808,7 @@ def log_command(update: Update, context: CallbackContext):
         message.reply_text(get_message(message.chat_id, "no_permission"))
 
 
+@restricted
 @run_async
 def opt_command(update: Update, context: CallbackContext):
     message = update.message
@@ -737,6 +836,7 @@ def opt_command(update: Update, context: CallbackContext):
             message.reply_text(get_message(user_id, "opted_out"))
 
 
+@restricted
 def restart_command(update: Update, context: CallbackContext):
     message = update.message
 
@@ -745,12 +845,14 @@ def restart_command(update: Update, context: CallbackContext):
     if message.from_user.id in config['admins']:
         message.reply_text(get_message(message.chat_id, "restarting"))
         save_files()
-        logger.info("Bot restarted by {} ({})".format(message.from_user.first_name, message.from_user.id))
+        logger.info("Bot restarted by {} ({})".format(
+            message.from_user.first_name, message.from_user.id))
         os.execl(sys.executable, sys.executable, *sys.argv)
     else:
         message.reply_text(get_message(message.chat_id, "no_permission"))
 
 
+@restricted
 @run_async
 def start_command(update: Update, context: CallbackContext):
     message = update.message
@@ -759,6 +861,7 @@ def start_command(update: Update, context: CallbackContext):
     message.reply_markdown(get_message(message.chat_id, "start"))
 
 
+@restricted
 @run_async
 def stats_command(update: Update, context: CallbackContext):
     message = update.message
@@ -776,18 +879,14 @@ def stats_command(update: Update, context: CallbackContext):
             opted_out += 1
 
     personal_uses = get_user_config(user_id, "uses")
-    stats_message = get_message(user_id, "stats").format(config['uses'], len(users), personal_uses,
-                                                         config['langs_auto_set'], config['times_shared'],
-                                                         opted_in + opted_out, opted_in, opted_out)
+    stats_message = get_message(user_id, "stats").format(
+        config['uses'], len(users), personal_uses, config['langs_auto_set'],
+        config['times_shared'], opted_in + opted_out, opted_in, opted_out)
     message.reply_markdown(stats_message)
 
 
-#  ____                                  _____   _   _   _
-# / ___|   _ __     __ _   _ __ ___     |  ___| (_) | | | |_    ___   _ __
-# \___ \  | '_ \   / _` | | '_ ` _ \    | |_    | | | | | __|  / _ \ | '__|
-#  ___) | | |_) | | (_| | | | | | | |   |  _|   | | | | | |_  |  __/ | |
-# |____/  | .__/   \__,_| |_| |_| |_|   |_|     |_| |_|  \__|  \___| |_|
-#         |_|
+# spam filter
+
 
 def record_use(user_id, context: CallbackContext):
     # ensure user_id is string
@@ -798,7 +897,9 @@ def record_use(user_id, context: CallbackContext):
     if user_id not in recent_uses:
         recent_uses[user_id] = []
 
-    job = context.job_queue.run_once(remove_use, config['spam_interval'], context=(user_id, datetime.now()))
+    job = context.job_queue.run_once(remove_use,
+                                     config['spam_interval'],
+                                     context=(user_id, datetime.now()))
     recent_uses[user_id].append(job)
 
 
@@ -813,12 +914,14 @@ def user_on_cooldown(user_id):
     # ensure user_id is string
     user_id = str(user_id)
 
-    recent_uses_count = len(recent_uses[user_id]) if user_id in recent_uses else 0
+    recent_uses_count = len(
+        recent_uses[user_id]) if user_id in recent_uses else 0
     on_cooldown = recent_uses_count >= config['spam_max']
 
     if on_cooldown:
         oldest_job_time = recent_uses[user_id][0].context[1]
-        seconds_left = int(config['spam_interval'] - (datetime.now() - oldest_job_time).total_seconds())
+        seconds_left = int(config['spam_interval'] -
+                           (datetime.now() - oldest_job_time).total_seconds())
         time_left = divmod(seconds_left, 60)
     else:
         time_left = 0, 0
@@ -830,11 +933,8 @@ def user_on_cooldown(user_id):
     return on_cooldown, time_left[0], time_left[1]
 
 
-#  _   _   _     _   _
-# | | | | | |_  (_) | |  ___
-# | | | | | __| | | | | / __|
-# | |_| | | |_  | | | | \__ \
-#  \___/   \__| |_| |_| |___/
+#  utils
+
 
 @run_async
 def broadcast_thread(context: CallbackContext):
@@ -852,17 +952,23 @@ def broadcast_thread(context: CallbackContext):
         # catch any errors thrown by users who have stopped bot
         try:
             if opt_in and not config['override_opt_out']:
-                bot.send_message(chat_id=int(user_id), text=context.job.context, parse_mode='HTML',
+                bot.send_message(chat_id=int(user_id),
+                                 text=context.job.context,
+                                 parse_mode='HTML',
                                  disable_web_page_preview=True)
                 # send opt out message
                 if config['send_opt_out_message']:
-                    bot.send_message(chat_id=int(user_id), text=get_message(user_id, "opt_out_info"))
+                    bot.send_message(chat_id=int(user_id),
+                                     text=get_message(user_id, "opt_out_info"))
         except Unauthorized:
             pass
         except TelegramError as e:
-            # ignore errors from bot trying to message user who has not messaged them first
+            # ignore errors from bot trying to message user who has not
+            # messaged them first
             if e.message != 'Chat not found':
-                logger.warning("Error '{}' when broadcasting message to {}".format(e.message, user_id))
+                logger.warning(
+                    "Error '{}' when broadcasting message to {}".format(
+                        e.message, user_id))
 
         index += 1
         if index >= config['broadcast_batch_size']:
@@ -873,7 +979,10 @@ def broadcast_thread(context: CallbackContext):
 def donate_suggest(user_id):
     user_uses = users[str(user_id)]['uses']
     if user_uses % config['donate_suggest_interval'] == 0:
-        bot.send_message(user_id, get_message(user_id, "donate_suggest").format(user_uses), parse_mode='Markdown')
+        bot.send_message(user_id,
+                         get_message(user_id,
+                                     "donate_suggest").format(user_uses),
+                         parse_mode='Markdown')
 
 
 def get_message(user_id, message):
@@ -895,14 +1004,16 @@ def get_user_config(user_id, key):
         users[user_id] = config['default_user'].copy()
 
         # attempt to automatically set language
-        lang_code = bot.get_chat(user_id).get_member(user_id).user.language_code.lower()
+        lang_code = bot.get_chat(user_id).get_member(
+            user_id).user.language_code.lower()
         if lang_code is not None:
             for code in lang.keys():
                 if lang_code.startswith(code):
                     users[user_id]['lang'] = code
                     if code != 'en':
                         config['langs_auto_set'] += 1
-    # if user is registered but does not have requested key set to default value from config
+    # if user is registered but does not have requested key set to
+    # default value from config
     elif key not in users[user_id]:
         try:
             users[user_id][key] = config['default_user'][key].copy()
@@ -917,9 +1028,11 @@ def get_user_config(user_id, key):
 # logs bot errors thrown
 def handle_error(update: Update, context: CallbackContext):
     # prevent spammy errors from logging
-    if context.error in ("Forbidden: bot was blocked by the user", "Timed out"):
+    if context.error in ("Forbidden: bot was blocked by the user",
+                         "Timed out"):
         return
-    logger.warning('Update "{}" caused error "{}"'.format(update, context.error))
+    logger.warning('Update "{}" caused error "{}"'.format(
+        update, context.error))
 
 
 def load_lang():
@@ -929,7 +1042,9 @@ def load_lang():
 
 
 def load_json(file_name):
-    file_path = os.path.join(directory, file_name if file_name.endswith('.json') else file_name + '.json')
+    file_path = os.path.join(
+        directory,
+        file_name if file_name.endswith('.json') else file_name + '.json')
     with open(file_path) as json_file:
         data = json.load(json_file)
     json_file.close()
@@ -938,9 +1053,12 @@ def load_json(file_name):
 
 def save_json(json_obj, file_name):
     data = json.dumps(json_obj)
-    file_path = os.path.join(directory, file_name if file_name.endswith('.json') else file_name + '.json')
+    file_path = os.path.join(
+        directory,
+        file_name if file_name.endswith('.json') else file_name + '.json')
     with open(file_path, "w") as json_file:
-        json_file.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
+        json_file.write(
+            simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
     json_file.close()
 
 
