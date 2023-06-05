@@ -335,19 +335,24 @@ def video_received(update: Update, context: CallbackContext):
     document = message.document
     video_id = document.file_id
     try:
+        print("Downloading video")
         download_path = download_file(video_id)
+        print("Converting video")
         output_path = make_video(download_path)
 
         # remove local files
+        print("Removing local downloaded files")
         os.remove(download_path)
     except TimedOut:
         message.reply_text(get_message(user_id, "send_timeout"))
         return
     except FileNotFoundError:
         # if file does not exist ignore
+        print(f"File not found: {download_path}")
         return
 
     # send video
+    print("Sending video")
     document = open(output_path, 'rb')
     try:
         filename = os.path.basename(output_path)
