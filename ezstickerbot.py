@@ -474,38 +474,25 @@ def make_video(input_file):
         ratio = new_height / height
         new_width = int(width * ratio)
 
-    # scale the video
-    scaled_file_name = f"{tmp_file_name}_scaled.{extension}"
-    scaled_file_path = f"{input_file_path}/{scaled_file_name}"
-    cmd = [
-        "ffmpeg", "-i", input_file, "-filter:v",
-        f"scale={new_width}:{new_height}", "-y", scaled_file_path
-    ]
-    try:
-        subprocess.run(cmd, check=True, stderr=subprocess.PIPE)
-    except subprocess.CalledProcessError as e:
-        print(e.stderr.decode())
-
     # run ffmpeg to convert the video
     # telegram requirements:
     #   - 3s long
     #   - 30 fps
     #   - webm vp9 codec
     #   - no audio
-    output_file_name = f"{tmp_file_name}_cropped.webm"
+    #   - scaled to new_width x new_height
+    output_file_name = f"{tmp_file_name}.webm"
     output_file_path = f"{input_file_path}/{output_file_name}"
     cmd = [
-        "ffmpeg", "-ss", "00:00:00", "-i", scaled_file_path, "-t", "00:00:03",
-        "-filter:v", "fps=fps=30", "-c:v", "libvpx-vp9", "-an", "-y",
-        output_file_path
+        "ffmpeg", "-ss", "00:00:00", "-i", input_file, "-t", "00:00:03",
+        "-filter:v", "fps=fps=30,scale={}:{}".format(new_width, new_height),
+        "-an", "-c:v", "libvpx-vp9", "-crf", "30", "-b:v", "0", "-strict",
+        "-2", output_file_path
     ]
     try:
         subprocess.run(cmd, check=True, stderr=subprocess.PIPE)
     except subprocess.CalledProcessError as e:
         print(e.stderr.decode())
-
-    # remove the scaled file
-    os.remove(scaled_file_path)
 
     # return the output file path
     return output_file_path
