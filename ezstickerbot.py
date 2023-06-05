@@ -116,7 +116,7 @@ def main():
 
     updater.start_polling(clean=True, timeout=99999)
 
-    print("Bot finished starting")
+    logging.info("Bot finished starting")
 
     updater.idle()
 
@@ -139,12 +139,13 @@ def restricted(func):
 
     def wrapper(update, context):
         chat_id = update.message.chat_id
-        print(f"Received `{func.__name__}` in {chat_id}.")
+        username = update.message.from_user.username
+        logging.info(f"Received `{func.__name__}` from {username} ({chat_id})")
         if validate_chat_id(chat_id):
             func(update, context)
         else:
             # log unauthorized access
-            print(
+            logging.info(
                 f"Unauthorized access denied for {chat_id} ({update.message.from_user.name})"  # noqa: E501
             )
 
@@ -335,24 +336,24 @@ def video_received(update: Update, context: CallbackContext):
     document = message.document
     video_id = document.file_id
     try:
-        print("Downloading video")
+        logging.info("Downloading video")
         download_path = download_file(video_id)
-        print("Converting video")
+        logging.info("Converting video")
         output_path = make_video(download_path)
 
         # remove local files
-        print("Removing local downloaded files")
+        logging.info("Removing local downloaded files")
         os.remove(download_path)
     except TimedOut:
         message.reply_text(get_message(user_id, "send_timeout"))
         return
     except FileNotFoundError:
         # if file does not exist ignore
-        print(f"File not found: {download_path}")
+        logging.info(f"File not found: {download_path}")
         return
 
     # send video
-    print("Sending video")
+    logging.info("Sending video")
     document = open(output_path, 'rb')
     try:
         filename = os.path.basename(output_path)
@@ -497,7 +498,7 @@ def make_video(input_file):
     try:
         subprocess.run(cmd, check=True, stderr=subprocess.PIPE)
     except subprocess.CalledProcessError as e:
-        print(e.stderr.decode())
+        logging.info(e.stderr.decode())
 
     # return the output file path
     return output_file_path
@@ -1086,7 +1087,8 @@ def user_on_cooldown(user_id):
 def broadcast_thread(context: CallbackContext):
     # check that message was included with the job obj
     if context.job.context is None:
-        print("Broadcast thread created without message stored in job context")
+        logging.info(
+            "Broadcast thread created without message stored in job context")
         return
 
     global config
