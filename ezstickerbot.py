@@ -3,26 +3,28 @@ import json
 import logging
 import os
 import re
+import subprocess
 import sys
 import time
 import uuid
 from collections import Counter
+from datetime import datetime
 from io import BytesIO
 from urllib.parse import urlparse
 
 import requests
 import simplejson
-from datetime import datetime
 from PIL import Image
-from requests.exceptions import (InvalidURL, HTTPError, RequestException,
-                                 ConnectionError, Timeout, ConnectTimeout)
-from telegram import (Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup,
-                      InlineQueryResultArticle, InputTextMessageContent,
-                      InlineQueryResultCachedDocument)
-from telegram.error import TelegramError, TimedOut, BadRequest, Unauthorized
-from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters,
-                          CallbackQueryHandler, InlineQueryHandler,
-                          ChosenInlineResultHandler, CallbackContext)
+from requests.exceptions import (ConnectionError, ConnectTimeout, HTTPError,
+                                 InvalidURL, RequestException, Timeout)
+from telegram import (Bot, InlineKeyboardButton, InlineKeyboardMarkup,
+                      InlineQueryResultArticle,
+                      InlineQueryResultCachedDocument, InputTextMessageContent,
+                      Update)
+from telegram.error import BadRequest, TelegramError, TimedOut, Unauthorized
+from telegram.ext import (CallbackContext, CallbackQueryHandler,
+                          ChosenInlineResultHandler, CommandHandler, Filters,
+                          InlineQueryHandler, MessageHandler, Updater)
 from telegram.ext.dispatcher import run_async
 
 directory = os.path.dirname(__file__)
@@ -82,7 +84,9 @@ def main():
 
     # register media listener
     dispatcher.add_handler(
-        MessageHandler((Filters.photo | Filters.document), image_received))
+        MessageHandler((Filters.document), document_received))
+    dispatcher.add_handler(MessageHandler((Filters.video), video_received))
+    dispatcher.add_handler(MessageHandler((Filters.photo), image_received))
     dispatcher.add_handler(MessageHandler(Filters.sticker, sticker_received))
     dispatcher.add_handler(MessageHandler(Filters.text, url_received))
     dispatcher.add_handler(MessageHandler(Filters.all, invalid_content))
@@ -135,17 +139,36 @@ def restricted(func):
 
     def wrapper(update, context):
         chat_id = update.message.chat_id
+        print(f"Received `{func.__name__}` in {chat_id}.")
         if validate_chat_id(chat_id):
             func(update, context)
         else:
             # log unauthorized access
-            logger.warning(
+            print(
                 f"Unauthorized access denied for {chat_id} ({update.message.from_user.name})"  # noqa: E501
             )
 
     return wrapper
 
 
+@restricted
+@run_async
+def document_received(update: Update, context: CallbackContext):
+    message = update.message
+    document = message.document
+
+    # check if document is video
+    if document.mime_type.startswith('video/'):
+        video_received(update, context)
+        return
+
+    # check if document is image
+    if document.mime_type.startswith('image/'):
+        image_received(update, context)
+        return
+
+
+@restricted
 @run_async
 def image_received(update: Update, context: CallbackContext):
     message = update.message
@@ -201,6 +224,7 @@ def image_received(update: Update, context: CallbackContext):
         pass
 
 
+@restricted
 @run_async
 def sticker_received(update: Update, context: CallbackContext):
     message = update.message
@@ -242,6 +266,7 @@ def sticker_received(update: Update, context: CallbackContext):
         pass
 
 
+@restricted
 def animated_sticker_received(update: Update, context: CallbackContext):
     message = update.message
     user_id = message.from_user.id
@@ -289,6 +314,67 @@ def animated_sticker_received(update: Update, context: CallbackContext):
     donate_suggest(user_id)
 
 
+@restricted
+@run_async
+def video_received(update: Update, context: CallbackContext):
+    message = update.message
+    user_id = message.from_user.id
+
+    # check spam filter
+    cooldown_info = user_on_cooldown(user_id)
+    if cooldown_info[0]:
+        minutes = int(config['spam_interval'] / 60)
+        message_text = get_message(user_id, 'spam_limit_reached').format(
+            config['spam_max'], minutes, cooldown_info[1], cooldown_info[2])
+        message.reply_markdown(message_text)
+        return
+
+    # feedback to show bot is processing
+    bot.send_chat_action(user_id, 'upload_document')
+
+    document = message.document
+    video_id = document.file_id
+    try:
+        download_path = download_file(video_id)
+        output_path = make_video(download_path)
+
+        # remove local files
+        os.remove(download_path)
+    except TimedOut:
+        message.reply_text(get_message(user_id, "send_timeout"))
+        return
+    except FileNotFoundError:
+        # if file does not exist ignore
+        return
+
+    # send video
+    document = open(output_path, 'rb')
+    try:
+        filename = os.path.basename(output_path)
+        sent_message = message.reply_document(document=document,
+                                              filename=filename,
+                                              caption=get_message(
+                                                  user_id,
+                                                  "forward_to_stickers"),
+                                              quote=True,
+                                              timeout=30)
+        # add a keyboard with a forward button to the document
+        file_id = sent_message.document.file_id
+        markup = InlineKeyboardMarkup([[
+            InlineKeyboardButton(get_message(user_id, "forward"),
+                                 switch_inline_query=file_id)
+        ]])
+        sent_message.edit_reply_markup(reply_markup=markup)
+    except Unauthorized:
+        pass
+    except TelegramError:
+        message.reply_text(get_message(user_id, "send_timeout"))
+
+    # remove local file
+    os.remove(output_path)
+
+
+@restricted
 @run_async
 def url_received(update: Update, context: CallbackContext):
     message = update.message
@@ -361,6 +447,68 @@ def url_received(update: Update, context: CallbackContext):
     bot.send_chat_action(message.chat_id, 'upload_document')
 
     create_sticker_file(message, image, context)
+
+
+def make_video(input_file):
+    # setup the file names (separate extension from file name)
+    input_file_name = input_file.split("/")[-1]
+    extension = input_file_name.split(".")[-1]
+    input_file_name = input_file_name.split(".")[0]
+    input_file_path = "/".join(input_file.split("/")[:-1])
+    tmp_file_name = f"{input_file_name}_{uuid.uuid4().hex}.{extension}"
+
+    # get the width and height of the video
+    cmd = [
+        "ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
+        "stream=width,height", "-of", "csv=p=0", input_file
+    ]
+    output = subprocess.check_output(cmd)
+    width, height = map(int, output.decode().strip().split(","))
+
+    if width > height:
+        new_width = 512
+        ratio = new_width / width
+        new_height = int(height * ratio)
+    else:
+        new_height = 512
+        ratio = new_height / height
+        new_width = int(width * ratio)
+
+    # scale the video
+    scaled_file_name = f"{tmp_file_name}_scaled.{extension}"
+    scaled_file_path = f"{input_file_path}/{scaled_file_name}"
+    cmd = [
+        "ffmpeg", "-i", input_file, "-filter:v",
+        f"scale={new_width}:{new_height}", "-y", scaled_file_path
+    ]
+    try:
+        subprocess.run(cmd, check=True, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError as e:
+        print(e.stderr.decode())
+
+    # run ffmpeg to convert the video
+    # telegram requirements:
+    #   - 3s long
+    #   - 30 fps
+    #   - webm vp9 codec
+    #   - no audio
+    output_file_name = f"{tmp_file_name}_cropped.webm"
+    output_file_path = f"{input_file_path}/{output_file_name}"
+    cmd = [
+        "ffmpeg", "-ss", "00:00:00", "-i", scaled_file_path, "-t", "00:00:03",
+        "-filter:v", "fps=fps=30", "-c:v", "libvpx-vp9", "-an", "-y",
+        output_file_path
+    ]
+    try:
+        subprocess.run(cmd, check=True, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError as e:
+        print(e.stderr.decode())
+
+    # remove the scaled file
+    os.remove(scaled_file_path)
+
+    # return the output file path
+    return output_file_path
 
 
 def create_sticker_file(message, image, context: CallbackContext):
@@ -462,6 +610,7 @@ def download_file(file_id):
 #  event handlers
 
 
+@restricted
 @run_async
 def change_lang_callback(update: Update, context: CallbackContext):
     query = update.callback_query
@@ -497,6 +646,7 @@ def change_lang_callback(update: Update, context: CallbackContext):
     query.answer()
 
 
+@restricted
 @run_async
 def share_query_received(update: Update, context: CallbackContext):
     query = update.inline_query
@@ -534,6 +684,7 @@ def share_query_received(update: Update, context: CallbackContext):
             raise e
 
 
+@restricted
 @run_async
 def file_id_query_received(update: Update, context: CallbackContext):
     # get query
@@ -562,6 +713,7 @@ def file_id_query_received(update: Update, context: CallbackContext):
         share_query_received(update, context)
 
 
+@restricted
 @run_async
 def icon_cancel_callback(update: Update, context: CallbackContext):
     query = update.callback_query
@@ -575,6 +727,7 @@ def icon_cancel_callback(update: Update, context: CallbackContext):
     query.answer()
 
 
+@restricted
 @run_async
 def inline_result_chosen(update: Update, context: CallbackContext):
     chosen_result = update.chosen_inline_result
@@ -596,6 +749,7 @@ def invalid_command(update: Update, context: CallbackContext):
     message.reply_text(get_message(message.chat_id, "invalid_command"))
 
 
+@restricted
 @run_async
 def invalid_content(update: Update, context: CallbackContext):
     message = update.message

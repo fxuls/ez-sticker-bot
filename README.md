@@ -19,6 +19,7 @@ The following dependencies are needed to run EzStickerBot:
 - Pillow
 - requests
 - simplejson
+- ffmpeg
 
 ## Credits
 Thanks to all the following people for their translations:
